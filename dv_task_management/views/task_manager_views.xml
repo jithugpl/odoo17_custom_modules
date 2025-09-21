@@ -1,0 +1,181 @@
+<odoo>
+    <record id="view_task_manager_form" model="ir.ui.view">
+        <field name="name">task.manager.form</field>
+        <field name="model">task.manager</field>
+        <field name="arch" type="xml">
+            <form string="Task Manager">
+                <header>
+                    <button name="action_start_task" type="object" string="Start"
+                             class="btn btn-primary"
+                            invisible="stage in ['ongoing','completed','dropped']"
+                            groups="dv_task_management.group_task_management_user,dv_task_management.group_task_management_manager"/>
+                    <button name="action_dropped_task" type="object" string="Drop"
+                             class="btn btn-success" invisible="stage in ['dropped','completed']"
+                            groups="dv_task_management.group_task_management_manager"
+                           />
+
+                    <button name="action_complete_task" type="object" string="Complete"
+                             class="btn btn-success" invisible="stage in ['completed','dropped']"
+                            groups="dv_task_management.group_task_management_user,dv_task_management.group_task_management_manager"/>
+
+                    <button name="action_cancel_task" type="object" string="Cancel"
+                             class="btn btn-danger"
+                            invisible="stage in ['dropped','new','ongoing']"
+                            groups="dv_task_management.group_task_management_manager"/>
+
+
+                    <field name="stage" widget="statusbar" readonly="1"/>
+
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+
+                            <field name="name"/>
+                            <!--                            <field name="user_id"/>-->
+                            <field name="task_type_id"/>
+                            <field name="trainee_type_id" string="Employee Type"/>
+                            <field name="user_id" string="Assignee"/>
+                            <!--                            <field name="trainee_user_ids" invisible="1"/>-->
+
+
+                        </group>
+                        <group>
+                            <field name="poa"/>
+                            <field name="from_date"/>
+                            <field name="to_date"/>
+                            <field name="percentage_completed" widget="percent"/>
+
+
+                        </group>
+                    </group>
+
+
+                    <notebook>
+                        <page string="Daily Work Progress">
+                            <field name="daily_work_progress_ids">
+                                <tree editable="bottom">
+                                    <field name="note"/>
+                                    <field name="attachment_ids" widget="many2many_binary"/>
+
+                                </tree>
+                                <form>
+                                    <group>
+                                        <field name="note"/>
+                                        <field name="attachment_ids" widget="many2many_binary"/>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+
+                        <page string="Description">
+                            <field name="description"/>
+                        </page>
+                        <!--                        <page string="Attachments">-->
+                        <!--                            <field name="attachment_ids" widget="many2many_binary" options="{'no_create': True}"/>-->
+                        <!--                        </page>-->
+
+                    </notebook>
+                </sheet>
+
+                <!-- Chatter area -->
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_task_manager_tree" model="ir.ui.view">
+        <field name="name">task.manager.tree</field>
+        <field name="model">task.manager</field>
+        <field name="arch" type="xml">
+            <tree string="Task Managers">
+                <field name="name"/>
+                <!--                <field name="user_id"/>-->
+                <field name="trainee_type_id" string="Employee Type"/>
+                <field name="user_id" string="Assignee"/>
+                <!--                <field name="trainee_user_ids" invisible="1"/>-->
+                <field name="poa"/>
+                <field name="from_date"/>
+                <field name="to_date"/>
+                <field name="task_type_id"/>
+                <field name="percentage_completed" widget="percent"/>
+                <field name="stage" widget="badge"
+                       decoration-success="stage == 'new'"
+                       decoration-info="stage == 'ongoing'"
+                       decoration-muted="stage == 'dropped'"
+                       decoration-danger="stage == 'completed'"/>
+
+
+            </tree>
+        </field>
+    </record>
+    <record id="view_task_manager_kanban" model="ir.ui.view">
+        <field name="name">task.manager.kanban</field>
+        <field name="model">task.manager</field>
+        <field name="arch" type="xml">
+            <!--        <kanban class="o_kanban_example" default_group_by="stage">-->
+            <kanban class="o_kanban_example" default_group_by="stage">
+
+                <field name="name"/>
+                <!--            <field name="user_id"/>-->
+                <field name="trainee_type_id"/>
+                <field name="user_id"/>
+                <!--                <field name="trainee_user_ids" invisible="1"/>-->
+                <field name="stage"/>
+                <field name="poa"/>
+                <field name="from_date"/>
+                <field name="to_date"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                            <strong>
+                                <field name="name"/>
+                            </strong>
+                            <div>
+                                <!--                            <span>User: <field name="user_id"/></span><br/>-->
+                                <span>POA:
+                                    <field name="poa"/>
+                                </span>
+                                <br/>
+                                <span>Employee Type:
+                                    <field name="trainee_type_id"/>
+                                </span>
+                                <br/>
+                                <span>Assignee:
+                                    <field name="user_id"/>
+                                </span>
+                                <br/>
+                            </div>
+                            <div>
+                                <span>Stage:
+                                    <field name="stage"
+                                           decoration-success="stage == 'new'"
+                                           decoration-info="stage == 'ongoing'"
+                                           decoration-muted="stage == 'dropped'"
+                                           decoration-danger="stage == 'completed'"
+                                           widget="badge"/>
+                                </span>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="action_task_manager" model="ir.actions.act_window">
+        <field name="name">Task Manager</field>
+        <field name="res_model">task.manager</field>
+        <field name="view_mode">kanban,tree,form</field>
+    </record>
+
+
+    <menuitem id="menu_task_manager"
+              name="Task Manager"
+              parent="menu_task_management_root"
+              action="action_task_manager"
+              sequence="0"/>
+</odoo>

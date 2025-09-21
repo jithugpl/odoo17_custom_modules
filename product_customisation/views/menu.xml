@@ -1,0 +1,15 @@
+<odoo>
+    <record id="action_open_customisation_form" model="ir.actions.act_window">
+        <field name="name">Customise Product</field>
+        <field name="res_model">product.customisation</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Material Menu -->
+    <menuitem id="menu_product_customisation"
+              name="Product customise"
+              parent="stock.menu_stock_root"
+              sequence="10"
+              action="action_open_customisation_form"/>
+</odoo>

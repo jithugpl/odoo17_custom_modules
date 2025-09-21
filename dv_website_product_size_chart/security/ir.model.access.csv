@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_size_chart_user,access_size_chart_user,model_website_product_size_chart,group_size_chart_user,1,0,0,0
+access_size_chart_manager,access_size_chart_manager,model_website_product_size_chart,group_size_chart_manager,1,1,1,1
+access_size_chart_portal,access_size_chart_portal,model_website_product_size_chart,base.group_portal,1,0,0,0
+access_size_chart_public,access_size_chart_public,model_website_product_size_chart,base.group_public,1,0,0,0
+access_size_chart_employee,access_size_chart_employee,model_website_product_size_chart,base.group_user,1,0,0,0
+
+
+

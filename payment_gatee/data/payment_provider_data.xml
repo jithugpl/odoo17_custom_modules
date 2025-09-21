@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="payment_provider_gatee" model="payment.provider">
+            <field name="name">Gate-E</field>
+            <field name="image_128" type="base64" file="payment_gatee/static/description/icon.png"/>
+            <field name="code">gatee</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="redirect_form_view_id" ref="redirect_form"/>
+            <field name="is_published">1</field>
+            <field name="state">test</field>
+            <field name="gatee_unique_id">*****</field>
+            <field name="gatee_hash">***************************</field>
+            <field name="gatee_api_type">2</field>
+            <field name="gatee_show_callback">0</field>
+            <field name="gatee_card_save">unchecked</field>
+            <field name="gatee_card_list">1</field>
+            <field name="gatee_locale">en</field>
+            <field name="gatee_debug">disable</field>
+            <field name="support_tokenization">False</field>
+            <field name="pre_msg">
+                <![CDATA[
+                <p>Pay by debit and credit cards.<br>such as: Benefit, Benefit pay, Visa, Mastercard, PayPal, Mada,
+                 Apple pay, Oman net, etc.</P>
+            ]]>
+            </field>
+            <field name="payment_method_ids"
+                   eval="[Command.set([
+                     ref('payment.payment_method_benefit'),
+                     ref('payment_gatee.payment_method_gatee'),
+               ])]"
+            />
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,22 @@
+<odoo>
+    <record id="view_product_customisation_form" model="ir.ui.view">
+        <field name="name">product.customisation.form</field>
+        <field name="model">product.customisation</field>
+        <field name="arch" type="xml">
+            <form string="Customise Product">
+                <group>
+                    <field name="product_id" readonly="1"/>
+                    <field name="customisation_details" required="1"/>
+                </group>
+                <footer>
+                    <button string="Submit" type="object" name="action_submit" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>
+
+
+<!--     Material action-->
+

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="paperformat_delivery_label1" model="report.paperformat">
+        <field name="name">Delivery Label Paper Format1</field>
+        <field name="default" eval="False"/>
+        <field name="format">A4</field>
+        <field name="orientation">Portrait</field>
+        <!--        <field name="page_height">297mm</field>  &lt;!&ndash; A4 height &ndash;&gt;-->
+        <!--        <field name="page_width">210mm</field>   &lt;!&ndash; A4 width &ndash;&gt;-->
+        <field name="margin_top">20</field>
+        <field name="margin_bottom">20</field>
+        <field name="margin_left">25</field>
+        <field name="margin_right">25</field>
+        <field name="header_spacing">5</field>
+        <field name="dpi">160</field>
+    </record>
+    <record id="delivery_label_id1" model="ir.actions.report">
+        <field name="name">Product Label1</field>
+        <field name="model">product.template</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">carollia_delivery_label.report_delivery_print1</field>
+        <field name="report_file">carollia_delivery_label.report_delivery_print1</field>
+        <field name="paperformat_id" ref="paperformat_delivery_label1"/>
+        <!--        <field name="binding_model_id" ref="product.model_product_template"/> this line add print button in gear icon(uncomment and print button will be visible-->
+        <field name="binding_view_types">form</field>
+        <field name="binding_type">report</field>
+    </record>
+    <!--    print button in main product page-->
+    <record id="product_template_form_inherit" model="ir.ui.view">
+        <field name="name">product.template.form.inherit.print_button</field>
+        <field name="model">product.template</field>
+        <!--    <field name="inherit_id" ref="product.product_template_form_view"/>    (show button in both product page and attribute page)-->
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+
+        <field name="arch" type="xml">
+            <!-- Add button to the form view header -->
+            <xpath expr="//header" position="inside">
+                <button name="%(delivery_label_id1)d"
+                        string="Product label"
+                        type="action"
+                        class="btn-primary"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
+

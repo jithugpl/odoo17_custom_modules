@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+        <record id="view_product_template_form_inherit_delivery_labels1" model="ir.ui.view">
+            <field name="name">product.template.form.inherit.delivery.labels1</field>
+            <field name="model">product.template</field>
+                    <field name="inherit_id" ref="product.product_template_only_form_view"/>
+<!--            <field name="inherit_id" ref="product.product_variant_easy_edit_view"/>-->
+
+            <field name="arch" type="xml">
+                            <xpath expr="//field[@name='taxes_id']" position="after">
+<!--                <xpath expr="//field[@name='ribbon_id']" position="after">-->
+
+                    <field name="manu_date"/>
+<!--                    <field name="net_quantity"/>-->
+<!--                    <field name="brand"/>-->
+
+                </xpath>
+            </field>
+        </record>
+    <record id="view_product_template_form_inherit_delivery_labels" model="ir.ui.view">
+        <field name="name">product.template.form.inherit.delivery.labels</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_variant_easy_edit_view"/>
+
+        <field name="arch" type="xml">
+            <!-- Add a new section/tab named "Print" -->
+            <xpath expr="//sheet" position="inside">
+                <div class="oe_clear">
+                    <h2>Print</h2>
+                    <group>
+                        <field name="manufacturing_date"/>
+                        <field name="net_quantity"/>
+<!--                        <field name="brand"/>-->
+<!--                        <field name="size"/>-->
+<!--                        <field name="color"/>-->
+
+<!--                        <field name="style_code" readonly="True"/>-->
+
+                    </group>
+                </div>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_product_product_form_inherit_delivery_labels" model="ir.ui.view">
+        <field name="name">product.product.form.inherit.delivery.labels</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='product_tooltip']" position="before">
+                    <field name="manufacturing_date"/>
+                    <field name="net_quantity"/>
+<!--                    <field name="brand"/>-->
+<!--                    <field name="size"/>-->
+<!--                    <field name="color"/>-->
+<!--                    <field name="style_code"/>-->
+
+
+            </xpath>
+<!--            <xpath expr="//field[@name='barcode']" position="attributes">-->
+<!--                <attribute name="readonly">1</attribute>-->
+<!--                <attribute name="force_save">1</attribute>-->
+<!--            </xpath>-->
+
+        </field>
+    </record>
+</odoo>
+

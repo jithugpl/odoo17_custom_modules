@@ -1,0 +1,157 @@
+<odoo>
+    <!-- Tree View Definition for Customer Registration -->
+    <record id="view_customer_registration_tree" model="ir.ui.view">
+        <field name="name">customer.registration.tree</field>
+        <field name="model">customer.registration</field>
+        <field name="arch" type="xml">
+            <tree string="Customer Registrations">
+                <field name="name"/>
+                <field name="email"/>
+                <field name="phone"/>
+                <field name="registered_on"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View Definition for Customer Registration -->
+    <record id="view_customer_registration_form" model="ir.ui.view">
+        <field name="name">customer.registration.form</field>
+        <field name="model">customer.registration</field>
+        <field name="arch" type="xml">
+            <form string="Customer Registration">
+                <button name="action_open_create_task_wizard" type="object" string="Create Task" class="btn-primary"/>
+
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" required="1"/>
+                            <field name="email" required="1"/>
+                            <field name="phone" required="1"/>
+                        </group>
+                        <group>
+                            <field name="address"/>
+                            <field name="registered_on" readonly="1"/>
+                        </group>
+                    </group>
+
+                    <!-- Order Lines Tab -->
+                    <notebook>
+                        <page string="Order Lines">
+                            <field name="order_line_ids">
+                                <tree string="Order Lines" editable="bottom">
+                                    <field name="file_name" required="1"/>
+                                    <field name="file" required="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+
+    <!-- Wizard View Definition -->
+    <record id="view_create_task_wizard_form" model="ir.ui.view">
+        <field name="name">create.task.wizard.form</field>
+        <field name="model">create.task.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Create Task Wizard">
+                <group>
+                    <field name="project_id" required="1"/>
+                    <field name="customer_registration_id"/>
+                </group>
+                <footer>
+                    <button string="Create Task" type="object" name="action_create_task" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Wizard Action -->
+    <record id="action_open_create_task_wizard" model="ir.actions.act_window">
+        <field name="name">Create Task Wizard</field>
+        <field name="res_model">create.task.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_create_task_wizard_form"/>
+        <field name="target">new</field>
+    </record>
+
+
+    <!-- Action to Open the List View -->
+    <record id="action_customer_registration" model="ir.actions.act_window">
+        <field name="name">Customer Registrations</field>
+        <field name="res_model">customer.registration</field>
+        <field name="view_mode">tree,form,kanban</field>
+        <field name="view_id" ref="view_customer_registration_tree"/>
+    </record>
+    <!-- Kanban View Definition for Customer Registration -->
+    <record id="view_customer_registration_kanban" model="ir.ui.view">
+        <field name="name">customer.registration.kanban</field>
+        <field name="model">customer.registration</field>
+        <field name="arch" type="xml">
+            <kanban string="Customer Registrations">
+                <field name="name"/>
+                <field name="email"/>
+                <field name="phone"/>
+                <field name="registered_on"/>
+
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="o_kanban_record_title">
+                                <strong>
+                                    <t t-esc="record.name.value"/>
+                                </strong>
+                            </div>
+                            <div>
+                                <span>Email:
+                                    <t t-esc="record.email.value"/>
+                                </span>
+                            </div>
+                            <div>
+                                <span>Phone:
+                                    <t t-esc="record.phone.value"/>
+                                </span>
+                            </div>
+                            <div>
+                                <span>Registered On:
+                                    <t t-esc="record.registered_on.value"/>
+                                </span>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+
+    <menuitem id="Customers_menu"
+              name="Customer"
+              sequence="11"/>
+
+    <menuitem id="menu_main_customers"
+              name="Customers"
+              parent="Customers_menu"
+              action="account.res_partner_action_customer"
+              sequence="10"/>
+    <!-- Adjust this to your  parent="menu_main_parent"mmain menu's ID -->
+
+
+    <!-- Menu Item to Access the Customer Registration -->
+    <menuitem id="menu_customer_registration_root"
+              name="Customer Registration"
+              sequence="10"/>
+    <menuitem id="menu_customer_registration1"
+              action="action_customer_registration"
+              parent="menu_customer_registration_root" sequence="100"/>
+</odoo>
+
+

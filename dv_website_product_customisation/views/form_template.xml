@@ -1,0 +1,33 @@
+<odoo>
+<template id="product_customization_form" name="Product Customization Form">
+    <t t-call="website.layout">
+        <div class="container">
+            <h1>Product Customization</h1>
+            <form action="/customization/submit" method="POST">
+                <t csrf="True"/>
+
+                <div class="form-group">
+                    <label for="product_id">Product ID</label>
+                    <input type="hidden" name="product_id" value="<t t-esc='product.id'/>"/>
+                </div>
+
+                <div class="form-group">
+                    <label for="customization_details">Customization Details</label>
+                    <textarea name="customization_details" id="customization_details" class="form-control" required></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Submit Customization</button>
+            </form>
+        </div>
+    </t>
+</template>
+
+<template id="thank_you_page" name="Thank You Page">
+    <t t-call="website.layout">
+        <div class="container">
+            <h1>Thank You for Your Customization Request</h1>
+            <p>We have received your customization details. Our team will get in touch with you soon.</p>
+        </div>
+    </t>
+</template>
+</odoo>

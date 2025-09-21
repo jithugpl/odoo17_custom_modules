@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="report_delivery_print1">
+        <t t-name="carollia_delivery_label.report_delivery_header1">
+            <t t-call="web.html_container">
+                <t t-call="web.internal_layout">
+                    <!--                    <table class="table" style="width:100%; border-collapse: collapse;">-->
+                    <table class="table" style="width:100%; border-collapse: separate; border-spacing: 5px; border: 2px solid black;">
+                        <t t-set="rows" t-value="3"/>  <!-- Number of rows -->
+                        <t t-set="cols" t-value="3"/>  <!-- Number of columns -->
+                        <t t-foreach="range(rows)" t-as="row">
+                            <tr>
+                                <t t-foreach="range(cols)" t-as="col">
+                                    <td style="width: 27%; height: 110%; border: 1px solid black; padding: 10px; text-align: center;">
+
+                                        <t t-foreach="docs" t-as="product">
+                                            <strong>
+                                                <p>
+                                                    Product Name:
+                                                    <t t-esc="product.name"/><br/>
+
+
+                                                Style Code:
+                                                    <t t-esc="product.default_code or 'N/A'"/><br/>
+
+
+
+                                                    <t t-foreach="product.attribute_line_ids"
+                                                       t-as="attribute_line">
+
+                                                            <t t-esc="attribute_line.attribute_id.name"/>:
+                                                            <t t-set="values"
+                                                               t-value="[value.name for value in attribute_line.value_ids]"/>
+                                                            <t t-esc="', '.join(values)"/><br/>
+
+                                                    </t>
+
+
+
+                                                <!-- Additional Fields -->
+                                                Manufacturing Date:
+                                                    <t t-esc="product.manu_date or 'N/A'"/><br/>
+
+
+                                                Net Quantity: 1<br/>
+                                                </p>
+                                            </strong>
+                                            <!-- MRP Calculation -->
+                                            <t t-set="mrp"
+                                               t-value="product.compare_list_price if product.compare_list_price else (product.tax_string_value if product.tax_string_value else product.list_price)"/>
+                                            <strong>
+                                                <p style="font-size: 50px;">MRP: ₹
+                                                    <t t-esc="'%.2f' % mrp"/>
+                                                </p>
+                                                <p style="margin-top: -35px;">
+                                                    (Inclusive of all taxes)
+                                                </p>
+                                            </strong>
+
+                                            <strong>
+                                                <!-- Manufacturing Address -->
+                                                <p>Manufacturing Address:
+                                                    <br></br>
+                                                    <span t-field="res_company.partner_id.name"/>
+                                                    <br></br>
+                                                    <span t-field="res_company.partner_id.street"/>
+                                                    <br></br>
+                                                    <span t-field="res_company.partner_id.city"/>
+                                                    <br></br>
+                                                    <span t-field="res_company.partner_id.country_id.name"/>
+
+                                                </p>
+                                                <p>In case of complaints contact:
+                                                    <br></br><!-- Country Name -->
+                                                    <span t-field="res_company.partner_id.mobile"/>
+                                                    <br></br>
+                                                    <span t-field="res_company.partner_id.email"/>
+                                                </p>
+                                            </strong>
+
+                                            <!-- Barcode for each product based on style_code -->
+                                            <div>
+                                                <t t-if="product.barcode">
+                                                    <img t-att-src="'/report/barcode/Code128/' + product.barcode + '?width=370&amp;height=40'"
+                                                         alt="Product Barcode"/>
+                                                    <strong>
+                                                        <p style="text-align: center; font-weight: bold; margin-top: 5px;">
+                                                            <t t-esc="product.barcode"/>
+                                                        </p>
+                                                    </strong>
+                                                </t>
+                                                <t t-else="">
+                                                    <p>No BarCode available for this product.</p>
+                                                </t>
+                                            </div>
+                                        </t>
+                                    </td>
+                                </t>
+                            </tr>
+                        </t>
+                    </table>
+                </t>
+            </t>
+        </t>
+    </template>
+
+
+</odoo>

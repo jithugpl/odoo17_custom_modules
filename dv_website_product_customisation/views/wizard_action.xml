@@ -1,0 +1,21 @@
+<odoo>
+<!--    <record id="view_product_customization_form" model="ir.ui.view">-->
+<!--        <field name="name">product.customization.request.form</field>-->
+<!--        <field name="model">product.customization.request</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <form string="Product Customization Request">-->
+<!--                <sheet>-->
+<!--                    <group>-->
+<!--                        <field name="product_id" />-->
+<!--            <field name="customization_details" widget="text"/>-->
+<!--                    </group>-->
+<!--                    <footer>-->
+<!--                        <button name="action_submit" string="Save" type="object" class="btn-primary"/>-->
+<!--                        <button name="action_cancel" string="Cancel" type="object" class="btn-secondary"/>-->
+<!--                    </footer>-->
+<!--                </sheet>-->
+<!--            </form>-->
+<!--        </field>-->
+<!--    </record>-->
+
+</odoo>

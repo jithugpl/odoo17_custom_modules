@@ -1,0 +1,65 @@
+<odoo>
+  <data>
+    <!-- Modal for Product Customization -->
+    <template id="modal_product_customization" name="Modal for product customization">
+
+      <!-- Button to trigger the modal -->
+      <button type="button" role="button" class="btn btn-link px-0 pe-3" title="Customize Product" data-bs-toggle="modal" data-bs-target="#modal_product_customization">
+        <i class="fa fa-cogs me-2" role="img" aria-label="Customize Product"/>
+        <span>Customize This Product</span>
+      </button>
+
+      <!-- Modal dialog -->
+      <div class="modal fade" id="modal_product_customization" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Product Customization</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+              <t t-if="product">
+            <div>
+              <h6>Product: <span t-field="product.name"/></h6>
+              <p>Description: <span t-field="product.description_sale"/></p>
+            </div>
+          </t>
+<!--              <form t-action="product.customization.request" method="post">-->
+<!--              <form t-action="/customization/submit" method="post">-->
+<!--                &lt;!&ndash; Include CSRF token &ndash;&gt;-->
+<!--                                <input type="hidden" name="product_id" t-att-value="product.id" />-->
+                <form action="/customization/submit" method="post" class="oe_website_form"
+                          enctype="multipart/form-data">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label for="customization_details">Customization Details</label>
+                      <textarea name="customization_details" class="form-control" rows="5"
+                                placeholder="Enter customization details here" required="True"></textarea>
+                    </div>
+                  </div>
+                </div>
+                  <div class="row">
+                  <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="contact_number">Contact Number</label>
+                                    <input type="text" name="contact_number" class="form-control"
+                                           placeholder="Enter your contact number" required="True"/>
+                                </div>
+                            </div>
+                  </div>
+
+                <footer>
+                  <button type="submit" class="btn btn-primary">Save</button>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                </footer>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </template>
+  </data>
+</odoo>

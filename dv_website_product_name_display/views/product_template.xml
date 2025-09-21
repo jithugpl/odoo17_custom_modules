@@ -1,0 +1,15 @@
+
+<odoo>
+
+  <template id="truncate_product_name" inherit_id="website_sale.products_item" name="Truncate Product Name">
+    <xpath expr="//h6[contains(@class, 'o_wsale_products_item_title')]/a" position="replace">
+           <a class="text-primary text-decoration-none" itemprop="name" t-att-href="product_href"
+           t-att-style="'white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; max-width: 100%;'">
+            <t t-esc="product.name"/>
+        </a>
+
+    </xpath>
+</template>
+
+
+</odoo>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--    <template id="website_sale_product_website_product_size_chart" inherit_id="website_sale.product">-->
+    <!--    <xpath expr="//div[@id='product_option_block']" position="inside">-->
+    <!--        <xpath expr="//div[@t-field='product.description_ecommerce']" position="after">-->
+    <!--                <xpath expr="//p[@t-field='product.description_sale']" position="after">-->
+    <!--                    <xpath expr="//div[@id='product_details']/h1" position="before">-->
+    <!--    <xpath expr="//t[@t-placeholder='select']" position="before">-->
+    <!--        <xpath expr="//t[@t-placeholder='select']" position="before">-->
+    <!--            <p>Hello</p>-->
+    <!--        </xpath>-->
+    <!--    </template>-->
+    <template id="website_sale_product_price_percentage_reduction" inherit_id="website_sale.product">
+    <xpath expr="//t[@t-placeholder='select']" position="before">
+        <!-- Get the tax string value or default to 0.0 -->
+        <t t-set="tax_string_value" t-value="product.tax_string_value or 0.0"/>
+
+        <!-- Use list_price if tax_string_value is 0 or not set -->
+        <t t-set="price_to_use" t-value="tax_string_value if tax_string_value > 0 else product.list_price"/>
+
+        <!-- Calculate discount if compare_list_price is greater than the price_to_use -->
+        <t t-if="product.compare_list_price and product.compare_list_price > price_to_use">
+            <t t-set="discount_percentage"
+               t-value="(product.compare_list_price - price_to_use) / product.compare_list_price * 100"/>
+
+            <!-- Round percentage: use int() for floor rounding, add 0.5 and round() for normal rounding -->
+            <t t-set="rounded_discount" t-value="int(discount_percentage + 0.5)"/>
+
+            <strong>
+                <p class="text-danger" style="padding-bottom: 18px; margin-top: -18px;">
+                    <t t-esc="rounded_discount"/>% off
+                </p>
+            </strong>
+<!--            <strong>-->
+<!--                <p class="text-danger" style="padding-bottom: 18px; margin-top: -18px;">-->
+<!--                    <t t-esc="int(discount_percentage)"/>% off-->
+<!--                </p>-->
+<!--            </strong>-->
+        </t>
+    </xpath>
+</template>
+
+<!--    <template id="website_sale_product_price_percentage_reduction" inherit_id="website_sale.product">-->
+<!--    <xpath expr="//t[@t-placeholder='select']" position="before">-->
+<!--        <t t-set="tax_string_value" t-value="product.tax_string_value or 0.0"/>-->
+
+<!--        <t t-if="product.compare_list_price and product.compare_list_price > tax_string_value">-->
+<!--            <t t-set="discount_percentage"-->
+<!--               t-value="(product.compare_list_price - tax_string_value) / product.compare_list_price * 100"/>-->
+
+<!--            <strong>-->
+<!--                <p class="text-danger" style="padding-bottom: 18px; margin-top: -18px;">-->
+<!--                    <t t-esc="int(discount_percentage)"/>% off-->
+<!--                </p>-->
+<!--            </strong>-->
+<!--        </t>-->
+<!--    </xpath>-->
+<!--</template>-->
+
+
+    <template id="website_product_price_percentage_reduction_card" inherit_id="website_sale.products_item"
+              name="Product Percentage Reduction Card">
+        <!--    <xpath expr="//h6[contains(@class, 'o_wsale_products_item_title')]/a" position="after">-->
+        <xpath expr="//div[contains(@class, 'product_price')]" position="after">
+            <!--        <xpath expr="//div[contains(@class, 'o_wsale_product_sub')]" position="before">-->
+
+
+            <!-- Get the tax string value or default to 0.0 -->
+        <t t-set="tax_string_value" t-value="product.tax_string_value or 0.0"/>
+
+        <!-- Use list_price if tax_string_value is 0 or not set -->
+        <t t-set="price_to_use" t-value="tax_string_value if tax_string_value > 0 else product.list_price"/>
+
+        <!-- Calculate discount if compare_list_price is greater than the price_to_use -->
+        <t t-if="product.compare_list_price and product.compare_list_price > price_to_use">
+            <t t-set="discount_percentage"
+               t-value="(product.compare_list_price - price_to_use) / product.compare_list_price * 100"/>
+
+            <!-- Round percentage: use int() for floor rounding, add 0.5 and round() for normal rounding -->
+            <t t-set="rounded_discount" t-value="int(discount_percentage + 0.5)"/>
+
+
+            <span class="text-danger fw-bold" style="display: inline-block; margin-left: 10px;">
+                    <t t-esc="rounded_discount"/>% off
+                </span>
+
+<!--                <span class="text-danger fw-bold" style="display: inline-block; margin-left: 10px;">-->
+<!--                    <t t-esc="int(discount_percentage)"/>% off-->
+<!--                </span>-->
+            </t>
+
+        </xpath>
+    </template>
+</odoo>
+

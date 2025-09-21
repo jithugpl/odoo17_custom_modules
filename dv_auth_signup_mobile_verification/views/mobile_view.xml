@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="signup_fields" inherit_id="auth_signup.fields">
+        <!-- Add Mobile Number field only for the signup page not for password page -->
+        <xpath expr="//input[@name='login']" position="after">
+            <t t-if="request.httprequest.path == '/web/signup'">
+                <div class="mb-3 field-mobile">
+                    <label for="mobile">Mobile Number</label>
+                    <input type="tel" name="mobile" id="mobile" class="form-control form-control-sm"
+                        placeholder="Enter your mobile number" pattern="[0-9]{10}" required="required"/>
+                </div>
+            </t>
+        </xpath>
+    </template>
+    <record id="view_users_form_inherit_mobile" model="ir.ui.view">
+        <field name="name">res.users.form.mobile</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='login']" position="after">
+                <field name="mobile" placeholder="Mobile Number" readonly="1"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

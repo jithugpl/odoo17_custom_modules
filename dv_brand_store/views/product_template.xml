@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="website_product_template_inherit_description_ecommerce" inherit_id="website_sale.product">
+        <xpath expr="//div[@id='product_details']/h1" position="before">
+            <div class="mt-2">
+                <t t-if="product.attribute_line_ids">
+                    <t t-foreach="product.attribute_line_ids.value_ids.filtered(lambda v: v.is_active_brand and v.brand_link)" t-as="brand">
+                        <p class="mb-1">
+                            <a t-att-href="brand.brand_link" target="_blank" class="text-primary">
+                                Visit <t t-esc="brand.name"/> Store
+                            </a>
+                        </p>
+                    </t>
+                </t>
+            </div>
+        </xpath>
+    </template>
+</odoo>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Inherit and extend the standard auth_signup fields template -->
+        <template id="document_fields" inherit_id="auth_signup.fields">
+            <xpath expr="//input[@name='password']" position="after">
+                <br/>
+                <div>
+                    
+                    <span id="confirm_password_msg"></span>
+                </div>
+                <script type="text/javascript">
+                    document.addEventListener("DOMContentLoaded", function() {
+                    // Get the password and confirm password fields and the message span
+                    var passwordField = document.querySelector("input[name='password']");
+                    var confirmPasswordField = document.querySelector("input[name='confirm_password']");
+                    var confirmMsg = document.getElementById("confirm_password_msg");
+                    if (passwordField) {
+                    if (confirmPasswordField) {
+                    if (confirmMsg) {
+                    function checkPasswords() {
+                    var password = passwordField.value;
+                    var confirmPassword = confirmPasswordField.value;
+                    // Check if the values are identical
+                    if (password === confirmPassword) {
+                    confirmMsg.textContent = "Passwords match ✅";
+                    confirmMsg.style.color = "green";
+                    } else {
+                    confirmMsg.textContent = "Passwords do not match ❌";
+                    confirmMsg.style.color = "red";
+                    }
+                    }
+                    // Listen for changes in both fields
+                    passwordField.addEventListener("input", checkPasswords);
+                    confirmPasswordField.addEventListener("input", checkPasswords);
+                    }
+                    }
+                    }
+
+                    });
+                </script>
+            </xpath>
+        </template>
+    </data>
+</odoo>
+
+
+        <!--<?xml version="1.0" encoding="UTF-8" ?>-->
+        <!--<odoo>-->
+        <!--    &lt;!&ndash; Inherit and Extend the Standard Auth Signup Fields Template &ndash;&gt;-->
+        <!--    <template id="document_fields" inherit_id="auth_signup.fields">-->
+        <!--        <xpath expr="//input[@name='password']" position="after">-->
+        <!--            <br>-->
+        <!--            </br>-->
+        <!--            <div>-->
+        <!--                <progress id="progress" value="0" max="100"-->
+        <!--                          style="color: red;">70</progress>-->
+        <!--                <span id="confirm_password_msg"></span>-->
+
+        <!--            </div>-->
+        <!--        </xpath>-->
+        <!--    </template>-->
+        <!--</odoo>-->

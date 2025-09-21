@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="payment_method_gatee" model="payment.method">
+            <field name="name">Gate-e</field>
+            <field name="code">gatee</field>
+            <field name="sequence">1</field>
+            <field name="active">True</field>
+            <field name="image" type="base64" file="payment_gatee/static/description/icon.png"/>
+        </record>
+
+        <record id="account_payment_method_gatee" model="account.payment.method">
+            <field name="name">gatee</field>
+            <field name="code">gatee</field>
+            <field name="payment_type">inbound</field>
+        </record>
+    </data>
+</odoo>

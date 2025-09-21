@@ -1,0 +1,72 @@
+<odoo>
+   <!--    parent menu code -->
+    <menuitem id="menu_product_attribute"
+              name="eCommerce"
+              parent="stock.menu_stock_root"
+              sequence="30"/>
+
+
+<!--     Material action-->
+    <record id="action_product_material" model="ir.actions.act_window">
+        <field name="name">Materials</field>
+        <field name="res_model">product.material</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p>
+                Manage the materials used in your products here.
+            </p>
+        </field>
+    </record>
+
+    <!-- Material Menu -->
+    <menuitem id="menu_product_material"
+              name="Materials"
+              parent="menu_product_attribute"
+              sequence="10"
+              action="action_product_material"/>
+
+
+
+
+<!--Care guide action-->
+    <record id="action_care_guide" model="ir.actions.act_window">
+        <field name="name">Care Guides</field>
+        <field name="res_model">care.guide</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p>
+                Manage the care guides for your products here.
+            </p>
+        </field>
+    </record>
+
+<!--    care guide menu-->
+    <menuitem
+            id="menu_care_guide"
+            name="Care Guides"
+            action="action_care_guide"
+            parent="menu_product_attribute"
+            sequence="40"/>
+
+<!--items included action-->
+
+    <record id="action_items_included" model="ir.actions.act_window">
+        <field name="name">Items Included</field>
+        <field name="res_model">items.included</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p>
+                Manage the items included with your products here.
+            </p>
+        </field>
+    </record>
+<!--    items included menu-->
+    <menuitem
+            id="menu_items_included"
+            name="Items Included"
+            action="action_items_included"
+            parent="menu_product_attribute"
+            sequence="50"/>
+
+
+</odoo>

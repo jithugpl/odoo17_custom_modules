@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <template id="report_delivery_print">
+
+        <t t-name="carollia_delivery_label.report_delivery_header">
+            <t t-call="web.html_container">
+                <t t-call="web.internal_layout">
+                    <!--                    <table class="table" style="width:100%; border-collapse: collapse;">-->
+                    <table class="table"
+                           style="width:100%; border-collapse: separate; border-spacing: 5px; border: 2px solid black;">
+                        <t t-set="rows" t-value="3"/>  <!-- Number of rows -->
+                        <t t-set="cols" t-value="3"/>  <!-- Number of columns -->
+                        <t t-foreach="range(rows)" t-as="row">
+                            <tr>
+                                <t t-foreach="range(cols)" t-as="col">
+                                    <td style="width: 27%; height: 110%; border: 1px solid black; padding: 10px; text-align: center;">
+
+
+                                        <t t-foreach="docs" t-as="variant">
+                                            <strong>
+
+                                                <p>Product Name:
+                                                    <t t-esc="variant.name"/>
+                                                    <br/>
+
+                                                    Style Code:
+                                                    <t t-esc="variant.default_code or 'N/A'"/>
+                                                    <br/>
+
+
+                                                    <!--                                                <t t-if="variant.brand">-->
+                                                    <!--                                                    <p>Brand:-->
+                                                    <!--                                                        <t t-esc="variant.brand"/>-->
+                                                    <!--                                                    </p>-->
+                                                    <!--                                                </t>-->
+
+                                                    <!--                    All attributes-->
+
+                                                    <!--                                                    <t t-foreach="variant.product_template_variant_value_ids"-->
+                                                    <!--                                                       t-as="attr">(got from variant list view,not all attributes are shown)-->
+                                                    <t t-foreach="variant.product_template_attribute_value_ids"
+                                                       t-as="attr">
+                                                        <!--                                                (correct id)-->
+                                                        <t t-esc="attr.attribute_id.name"/>:
+                                                        <t t-esc="attr.name"/>
+                                                        <br/>
+
+                                                    </t>
+
+
+                                                    Manufacturing Date:
+                                                    <t t-esc="variant.manufacturing_date or 'N/A'"/>
+                                                    <br/>
+
+                                                    Net Quantity:
+                                                    <t t-esc="variant.net_quantity or '1'"/>
+                                                    <br/>
+                                                </p>
+
+                                            </strong>
+
+
+                                            <!-- MRP Calculation -->
+                                            <t t-set="mrp"
+                                               t-value="variant.compare_list_price if variant.compare_list_price else (variant.tax_string_value if variant.tax_string_value else variant.list_price)"/>
+                                            <strong>
+                                                <p style="font-size: 50px;">MRP: ₹
+                                                    <t t-esc="'%.2f' % mrp"/>
+                                                </p>
+                                                <p style="margin-top: -35px;">
+                                                    (Inclusive of all taxes)
+                                                </p>
+                                            </strong>
+                                            <strong>
+
+
+                                                <p>Manufacturing Address:
+                                                    <br></br>
+                                                    <span t-field="res_company.partner_id.name"/>
+                                                    <br></br>
+                                                    <span t-field="res_company.partner_id.street"/>
+                                                    <br></br>
+                                                    <span t-field="res_company.partner_id.city"/>
+                                                    <br></br>
+                                                    <span t-field="res_company.partner_id.country_id.name"/>
+
+                                                </p>
+                                                <p>In case of complaints contact:
+                                                    <br></br><!-- Country Name -->
+                                                    <span t-field="res_company.partner_id.mobile"/>
+                                                    <br></br>
+                                                    <span t-field="res_company.partner_id.email"/>
+                                                </p>
+                                            </strong>
+
+                                            <!-- Barcode for each product based on style_code -->
+                                            <div>
+                                                <t t-if="variant.barcode">
+<!--                                                    <img t-att-src="'/report/barcode/QR/' + variant.barcode + '?width=200&amp;height=200'"-->
+<!--                                                         alt="Product Barcode"/>-->
+                                                    <img t-att-src="'/report/barcode/Code128/' + variant.barcode + '?width=370&amp;height=40'"
+                                                         alt="Product Barcode"/>
+                                                    <strong>
+                                                        <p style="text-align: center; font-weight: bold; margin-top: 5px;">
+                                                            <t t-esc="variant.barcode"/>
+                                                        </p>
+                                                    </strong>
+                                                </t>
+                                                <t t-else="">
+                                                    <p>No BarCode available for this product.</p>
+                                                </t>
+                                            </div>
+
+
+                                        </t>
+
+                                    </td>
+                                </t>
+                            </tr>
+                        </t>
+                    </table>
+                </t>
+            </t>
+        </t>
+    </template>
+
+
+</odoo>

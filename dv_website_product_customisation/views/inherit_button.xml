@@ -1,0 +1,8 @@
+<odoo>
+    <template id="product_page_customization" inherit_id="website_sale.product" name="Product Page Customization">
+    <xpath expr="//div[@t-field='product.description_ecommerce']" position="after">    <!-- Add the customization button here -->
+    <t t-call="dv_website_product_customisation.modal_product_customization"/>
+  </xpath>
+</template>
+
+</odoo>

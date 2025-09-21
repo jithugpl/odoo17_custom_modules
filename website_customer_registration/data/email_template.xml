@@ -1,0 +1,20 @@
+<odoo>
+    <record id="customer_registration_email_template" model="mail.template">
+        <field name="name">Customer Registration Notification</field>
+        <field name="model_id" ref="model_customer_registration"/>
+        <field name="subject">New Customer Registration: ${object.name}</field>
+        <field name="email_to">${object.env['res.users'].browse(1).email}</field>
+        <field name="body_html">
+            <![CDATA[
+                <p>Hello Admin,</p>
+                <p>A new customer has registered with the following details:</p>
+                <ul>
+                    <li><strong>Name:</strong> ${object.name}</li>
+                    <li><strong>Email:</strong> ${object.email}</li>
+                    <li><strong>Phone:</strong> ${object.phone}</li>
+                    <li><strong>Address:</strong> ${object.address}</li>
+                </ul>
+            ]]>
+        </field>
+    </record>
+</odoo>

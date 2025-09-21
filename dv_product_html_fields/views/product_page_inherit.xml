@@ -1,0 +1,72 @@
+<odoo>
+    <!--    website view-->
+    <template id="website_product_template_inherit_description_ecommerce" inherit_id="website_sale.product">
+        <xpath expr="//div[@t-field='product.description_ecommerce']" position="after">
+
+            <div class="o_website_material" style="margin-top: 10px;">
+                <t t-if="product.material_id">
+                    <p>
+                        <strong>Material:</strong>
+                        <span t-esc="product.material_id.name"/>
+                    </p>
+                </t>
+            </div>
+
+
+
+<!--            WORKING IN CORRECT DISPLAY FORMAT-->
+            <div class="o_website_attributes">
+    <t t-foreach="product.attribute_line_ids" t-as="attr_line">
+        <t t-set="active_values" t-value="attr_line.value_ids.filtered(lambda v: v.is_active_attribute)"/>
+        <t t-if="active_values">
+            <p>
+                <strong>
+                    <t t-esc="attr_line.attribute_id.name"/> Available:
+                </strong>
+                <t t-set="values" t-value="', '.join(active_values.mapped('name'))"/>
+                <span t-esc="values"/>
+            </p>
+        </t>
+    </t>
+</div>
+
+            <div class="o_website_care_guide">
+                <t t-if="product.care_guide_id">
+                    <p>
+                        <strong>Care Guide:</strong>
+                        <span t-esc="product.care_guide_id.name"/>
+                    </p>
+                </t>
+            </div>
+
+
+            <div class="o_website_items_included">
+                <t t-if="product.items_included_id">
+                    <p>
+                        <strong>Items Included:</strong>
+                        <t t-esc="product.items_included_id.name">
+                        </t>
+                    </p>
+                </t>
+            </div>
+
+        </xpath>
+    </template>
+    <template id="website_product_template_inherit_description_ecommerce_product_note"
+              inherit_id="website_sale.product">
+        <xpath expr="//div[@t-field='product.website_description']" position="after">
+            <!-- Product Note -->
+            <div class="o_website_product_note" style="padding-left: 5%;padding-right: 2%;">
+                <t t-if="product.product_note_id">
+                    <p>
+                        <strong>Product Note</strong>
+                    </p>
+                    <div t-raw="product.product_note_id"/>
+<!--                        <span t-esc="product.product_note_id"/>-->
+
+                </t>
+            </div>
+        </xpath>
+    </template>
+</odoo>
+

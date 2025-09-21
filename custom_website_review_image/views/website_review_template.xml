@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="custom_product_comment" inherit_id="website_sale.product_comment" active="True">
+        <xpath expr="//section[@id='o_product_page_reviews']" position="attributes">
+<!--            <div class="o_portal_chatter_attachment text-center" t-att-data-id="attachment.id">-->
+                <p>hello</p>
+
+<!--                <a t-attf-href="/web/content/#{attachment.id}?download=true&amp;access_token=#{attachment.access_token}" target="_blank" class="d-flex flex-row">-->
+<!--                    <img t-if="attachment.mimetype.startswith('image/')"-->
+<!--                         t-attf-src="/web/content/#{attachment.id}?access_token=#{attachment.access_token}"-->
+<!--                         t-att-title="attachment.name"-->
+<!--                         class="oe_attachment_embedded o_image rounded"-->
+<!--                         style="max-width: 100px; max-height: 100px; object-fit: cover;" />-->
+<!--                    <div class='o_portal_chatter_attachment_name align-self-center text-truncate' t-att-data-tooltip="attachment.name" data-tooltip-position="top">-->
+<!--                        <t t-esc='attachment.name'/>-->
+<!--                    </div>-->
+<!--                </a>-->
+<!--                //*[@id="o_product_page_reviews"]/a-->
+
+<!--                Working code for orignal portal.chatter module-->
+<!--                <a t-attf-href="/web/content/#{attachment.id}?download=true&amp;access_token=#{attachment.access_token}" target="_blank" class="d-flex flex-row">-->
+<!--    <div class='oe_attachment_embedded o_image'>-->
+<!--        &lt;!&ndash; Display the image &ndash;&gt;-->
+<!--        <img t-att-src="'/web/content/' + attachment.id + '?download=true&amp;access_token=' + attachment.access_token"-->
+<!--             t-att-title="attachment.name"-->
+<!--             t-att-alt="attachment.name"-->
+<!--             class="img-fluid" style="margin-bottom: 10px;" />-->
+<!--    </div>-->
+<!--</a>-->
+<!--            </div>-->
+        </xpath>
+    </template>
+</odoo>
+
+
+<!--<odoo>-->
+
+<!--    <template id="custom_product_review_images" inherit_id="website_sale.product">-->
+<!--        <xpath expr="//t[@t-name='portal.Chatter.Attachments']" position="replace">-->
+<!--            &lt;!&ndash; Your custom content &ndash;&gt;-->
+
+<!--            &lt;!&ndash; Iterate through the reviews &ndash;&gt;-->
+<!--            <t t-foreach="product.rating_ids" t-as="review">-->
+<!--                &lt;!&ndash; Check if the review has attachments &ndash;&gt;-->
+<!--                <div t-if="review.attachment_ids" class="o_rating_review_images mt-2">-->
+<!--                    <t t-foreach="review.attachment_ids" t-as="attachment">-->
+<!--                        <t t-if="attachment.mimetype and attachment.mimetype.startswith('image/')">-->
+<!--                            &lt;!&ndash; Display the image &ndash;&gt;-->
+<!--                            <img t-att-src="'/web/image/%s' % attachment.id"-->
+<!--                                 alt="Review Image"-->
+<!--                                 class="img-fluid o_review_image"/>-->
+<!--                        </t>-->
+<!--                        <t t-else="">-->
+<!--                            &lt;!&ndash; Fallback: Display a download link if not an image &ndash;&gt;-->
+<!--                            <a t-att-href="'/web/content/%s' % attachment.id"-->
+<!--                               class="btn btn-link">Download File-->
+<!--                            </a>-->
+<!--                        </t>-->
+<!--                    </t>-->
+<!--                </div>-->
+<!--            </t>-->
+<!--        </xpath>-->
+
+<!--    </template>-->
+<!--</odoo>-->

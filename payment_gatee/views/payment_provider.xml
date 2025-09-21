@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="payment_provider_form" model="ir.ui.view">
+        <field name="name">Gate-e Provider Form</field>
+        <field name="model">payment.provider</field>
+        <field name="inherit_id" ref="payment.payment_provider_form"/>
+        <field name="arch" type="xml">
+            <group name="provider_credentials" position="inside">
+                <group invisible="code != 'gatee'">
+                    <field name="gatee_unique_id" required="state != 'disabled' and code == 'gatee'"/>
+                    <field name="gatee_hash" required="state != 'disabled' and code == 'gatee'"/>
+                    <field name="gatee_api_type"/>
+                    <field name="gatee_email_send"/>
+                    <field name="gatee_sms_send"/>
+                    <field name="gatee_api_nodes"/>
+                    <field name="gatee_show_callback"/>
+                    <field name="gatee_card_save"/>
+                    <field name="gatee_card_list"/>
+                    <field name="gatee_locale"/>
+                    <field name="gatee_debug"/>
+                </group>
+            </group>
+        </field>
+    </record>
+</odoo>

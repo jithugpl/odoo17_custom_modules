@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_task_type_user,access.task.type.user,model_task_type,,1,1,1,1
+access_trainee_type_user,access.trainee.type.user,model_trainee_type,,1,1,1,1
+access_task_manager_user,access.task.manager.user,model_task_manager,,1,1,1,1
+access_daily_work_progress_user,daily.work.progress user,model_daily_work_progress,base.group_user,1,1,1,0
+access_daily_work_progress_manager,daily.work.progress manager,model_daily_work_progress,base.group_system,1,1,1,1

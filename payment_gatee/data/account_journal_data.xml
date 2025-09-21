@@ -1,0 +1,11 @@
+<odoo>
+    <data>
+        <record id="gatee_account_journal" model="account.journal">
+            <field name="name">Gatee</field>
+            <field name="code">Gatee</field>
+            <field name="type">bank</field>
+            <field name="sequence">99</field>
+            <field name="alias_name">gatee</field>
+        </record>
+    </data>
+</odoo>

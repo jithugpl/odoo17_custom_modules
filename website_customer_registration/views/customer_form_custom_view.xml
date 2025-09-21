@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_partner_form_custom" model="ir.ui.view">
+        <field name="name">res.partner.form.custom</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Customer Documents">
+                    <field name="child_ids">
+                        <tree string="Customer Documents" editable="bottom">
+                            <field name="file_name"/>
+                            <!--                            <field name="file" filename="file_name"/>-->
+                            <!--                            <field name="existing_partner_vat" context="{'show_address': False, 'show_vat': False}"/>-->
+                            <!--                            <field name="partner_gid" invisible="True"/>-->
+                            <!--                            <field name="additional_info" invisible="True"/>-->
+
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!--    <record id="your_model_form_inherit" model="ir.ui.view">-->
+    <!--        <field name="name">res.partner.form.inherit</field> &lt;!&ndash; Name of the inherited view &ndash;&gt;-->
+    <!--        <field name="model">cureg</field> &lt;!&ndash; The model for the view &ndash;&gt;-->
+    <!--        <field name="inherit_id" ref="base.view_partner_form"/> &lt;!&ndash; Reference to the original form view &ndash;&gt;-->
+    <!--        <field name="priority">3</field>-->
+    <!--        <field name="arch" type="xml">-->
+
+    <!--            <xpath expr="//field[@name='website']" position="attributes">-->
+    <!--                <attribute name="readonly">1</attribute>-->
+    <!--            </xpath>-->
+    <!--            <xpath expr="//field[@name='category_id']" position="attributes">-->
+    <!--                <attribute name="readonly">context.get('is_special_customer') == 'website_customer'</attribute>-->
+    <!--            </xpath>-->
+
+
+    <!--                        <xpath expr="//field[@name='website']" position="attributes">-->
+    <!--                            <attribute name="invisible">1</attribute>-->
+    <!--                        </xpath>-->
+    <!--                        <xpath expr="//field[@name='category_id']" position="attributes">-->
+    <!--                            <attribute name="invisible">1</attribute>-->
+    <!--                        </xpath>-->
+    <!--                        <xpath expr="//field[@name='function']" position="attributes">-->
+    <!--                            <attribute name="invisible">{'invisible': [('is_special_customer', '!=', 'website_customer')]}-->
+    <!--                            </attribute>-->
+    <!--                        </xpath>-->
+    <!--                        <xpath expr="//field[@name='title']" position="attributes">-->
+    <!--                            <attribute name="invisible">1</attribute>-->
+    <!--                        </xpath>-->
+    <!--                        <xpath expr="//field[@name='l10n_in_pan']" position="attributes">-->
+    <!--                            <attribute name="invisible">1</attribute>-->
+    <!--                        </xpath>-->
+    <!--                        <xpath expr="//field[@name='vat']" position="attributes">-->
+    <!--                            <attribute name="invisible">{'invisible': [('is_special_customer', '!=', 'website_customer')]}-->
+    <!--                            </attribute>-->
+    <!--                        </xpath>-->
+    <!--                        <xpath expr="//field[@name='l10n_in_gst_treatment']" position="attributes">-->
+    <!--                            <attribute name="invisible">1</attribute>-->
+    <!--                        </xpath>-->
+
+
+    <!--        </field>-->
+    <!--    </record>-->
+
+    <!-- Define the main menu item for 'Manpower' -->
+
+    <!--        <menuitem id="customer_menu" name="Customer" sequence="10"/>-->
+    <!--        &lt;!&ndash; Define the shortcut menu item 'Requests' under 'Manpower' &ndash;&gt;-->
+    <!--        <menuitem id="customer_menu_shortcut" name="Requests" parent="customer_menu" action="base.view_partner_form"-->
+    <!--                  sequence="1"/>-->
+    <menuitem id="customer_menu" name="Customer" sequence="10"/>
+
+    <!-- Define the shortcut menu item 'Requests' under 'Manpower' that triggers the action -->
+    <menuitem id="customer_menu_shortcut" name="Requests" parent="customer_menu"
+              action="base.action_partner_form" sequence="1"/>
+
+</odoo>

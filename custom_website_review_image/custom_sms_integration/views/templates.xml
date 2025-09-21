@@ -1,0 +1,53 @@
+<odoo>
+    <template id="otp_input_template" name="OTP Input Form">
+        <t t-call="website.layout">
+            <div class="container">
+                <h1>Enter Your OTP</h1>
+                <form action="/verify/otp/submit" method="post">
+                    <div class="form-group">
+                        <label for="otp">OTP:</label>
+                        <input type="text" id="otp" name="otp" class="form-control"
+                               pattern="\d{4}" maxlength="4"
+                               title="Please enter a 4-digit number"/>
+                    </div>
+                    <t t-if="error">
+                        <div class="alert alert-danger">
+                            <t t-esc="error"/>
+                        </div>
+                    </t>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </t>
+    </template>
+
+    <template id="otp_success_template" name="OTP Success Message">
+        <t t-call="website.layout">
+            <div class="container">
+                <h1>Success</h1>
+                <p><t t-esc="message"/></p>
+            </div>
+        </t>
+    </template>
+</odoo>
+
+
+
+
+<!--<?xml version="1.0" encoding="utf-8"?>-->
+<!--<odoo>-->
+<!--    <template id="otp_input_template" name="OTP Input Form">-->
+<!--        <t t-call="website.layout">-->
+<!--            <div class="container">-->
+<!--                <h1>Enter Your OTP</h1>-->
+<!--                <form action="/verify/otp/submit" method="post">-->
+<!--                    <div class="form-group">-->
+<!--                        <label for="otp">OTP:</label>-->
+<!--                        <input type="text" id="otp" name="otp" class="form-control"/>-->
+<!--                    </div>-->
+<!--                    <button type="submit" class="btn btn-primary">Submit</button>-->
+<!--                </form>-->
+<!--            </div>-->
+<!--        </t>-->
+<!--    </template>-->
+<!--</odoo>-->

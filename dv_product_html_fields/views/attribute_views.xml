@@ -1,0 +1,96 @@
+<odoo>
+    <!-- Material Views -->
+    <record id="view_product_material_tree" model="ir.ui.view">
+        <field name="name">product.material.tree</field>
+        <field name="model">product.material</field>
+        <field name="arch" type="xml">
+            <tree string="Materials">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_product_material_form" model="ir.ui.view">
+        <field name="name">product.material.form</field>
+        <field name="model">product.material</field>
+        <field name="arch" type="xml">
+            <form string="Material">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" groups="base.group_user"
+                           options="{'post_refresh': 'recipients'}"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+
+
+    <record id="view_care_guide_tree" model="ir.ui.view">
+        <field name="name">care.guide.tree</field>
+        <field name="model">care.guide</field>
+        <field name="arch" type="xml">
+            <tree string="Care Guides">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_care_guide_form" model="ir.ui.view">
+        <field name="name">care.guide.form</field>
+        <field name="model">care.guide</field>
+        <field name="arch" type="xml">
+            <form string="Care Guide">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" groups="base.group_user"
+                           options="{'post_refresh': 'recipients'}"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_items_included_tree" model="ir.ui.view">
+        <field name="name">items.included.tree</field>
+        <field name="model">items.included</field>
+        <field name="arch" type="xml">
+            <tree string="Items Included">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="view_items_included_form" model="ir.ui.view">
+        <field name="name">items.included.form</field>
+        <field name="model">items.included</field>
+        <field name="arch" type="xml">
+            <form string="Item Included">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" groups="base.group_user"
+                           options="{'post_refresh': 'recipients'}"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+</odoo>

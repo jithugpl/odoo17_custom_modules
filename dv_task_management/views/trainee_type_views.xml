@@ -1,0 +1,49 @@
+<odoo>
+    <!-- Trainee Type Form -->
+    <record id="view_trainee_type_form" model="ir.ui.view">
+        <field name="name">trainee.type.form</field>
+        <field name="model">trainee.type</field>
+        <field name="arch" type="xml">
+            <form string="Trainee Type">
+                <sheet>
+                    <group>
+                        <field name="name" string="Employee Type"/>
+                        <field name="user_ids" widget="many2many_tags" tracking="True"/>
+
+                    </group>
+                </sheet>
+                 <!-- Chatter area -->
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Trainee Type Tree -->
+    <record id="view_trainee_type_tree" model="ir.ui.view">
+        <field name="name">trainee.type.tree</field>
+        <field name="model">trainee.type</field>
+        <field name="arch" type="xml">
+            <tree string="Trainee Types">
+                <field name="name" string="Employee Type"/>
+                <field name="user_ids" widget="many2many_tags"/>
+
+            </tree>
+        </field>
+    </record>
+
+    <!-- Trainee Type Action -->
+    <record id="action_trainee_type" model="ir.actions.act_window">
+        <field name="name">Employee Types</field>
+        <field name="res_model">trainee.type</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Trainee Type Menu -->
+    <menuitem id="menu_trainee_type"
+              name="Employee Types"
+              parent="menu_task_management_root"
+              action="action_trainee_type"/>
+</odoo>

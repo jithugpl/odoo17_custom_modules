@@ -1,0 +1,254 @@
+<odoo>
+    <template id="custom_login_otp_checkbox_template" inherit_id="web.login">
+        <xpath expr="//input[@name='password']" position="after">
+            <div class="o_login_otp_container">
+                <!--          Custom captcha-->
+                <div class="form-group text-center mt-3">
+                    <label for="custom_captcha">Enter the following text:</label>
+
+                    <div style="display: flex; justify-content: center; align-items: center; gap: 10px;padding-left: 14%;">
+                        <div id="captcha_text"
+                             style="width: 150px; text-align: center; font-weight: bold; margin: 5px; font-size: 18px;
+                                                    padding: 5px 10px; border-radius: 5px; background-image: url('/sttl_otp_login/static/src/img/captcha-bg1.jpg');
+                                                    background-size: cover; background-position: center;
+                                                    display: inline-block; color: black;
+                                                    letter-spacing: 5px; text-transform: uppercase;
+                                                    user-select: none; pointer-events: none;">
+
+                        </div>
+                        <button type="button" id="refresh_captcha"
+                                style="border: none; background: none; cursor: pointer;">
+                            🔄
+                        </button>
+                    </div>
+                    <div style="display: flex; justify-content: center; margin-top: 10px;">
+                        <input type="text" id="custom_captcha" name="custom_captcha"
+                               class="form-control" required="True"
+                               style="width: 150px; text-align: center;"/>
+                    </div>
+                    <input type="hidden" id="generated_captcha"
+                           name="generated_captcha"/> <!-- Hidden field to store CAPTCHA -->
+                    <div class="help-block" id="captcha_err" style="color: red;"/>
+                </div>
+                <script>
+                    document.addEventListener("DOMContentLoaded", function () {
+                    function generateCaptcha() {
+                    var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+                    var captchaLength = 5;
+                    var newCaptcha = Array.from({ length: captchaLength }, () =>
+                    characters.charAt(Math.floor(Math.random() * characters.length))
+                    ).join("");
+
+                    document.getElementById("captcha_text").innerText = newCaptcha;
+                    document.getElementById("generated_captcha").value = newCaptcha;
+                    }
+
+                    generateCaptcha();
+
+                    document.getElementById("refresh_captcha").addEventListener("click", function () {
+                    generateCaptcha();
+                    });
+
+                    document.querySelector("form").addEventListener("submit", function (event) {
+                    var userInput = document.getElementById("custom_captcha").value.trim();
+                    var generatedCaptcha = document.getElementById("generated_captcha").value;
+                    var errorBlock = document.getElementById("captcha_err");
+
+                    if (userInput !== generatedCaptcha) {
+                    event.preventDefault();
+                    errorBlock.innerText = "Incorrect CAPTCHA. Please try again.";
+                    generateCaptcha();
+                    document.getElementById("custom_captcha").value = "";
+                    } else {
+                    errorBlock.innerText = "";
+                    }
+                    });
+                    });
+                </script>
+
+
+                <div style="margin-top:10px; display:flex;justify-content: center;">
+                    <a t-attf-href="?otp_login=true" class="btn btn-link" role="button">
+                        Login with OTP
+                    </a>
+                </div>
+            </div>
+        </xpath>
+
+        <xpath expr="//form[@class='oe_login_form']" position="attributes">
+            <attribute name="t-if">not otp_login</attribute>
+        </xpath>
+    </template>
+
+    <template id="custom_login_template" inherit_id="web.login">
+        <xpath expr="//form[@class='oe_login_form']" position="after">
+
+
+            <form t-if="otp_login and not otp" id="form_otp_login" class="oe_login_form" role="form"
+                  t-attf-action="/web/otp/login" method="post">
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                <div class="form-group field-login">
+                    <label t-attf-style="margin-bottom:10px" for="login">
+                        Email / Phone Number
+                    </label>
+                    <input type="text" placeholder="Email or Phone Number" name="login" t-att-value="login" id="login"
+                           t-attf-class="form-control #{'form-control-sm' if form_small else ''}" required="required"
+                           autofocus="autofocus" autocapitalize="off"/>
+                </div>
+                <p t-if="login_error" class="alert alert-danger" role="alert">
+                    The Email/Phone Number entered is incorrect.
+                </p>
+                <t t-if="login_error">
+                    <div class="alert alert-danger" role="alert">
+                        <t t-esc="error_message"/>
+                    </div>
+                </t>
+                
+                
+                
+                 <!--          Custom captcha-->
+                 
+                 
+                 
+ <div class="form-group text-center mt-3 mb-4 ">
+                    <label for="custom_captcha">Enter the following text:</label>
+
+                    <div style="display: flex; justify-content: center; align-items: center; gap: 10px;padding-left: 14%;">
+                        <div id="captcha_text"
+                             style="width: 150px; text-align: center; font-weight: bold; margin: 5px; font-size: 18px;
+                                                    padding: 5px 10px; border-radius: 5px; background-image: url('/sttl_otp_login/static/src/img/captcha-bg1.jpg');
+                                                    background-size: cover; background-position: center;
+                                                    display: inline-block; color:white;
+                                                    letter-spacing: 5px; text-transform: uppercase;
+                                                    user-select: none; pointer-events: none;">
+
+                        </div>
+                        <button type="button" id="refresh_captcha"
+                                style="border: none; background: none; cursor: pointer;">
+                            🔄
+                        </button>
+                    </div>
+                    <div style="display: flex; justify-content: center; margin-top: 10px;">
+                        <input type="text" id="custom_captcha" name="custom_captcha"
+                               class="form-control" required="True"
+                               style="width: 150px; text-align: center;"/>
+                    </div>
+                    <input type="hidden" id="generated_captcha"
+                           name="generated_captcha"/> <!-- Hidden field to store CAPTCHA -->
+                    <div class="help-block" id="captcha_err" style="color: red;"/>
+                </div>
+
+
+                <script>
+                    document.addEventListener("DOMContentLoaded", function () {
+                    function generateCaptcha(formId) {
+                    var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+                    var captchaLength = 5;
+                    var newCaptcha = Array.from({ length: captchaLength }, () =>
+                    characters.charAt(Math.floor(Math.random() * characters.length))
+                    ).join("");
+
+                    document.querySelector(`#${formId} #captcha_text`).innerText = newCaptcha;
+                    document.querySelector(`#${formId} #generated_captcha`).value = newCaptcha;
+
+                    <!-- console.log(`Generated CAPTCHA for ${formId}:`, newCaptcha); -->
+                    }
+
+                    function setupCaptcha(formId) {
+                    <!-- console.log(`Setting up CAPTCHA for ${formId}`); -->
+
+                    generateCaptcha(formId);
+
+                    document.querySelector(`#${formId} #refresh_captcha`).addEventListener("click", function () {
+                    <!-- console.log("CAPTCHA refresh clicked"); -->
+                    generateCaptcha(formId);
+                    });
+
+                    document.querySelector(`#${formId}`).addEventListener("submit", function (event) {
+                    var userInput = document.querySelector(`#${formId} #custom_captcha`).value.trim();
+                    var generatedCaptcha = document.querySelector(`#${formId} #generated_captcha`).value;
+                    var errorBlock = document.querySelector(`#${formId} #captcha_err`);
+
+                    <!-- console.log(`User input: ${userInput}, Expected CAPTCHA: ${generatedCaptcha}`); -->
+
+                    if (userInput !== generatedCaptcha) {
+                    event.preventDefault(); // Block form submission
+                    errorBlock.innerText = "Incorrect CAPTCHA. Please try again.";
+                    console.warn("CAPTCHA validation failed! Blocking form submission.");
+                    generateCaptcha(formId);
+                    document.querySelector(`#${formId} #custom_captcha`).value = "";
+                    } else {
+                    errorBlock.innerText = "";
+                    <!-- console.log("CAPTCHA validation passed! Form can be submitted."); -->
+                    }
+                    });
+                    }
+
+                    setupCaptcha("form_otp_login"); // Apply to the OTP form only
+                    });
+                </script>
+
+
+
+
+
+
+<!-- -->
+                
+                
+                
+                
+                
+                
+                
+                
+
+                <div class="clearfix oe_login_buttons text-center mb-1">
+                    <button style="width:100%" type="submit" class="btn btn-primary btn-block">Send OTP</button>
+                </div>
+                <div style="margin-top:10px; display:flex;">
+                    <a t-attf-href="/web/login" class="btn btn-link" role="button">
+                        Login with Password
+                    </a>
+                </div>
+            </form>
+
+            <form t-if="otp and otp_no" id="form_otp" class="oe_login_form" role="form" t-attf-action="/web/otp/verify"
+                  method="post">
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                <div class="form-group">
+                    <label t-attf-style="margin-bottom:10px" for="otp">OTP</label>
+                    <input type="text" placeholder="OTP" name="otp" id="otp"
+                           t-attf-class="form-control #{'form-control-sm' if form_small else ''}" required="required"/>
+                    <input t-att-value="login" id="login" type="hidden" name="login"/>
+
+                    <p t-attf-style="margin-top:10px; color: #6c757d; font-size: 0.9rem;">
+                        Check your SMS and email for the OTP. Also, check your spam folders. It may take up to 5
+                        minutes.
+                    </p>
+                </div>
+                <div class="clearfix oe_login_buttons text-center mb-1">
+                    <button style="width:100%" type="submit" class="btn btn-primary btn-block">Verify OTP</button>
+                </div>
+            </form>
+
+            <form t-if="otp and not otp_no" id="form_resend_otp" class="oe_login_form" role="form"
+                  t-attf-action="/web/otp/login" method="post">
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                <label t-attf-style="margin-bottom:10px" for="otp">OTP</label>
+                <input type="text" placeholder="OTP" name="otp" id="otp" pattern="\d{4}"
+                       title="OTP must be exactly 4 digits."
+                       t-attf-class="form-control #{'form-control-sm' if form_small else ''}"/>
+                <input t-att-value="login" id="login" type="hidden" name="login"/>
+                <p class="alert alert-danger" role="alert">
+                    The OTP entered is incorrect. Please use the below button to resend the OTP.
+                </p>
+                <div class="clearfix oe_login_buttons text-center mb-1">
+                    <button style="width:100%" type="submit" class="btn btn-primary btn-block">Resend OTP</button>
+                </div>
+            </form>
+        </xpath>
+    </template>
+</odoo>
+
+

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="paperformat_delivery_label" model="report.paperformat">
+        <field name="name">Delivery Label Paper Format</field>
+        <field name="default" eval="False"/>
+        <field name="format">A4</field>
+
+        <field name="orientation">Portrait</field>
+        <!--        <field name="page_height">297mm</field>  &lt;!&ndash; A4 height &ndash;&gt;-->
+        <!--        <field name="page_width">210mm</field>   &lt;!&ndash; A4 width &ndash;&gt;-->
+        <field name="margin_top">20</field>
+        <field name="margin_bottom">20</field>
+        <field name="margin_left">25</field>
+        <field name="margin_right">25</field>
+        <field name="header_spacing">5</field>
+        <field name="dpi">160</field>
+    </record>
+    <record id="delivery_label_id" model="ir.actions.report">
+        <field name="name">Print Attribute Label</field>
+        <field name="model">product.product</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">carollia_delivery_label.report_delivery_print</field>
+        <field name="report_file">carollia_delivery_label.report_delivery_print</field>
+        <field name="paperformat_id" ref="paperformat_delivery_label"/>
+        <!--        <field name="binding_model_id" ref="product.model_product_product"/> hides button in gear icon-->
+        <field name="binding_view_types">form</field>
+        <field name="binding_type">report</field>
+    </record>
+    <!--    print label button-->
+    <record id="product_product_form_inherit" model="ir.ui.view">
+        <field name="name">product.product.form.inherit.print_button</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="%(delivery_label_id)d"
+                        string="Product Label"
+                        type="action"
+                        class="btn-primary"/>
+            </xpath>
+        </field>
+    </record>
+    <!--    print label button 2nd variant page-->
+    <record id="product_product_form_inherit1" model="ir.ui.view">
+        <field name="name">product.product.form.inherit.print_button1</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_variant_easy_edit_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="%(delivery_label_id)d"
+                        string="Product Label"
+                        type="action"
+                        class="btn-primary"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
+

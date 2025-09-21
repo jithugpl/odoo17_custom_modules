@@ -1,0 +1,167 @@
+<odoo>
+
+    <template id="customisation_modal" inherit_id="website_sale.product">
+        <xpath expr="//div[@t-field='product.description_ecommerce']" position="after">
+            <!--    <xpath expr="//p[@t-field='product.description_sale']" position="before">-->
+            <!--        <xpath expr="//div[@id='product_details']/h1" position="before">-->
+
+
+            <!-- Customisation Button -->
+            <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
+                    data-bs-target="#customisationModal" style="margin-top: 10px;">
+                <i class="fa fa-cogs me-1" role="img" aria-label="Customize Product"/>
+                Customize This Product
+            </button>
+
+
+            <!-- Modal -->
+            <div class="modal fade" id="customisationModal" tabindex="-1" aria-labelledby="customisationModalLabel"
+                 aria-hidden="true">
+<!--                <div class="modal-dialog modal-lg">  &lt;!&ndash; Use modal-lg for better responsiveness &ndash;&gt;-->
+
+<!--                <div class="modal-dialog" style="max-width: 60%; width: 60%; margin: auto; display: flex; justify-content: center; align-items: center;">-->
+<!--                    <div class="modal-content">-->
+                        <div class="modal-dialog modal-lg" style="max-width: 60%; width: 60%; margin: auto; display: flex; justify-content: center; align-items: center; max-height: 90vh;">
+                        <div class="modal-content" style="width: 100%; max-height: 90vh; overflow: auto; box-sizing: border-box; padding: 10px;">
+                        <div class="modal-header">
+                            <strong>
+                                <h4 class="modal-title" id="customisationModalLabel">
+                                    <span t-field="product.name"/>
+                                </h4>
+                            </strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"/>
+                        </div>
+                        <form id="customisationForm" action="/product/customise/submit" method="post">
+                            <div class="modal-body">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <input type="hidden" name="product_id" t-att-value="product.id"/>
+                                <t t-if="product">
+                                    <div style="display: flex; justify-content: space-between; padding-left:40%; padding-right:10%;">
+                                        <div>
+                                            <img t-att-src="product.image_1920 and '/web/image/product.template/' + str(product.id) + '/image_1920' or '/web/static/src/img/placeholder.png'"
+                                                 alt="Product Image"
+                                                 style="width: 40%; height: auto; border-radius: 8px; padding-bottom:4%; padding-top:2%"/>
+                                        </div>
+                                    </div>
+                                </t>
+                                <!-- Display contact number input only for guest users -->
+                                <t t-if="request.env.user.id == request.website.user_id.id">
+                                    <div class="form-group mb-3">
+                                        <label for="contact_number">Contact Number</label>
+                                        <input type="text" name="contact_number" class="form-control"
+                                               placeholder="Enter your contact number" required="true"
+                                               pattern="^\d{10}$"
+                                               title="Please enter a valid 10-digit phone number"/>
+                                    </div>
+                                </t>
+
+                                <div class="form-group mb-3">
+                                    <label for="customisation_details">Please let us know about your requirements..
+                                    </label>
+                                    <textarea name="customisation_details" class="form-control" rows="5"
+                                              placeholder="Type here" required="True" maxlength="1000"/>
+                                </div>
+
+
+                                <!--          Custom captcha-->
+                                <div class="form-group text-center mt-3">
+                                    <label for="custom_captcha">Enter the following text:</label>
+
+                                    <div style="display: flex; justify-content: center; align-items: center; gap: 10px;padding-left: 4%;">
+                                        <div id="captcha_text"
+                                             style="width: 150px; text-align: center; font-weight: bold; margin: 5px; font-size: 18px;
+                                                    padding: 5px 10px; border-radius: 5px; background-image: url('/dv_product_customization_request/static/src/img/captcha-bg1.jpg');
+                                                    background-size: cover; background-position: center;
+                                                    display: inline-block; color: white;
+                                                    letter-spacing: 5px; text-transform: uppercase;
+                                                    user-select: none; pointer-events: none;">
+
+                                        </div>
+                                        <button type="button" id="refresh_captcha"
+                                                style="border: none; background: none; cursor: pointer;">
+                                            🔄
+                                        </button>
+                                    </div>
+                                    <div style="display: flex; justify-content: center; margin-top: 10px;">
+                                        <input type="text" id="custom_captcha" name="custom_captcha"
+                                               class="form-control" required="True"
+                                               style="width: 150px; text-align: center;"/>
+                                    </div>
+                                    <input type="hidden" id="generated_captcha"
+                                           name="generated_captcha"/> <!-- Hidden field to store CAPTCHA -->
+                                    <div class="help-block" id="captcha_err" style="color: red;"/>
+                                </div>
+
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-success">Submit</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            </div>
+                        </form>
+
+                        <script>
+
+                            document.addEventListener("DOMContentLoaded", function () {
+                            function generateCaptcha() {
+                            var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+                            var captchaLength = 5; // Length of the CAPTCHA
+
+                            var newCaptcha = Array.from({ length: captchaLength }, () =>
+                            characters.charAt(Math.floor(Math.random() * characters.length))
+                            ).join("");
+
+                            document.getElementById("captcha_text").innerText = newCaptcha;
+                            document.getElementById("generated_captcha").value = newCaptcha;
+                            }
+
+                            // Initial CAPTCHA generation
+                            generateCaptcha();
+
+                            // Refresh CAPTCHA when the button is clicked
+                            document.getElementById("refresh_captcha").addEventListener("click", function () {
+                            generateCaptcha();
+                            });
+
+                            document.getElementById("customisationForm").addEventListener("submit", function (event) {
+                            var userInput = document.getElementById("custom_captcha").value.trim();
+                            var generatedCaptcha = document.getElementById("generated_captcha").value;
+                            var errorBlock = document.getElementById("captcha_err");
+
+                            if (userInput !== generatedCaptcha) {
+                            event.preventDefault(); // Prevent form submission
+                            errorBlock.innerText = "Incorrect CAPTCHA. Please try again.";
+                            generateCaptcha(); // Generate new CAPTCHA
+                            document.getElementById("custom_captcha").value = ""; // Clear input field
+                            } else {
+                            errorBlock.innerText = ""; // Clear error if correct
+                            }
+                            });
+                            });
+
+                        </script>
+
+
+                    </div>
+                </div>
+            </div>
+
+        </xpath>
+    </template>
+
+    <template id="success_page">
+        <t t-call="website.layout">
+            <div class="container mt-5 text-center">
+                <h2>Thank You!</h2>
+                <p>Your customisation request for
+                    <strong>
+                        <t t-esc="product.name"/>
+                    </strong>
+                    has been submitted.
+                </p>
+                <a href="/" class="btn btn-primary">Go to Home</a>
+            </div>
+        </t>
+    </template>
+
+</odoo>
