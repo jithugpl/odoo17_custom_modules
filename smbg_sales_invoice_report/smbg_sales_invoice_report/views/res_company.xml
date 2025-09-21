@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="view_company_form_inherit_smbg_sales_invoice_report" model="ir.ui.view">
+        <field name="name">view.company.form.inherit.smbg.sales.invoice.report</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='currency_id']" position="after">
+                <field name="inv_terms_and_conditions"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

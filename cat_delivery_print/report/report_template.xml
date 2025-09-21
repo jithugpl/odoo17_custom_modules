@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="weblearns-layout">
+         <t t-if="not o" t-set="o" t-value="doc"/>
+
+        <t t-if="not company">
+            <!-- Multicompany -->
+            <t t-if="company_id">
+                <t t-set="company" t-value="company_id"/>
+            </t>
+            <t t-elif="o and 'company_id' in o and o.company_id.sudo()">
+                <t t-set="company" t-value="o.company_id.sudo()"/>
+            </t>
+            <t t-else="else">
+                <t t-set="company" t-value="res_company"/>
+            </t>
+        </t>
+     <div class="header">
+            <div class="row" style="report_header_style; border-bottom: 1px solid rgb(178, 190, 181); margin-bottom: 10px;">
+                <div class="col-4">
+                    <img alt="img" t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="max-height:130px;"/>
+                </div>
+                <div class="col-4">
+                </div>
+                <div class="col-4" style="color:#333333; margin-left:-10px;">
+                    <h6>
+                        <b><span style=" color:#0a2351;" t-esc="o.company_id.name.upper()"/></b>
+                    </h6>
+                    <span t-field="o.company_id.street"/>
+                    <span t-field="o.company_id.street2"/>
+                    <span t-field="o.company_id.city"/>
+                    <span t-field="o.company_id.state_id"/>
+                    <span t-field="o.company_id.country_id"/>
+                    <t t-if="o.company_id.vat">
+                        <br/>
+                        <span>TRN:
+                            <span t-field="o.company_id.vat"/>
+                        </span>
+                    </t>
+                </div>
+            </div>
+        </div>
+        <div class="article o_report_layout_standard">
+<!--         <t t-out="0"/>-->
+             <br></br>
+         <br></br>
+         <br></br>
+
+         <div class="new">
+<!--               <p><t t-out="0"/></p>-->
+         </div>
+            <div style="margin-top:-30px;">
+                <div style="margin-left:250px; color:#0a2351;">
+                    <h1>DELIVERY NOTE</h1>
+                </div>
+
+                    <div class="row"  style="color:#333333;"  >
+                                <div class="col-4">
+                                    <b>Delivery Address:</b><br></br>
+                                    <span  t-field="o.partner_id"/><br></br>
+                                    <span t-field="o.partner_id.street"/><br></br>
+                                     <span t-field="o.partner_id.street2"/>
+                                    <span t-field="o.partner_id.state_id"/><br></br>
+                                    <span t-field="o.partner_id.country_id"/> <br></br>
+                                      <span class="fa fa-phone" aria-hidden="true" t-field="o.partner_id.phone"/>
+                                </div>
+                    </div>
+                   <div class="col-4" style="margin-top:50px; margin-left:560px; margin-top:-130px; color:#333333;">
+                       <span><strong>Delivery No:</strong></span>  <span style="color:#7A1712; " t-field="o.name"></span>
+                                 <br></br>
+                                   <span><strong>Order:</strong> <span t-field="o.origin"/></span>
+                                  <br></br>
+                                <span><strong>Customer ID:</strong> <span t-field="o.partner_id.customer_id"/></span>
+                                <br></br>
+
+                                  <span><strong>Shipping Date:</strong> <span t-field="o.scheduled_date"/></span><br/><br></br>
+<!--                                  <span><strong>Carrier:</strong>-->
+<!--&lt;!&ndash;                                      <span t-field="o.scheduled_date"/>&ndash;&gt;-->
+<!--                                  </span>-->
+
+
+                   </div>
+
+
+
+
+                    <div>
+                     <style>
+
+                                table {
+                                width: 100%;
+                                border-collapse: collapse;
+                                margin-top:30px;
+                                }
+                                th, td {
+                                border: 1px solid black;
+                                padding: 8px;
+                                text-align: left;
+                                }
+                                th {
+                                color:#0a2351;
+                                text-align:center;
+                                }
+                                td{
+                                color:#333333;
+                                font:Verdana (sans-serif);
+
+
+
+                                }
+                            </style>
+                            <table>
+                                <thead >
+                                    <tr>
+                                        <th>SL NO</th>
+                                        <th>PRODUCT</th>
+                                        <th>ORDERED</th>
+                                        <th>DELIVERED</th>
+                                        <th>BARCODE</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="o. move_line_ids" t-as="line">
+                                        <tr>
+
+                                            <td><span t-esc="line_index+1"/></td>
+                                            <td><span t-esc="line.product_id.display_name"/></td>
+                                            <td><span t-esc="line.move_id.product_uom_qty"/></td>
+                                            <td><span t-esc="line.quantity"/></td>
+
+                                            <td style="color:black;"><span  t-field="line.product_id.barcode"/></td>
+
+
+                                        </tr>
+                                    </t>
+
+                                    <!-- Add more rows as needed -->
+                                </tbody>
+                            </table>
+
+                </div>
+                   <br></br>
+                            <br></br>
+                            <table class="table-borderless" style="width: 100%; border: none;">
+                <tr>
+                    <td style="text-align: left; border-right: none">
+                        Released By
+                        <br/>
+                        <br/>
+                        <br/>
+                    </td>
+                    <td style="text-align: right; border: none; " >
+                        Picking Confirmation
+                        <br/>
+                        <br/>
+                        <br/>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: left; border: none">
+<!--                        <span t-field="o.group_id.sale_id.user_id"/>-->
+                    </td>
+                    <td style="text-align: right; border: none;">
+                        <br/>
+                    </td>
+                </tr>
+                <tr >
+                    <td style="text-align: left; border: none">
+                        <span>___________________________</span>
+                    </td>
+                    <td style="text-align: right; border: none; ">
+                        <span>___________________________</span>
+                    </td>
+                </tr>
+            </table>
+           </div>
+
+        </div>
+        <div class="footer">
+            <div class="row" style="report_footer_style">
+                 <div class="text-center" style="border-bottom:2px solid black " >
+
+                 <h1></h1>
+             </div>
+
+            </div>
+            <div style="text-align:center;">
+
+
+            <span>Page </span><span class="page" />/<span class="topage" />
+            </div>
+     </div>
+
+
+
+
+    </template>
+   <template id="report_product">
+       <t t-call="web.html_container">
+           <t t-foreach="docs" t-as="doc">
+
+              <t t-call="cat_delivery_print.weblearns-layout">
+
+               <h1 t-field="doc.name"/>
+              </t>
+
+
+
+           </t>
+       </t>
+   </template>
+
+     <record id="action_report_product_template" model="ir.actions.report">
+       <field name="name">Delivery Report</field>
+       <field name="model">stock.picking</field>
+       <field name="report_type">qweb-pdf</field>
+       <field name="report_name">cat_delivery_print.report_product</field>
+       <field name="report_file">cat_delivery_print.report_product</field>
+       <field name="binding_model_id" ref="stock.model_stock_picking"/>
+       <field name="binding_type">report</field>
+   </record>
+</odoo>

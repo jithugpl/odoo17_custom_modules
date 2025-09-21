@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="purchase_order_form_inherit_construction_material_management" model="ir.ui.view">
+        <field name="name">purchase.order.form.inherit.construction.material.management</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='reminder']" position="after">
+                <field name="project_id" domain="[('partner_id', '!=', False)]" options="{'no_create': True}"/>
+                <field name="material_purchase_requisition_id" readonly="1"
+                       invisible="not material_purchase_requisition_id"/>
+
+                <!--                <field name="picking_ids" invisible="1"/>-->
+                <!--                <field name="purchase_picking_ids" widget="many2many_tags"-->
+                <!--                       domain="[('id', 'in', picking_ids), ('state', '=', 'done')]"-->
+                <!--                       options="{'no_create': True}"/>-->
+            </xpath>
+            <xpath expr="//field[@name='order_line']/tree/field[@name='price_unit']" position="after">
+                <field name="price_unit_inclusive" optional="hide"/>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/tree/field[@name='analytic_distribution']" position="before">
+                <field name="project_task_id" domain="[('project_id', '=', parent.project_id)]" optional="hide"
+                       options="{'no_create': True}" column_invisible="not parent.project_id"/>
+                <field name="requisition_line_id" column_invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

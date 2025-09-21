@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="paperformat_material_request" model="report.paperformat">
+            <field name="name">Material Request Paper Format</field>
+            <field name="default" eval="False"/>
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">40</field>
+            <field name="margin_bottom">20</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_spacing">35</field>
+            <field name="dpi">120</field>
+        </record>
+
+
+        <record id="material_request_id" model="ir.actions.report">
+            <field name="name">Material Request Print</field>
+            <field name="model">material.request</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">material_request_print.report_material_request</field>
+            <field name="report_file">material_request_print.report_material_request</field>
+            <field name="paperformat_id" ref="paperformat_material_request"/>
+            <field name="binding_model_id" ref="model_material_request"/>
+            <field name="binding_view_types">form</field>
+            <field name="binding_type">report</field>
+        </record>
+
+
+    </data>
+</odoo>

@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    #to create list view
+    <record id="view_delivery_form_tree" model="ir.ui.view">
+        <field name="name">delivery.note.tree</field>
+        <field name="model">delivery.form</field>
+        <field name="arch" type="xml">
+            <tree default_order="create_date desc">
+                <field name="delivery_no"/>
+                <field name="delivery_date"/>
+                <field name="project_name"/>
+                <field name="state" string="Status"
+                       decoration-success="state == 'draft'"
+                       decoration-info="state == 'review'"
+                       decoration-danger="state == 'dispatched'"
+                       decoration-warning="state == 'cancelled'"
+                       widget="badge"/>
+
+            </tree>
+        </field>
+    </record>
+
+    <!--kanban view    -->
+    #kanban view code
+    <record id="view_delivery_form_kanban" model="ir.ui.view">
+        <field name="name">delivery.note.kanban</field>
+        <field name="model">delivery.form</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <group>
+                    <templates>
+                        <!-- Define the template for each Kanban card -->
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_content">
+                                <!-- Primary content for the Kanban card -->
+                                <div>
+                                    <strong>
+                                        <field name="delivery_no"/>
+                                    </strong>
+                                </div>
+
+                                <div>
+                                    <field name="customer_name"/>
+                                </div>
+                                <field name="state" string="Status"
+                                       decoration-success="state == 'draft'"
+                                       decoration-info="state == 'review'"
+                                       decoration-danger="state == 'dispatched'"
+                                       decoration-warning="state == 'cancelled'"
+                                       widget="badge"/>
+
+                            </div>
+                        </t>
+                    </templates>
+                </group>
+            </kanban>
+        </field>
+    </record>
+
+    <!--form view-->
+    <record id="view_delivery_form" model="ir.ui.view">
+        <field name="name">delivery.note.form</field>
+        <field name="model">delivery.form</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_reset_to_draft" string="Reset to draft" type="object"
+                            class="btn-primary" invisible="state in ['draft','dispatch']"
+                             groups="delivery_form.group_delivery_user,delivery_form.group_delivery_manager"/>
+                    <button name="action_review" string="Review" type="object" class="btn-primary"
+                            invisible="state in ['review','dispatch','cancel']"
+                            groups="delivery_form.group_delivery_user,delivery_form.group_delivery_manager"/>
+                    <button name="action_dispatch" string="Dispatch" type="object"
+                            class="btn-primary" invisible="state in ['dispatch','draft','cancel']"
+                            groups="delivery_form.group_delivery_manager"/>
+                    <button name="action_cancel" string="Cancel"
+                            confirm="Are you sure?" type="object" class="btn-primary"
+                            invisible="state in ['cancel']"
+                            groups="delivery_form.group_delivery_manager"/>
+
+                    <field name="state" widget="statusbar" nolabel="1"
+                           statusbar_visible="draft,review,dispatch" class="btn-primary"/>
+                </header>
+
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="delivery_no" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="delivery_no"/>
+                        </group>
+                        <group>
+                            <field name="project_name" readonly="state in ['dispatch']"/>
+                        </group>
+
+                        <group>
+                            <field name="delivery_date" readonly="state in ['dispatch']"/>
+                        </group>
+                        <group>
+                            <field name="customer_name" readonly="state in ['dispatch']"/>
+                        </group>
+
+                        <group>
+                            <field name="vehicle_no" readonly="state in ['dispatch']"/>
+                        </group>
+                    </group>
+
+
+                    <notebook>
+                        <page string="order line">
+                            <field name="product_line_ids" readonly="state in ['dispatch']">
+                                <tree editable="bottom">
+                                    <field name="product_name"/>
+                                    <field name="description"/>
+                                    <field name="quantity"/>
+
+                                    <field name="rate"/>
+                                    <field name="amount"/>
+                                </tree>
+                                <form>
+                                    <group>
+                                        <field name="product_name"/>
+                                        <field name="description"/>
+                                        <field name="quantity"/>
+                                        <field name="rate"/>
+                                        <field name="amount"/>
+
+                                    </group>
+                                </form>
+                            </field>
+
+                            <div style="text-align:right; padding-top: 10px;">
+                                <h5>Total Amount:</h5>
+                                <field name="total_amount" readonly="1"/>
+                            </div>
+
+
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" groups="base.group_user"
+                           options="{'post_refresh': 'recipients'}"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    #to create search view
+    <record id="view_delivery_note_search" model="ir.ui.view">
+        <field name="name">delivery.note.search</field>
+        <field name="model">delivery.form</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="delivery_no"
+                       filter_domain="['|','|','|',('customer_name','ilike',self),('project_name','ilike',self),('delivery_date','ilike',self),('state','ilike',self)]"/>
+                <field name="customer_name"/>
+                <field name="project_name"/>
+                <field name="delivery_date"/>
+                <field name="vehicle_no"/>
+            </search>
+        </field>
+    </record>
+
+</odoo>

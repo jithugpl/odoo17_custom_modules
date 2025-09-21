@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Define a new view for the sale order form -->
+        <record id="view_sale_order_form_contact_number" model="ir.ui.view">
+            <field name="name">sale.order.form.contact.number</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <!-- Insert the 'contact' field inside the existing form view -->
+                <xpath expr="//field[@name='payment_term_id']" position="after">
+                    <field name="contact"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

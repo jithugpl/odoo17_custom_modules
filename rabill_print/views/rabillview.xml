@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="report_rabill_pdf">
+        <t t-call="web.basic_layout">
+            <t t-foreach="docs" t-as="doc">
+                <div style="margin: 20px;">
+                    <!-- Header Section -->
+                    <div class="header o_standard_header">
+                        <table width="100%" style="border-collapse: collapse;">
+                            <tr>
+                                <td width="100%" style="vertical-align: top; text-align: center;">
+                                    <img t-if="doc.company_id.company_header"
+                                         t-att-src="image_data_uri(doc.company_id.company_header)"
+                                         style="width:100%; max-height:140pt;" alt="header"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 10px;">
+                        <h2 style="font-weight: bold;  display: inline-block; padding-bottom: 5px;">
+                            Proforma Invoice
+                        </h2>
+                    </div>
+
+                    <!-- Main Content -->
+                    <div style="border: 0px solid black; margin-top: 20px; border-radius: 5px; padding: 10px;">
+
+                        <!-- Invoice and Company Details -->
+                        <table width="100%" style="border-collapse: collapse;">
+                            <tr>
+                                <td style="border-right: 1px solid black; padding: 10px; vertical-align: top;">
+                                    <span t-field="doc.company_id.name" style="font-size: 20px; color: #0f3d4d;"/>
+                                    <br/>
+                                    <span t-field="doc.company_id.street"/>
+                                    <br/>
+                                    <span t-field="doc.company_id.street2"/>
+                                    <br/>
+                                    <span t-field="doc.company_id.city"/>
+                                    -
+                                    <span t-field="doc.company_id.zip"/>
+                                    <br/>
+                                    <span t-field="doc.company_id.state_id"/>
+                                    -
+                                    <span t-field="doc.company_id.country_id"/>
+                                    <br/>
+                                    <span t-field="doc.company_id.email"/>
+                                    <br/>
+                                    <t t-if="doc.company_id.phone">
+                                        <span>Call:
+                                            <span t-field="doc.company_id.phone"/>
+                                        </span>
+                                        <br/>
+                                    </t>
+                                </td>
+                                <td style="padding: 10px;">
+                                    <h6 style="margin: 0;">INVOICE NO:</h6>
+                                    <span t-field="doc.name"/>
+                                </td>
+                                <td style="border-left: 1px solid black; padding: 10px; vertical-align: top;">
+                                    <h6 style="margin: 0;">DATE:</h6>
+                                    <t t-esc="datetime.date.today()"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border-bottom: 1px solid black; border-right: 1px solid black; border-top: 1px solid black; padding: 10px;">
+                                    <span t-field="doc.partner_id.name"/>
+                                    <br/>
+                                    <span t-field="doc.partner_id.street"/>
+                                    <br/>
+                                    <span t-field="doc.partner_id.street2"/>
+                                    <br/>
+                                    <span t-field="doc.partner_id.city"/>
+                                    -
+                                    <span t-field="doc.partner_id.zip"/>
+                                    <br/>
+                                    <span t-field="doc.partner_id.state_id"/>
+                                    -
+                                    <span t-field="doc.partner_id.country_id"/>
+                                    <br/>
+                                    <span t-field="doc.partner_id.phone"/>
+                                    <br/>
+                                </td>
+                                <td style="border: 1px solid black; padding: 10px;">
+                                    <h6 style="margin: 0;">ORDER NO:</h6>
+                                    <span t-esc="doc.sale_id.name"/>
+                                </td>
+                                <td style="border-bottom: 1px solid black; border-left: 1px solid black; border-top: 1px solid black; padding: 10px;">
+                                    <h6 style="margin: 0;">ORDER DATE:</h6>
+                                    <span t-esc="doc.date"/>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <!-- Items Table -->
+                        <div style="margin-top: -1px;">
+                            <table width="100%"
+                                   style="border-collapse: collapse; border: 1px solid black;height: 200px;">
+                                <thead>
+                                    <tr>
+                                        <th style="border: 1px solid black; text-align: center; padding: 5px; font-weight: bold;">
+                                            SlNo
+                                        </th>
+                                        <th style="border: 1px solid black; text-align: center; padding: 5px; font-weight: bold;">
+                                            Description
+                                        </th>
+                                        <th style="border: 1px solid black; text-align: center; padding: 5px; font-weight: bold;">
+                                            Quantity
+                                        </th>
+                                        <th style="border: 1px solid black; text-align: center; padding: 5px; font-weight: bold;">
+                                            Rate
+                                        </th>
+                                        <th style="border: 1px solid black; text-align: center; padding: 5px; font-weight: bold;">
+                                            Per
+                                        </th>
+                                        <th style="border: 1px solid black; text-align: center; padding: 5px; font-weight: bold;">
+                                            Amount
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-set="counter" t-value="1"/>
+                                    <t t-foreach="doc.ra_line_ids" t-as="line">
+                                        <tr>
+                                            <td style="border: 1px solid black; text-align: center; padding: 5px;">
+                                                <t t-esc="counter"/>
+                                                <t t-set="counter" t-value="counter + 1"/>
+                                            </td>
+                                            <td style="border: 1px solid black; text-align: left; padding: 5px;">
+                                                <span t-field="line.description"/>
+                                            </td>
+                                            <td style="border: 1px solid black; text-align: center; padding: 5px;">
+                                                <span t-field="line.quantity"/>
+                                            </td>
+                                            <td style="border: 1px solid black; text-align: right; padding: 5px;">
+                                                <span t-esc="line.product_id.lst_price"/>
+                                            </td>
+                                            <td style="border: 1px solid black; text-align: center; padding: 5px;">
+                                                NOS
+                                            </td>
+                                            <td style="border: 1px solid black; text-align: right; padding: 5px;">
+                                                <span t-esc="line.quantity * line.product_id.lst_price"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                    <tr>
+                                        <td colspan="2" style="border: 1px solid black; padding: 5px;"></td>
+                                        <td style="border: 1px solid black; text-align: center; padding: 5px; font-weight: bold;">
+                                            Total:
+                                            <span t-esc="sum(line.quantity for line in doc.ra_line_ids)"/>
+                                        </td>
+                                        <td colspan="3"
+                                            style="border: 1px solid black; text-align: right; padding: 5px; font-weight: bold;">
+                                            <span t-esc="sum(line.quantity * line.product_id.lst_price for line in doc.ra_line_ids)"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Additional Information -->
+                        <table width="100%" cellpadding="5"
+                               style="margin-top: 0px; border-top: 1px solid white; border-collapse: collapse;height:200px;">
+                            <tr>
+                                <td style="padding: 10px; vertical-align: top;">
+                                    <h6>Company Details</h6>
+                                    <h6>Bank Name:
+                                        <t t-if="doc.company_id.partner_id.bank_ids">
+                                            <t t-foreach="doc.company_id.partner_id.bank_ids" t-as="bank">
+                                                <span t-esc="bank.bank_id.name"/>
+                                            </t>
+                                        </t>
+                                        <t t-else="">
+                                            <span>No bank details available</span>
+                                        </t>
+                                    </h6>
+                                    <h6>ADDRESS:
+                                        <t t-if="doc.company_id.partner_id.bank_ids">
+                                            <t t-foreach="doc.company_id.partner_id.bank_ids" t-as="bank">
+                                                <span t-esc="bank.street or 'No address available'"/>
+                                            </t>
+                                        </t>
+                                        <t t-else="">
+                                            <span>No address available</span>
+                                        </t>
+                                    </h6>
+                                    <h6>ACCOUNT NO:
+                                        <t t-if="doc.company_id.partner_id.bank_ids">
+                                            <t t-foreach="doc.company_id.partner_id.bank_ids" t-as="bank">
+                                                <span t-esc="bank.acc_number"/>
+                                            </t>
+                                        </t>
+                                        <t t-else="">
+                                            <span>No account number available</span>
+                                        </t>
+                                    </h6>
+                                </td>
+                                <td style="padding: 10px; vertical-align: top;">
+                                    <h6>Amount Chargable (in words):</h6>
+                                    <h6 style="font-weight: bold;">
+                                        <span t-esc="doc.amount_to_words(sum(line.quantity * line.product_id.lst_price for line in doc.ra_line_ids))"/>
+                                    </h6>
+                                    <h6>Remarks:</h6>
+                                    <h6>INVOICE MADE FOR CC</h6>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <!-- Footer Section -->
+                        <div style="border-top: 0px solid black; margin-top: -10px; padding-top: 10px;">
+                            <table width="100%" style="border-collapse: collapse;height:90px;">
+                                <tr>
+                                    <td width="50%" style="border-right: 1px solid black; padding: 10px;">
+                                        <h6 style="margin: 0;">Customer Seal and Signature</h6>
+                                    </td>
+                                    <td width="50%" style="padding: 10px; text-align: center;">
+                                        <div style="display: flex; justify-content: space-between;">
+                                            <h6 style="display: inline-block;  padding: 5px;">Prepared By</h6>
+                                            <h6 style="display: inline-block;  padding: 5px;">Verified By</h6>
+                                            <h6 style="display: inline-block;  padding: 5px;">Approved By</h6>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Page Numbers -->
+                    <div style="text-align: center; margin-top: 20px;">
+                        <span class="page"/>
+                        <span class="topage"/>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>
+
+
+
+
+
+
+
+
+

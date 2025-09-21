@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="material_purchase_requisition_tree_view" model="ir.ui.view">
+        <field name="name">Material Purchase Requisition Tree View</field>
+        <field name="model">material.purchase.requisition</field>
+        <field name="arch" type="xml">
+            <tree string="Purchase Requisition">
+                <field name="name" decoration-bf="1"/>
+                <field name="project_id" decoration-bf="1"/>
+                <field name="created_on"/>
+                <field name="state" widget="badge" decoration-info="state == 'draft'"
+                       decoration-success="state == 'bidding'" decoration-danger="state == 'cancel'"
+                       decoration-primary="state == 'confirm'" decoration-warning="state == 'approve'"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="material_purchase_requisition_form_view" model="ir.ui.view">
+        <field name="name">Material Purchase Requisition Form View</field>
+        <field name="model">material.purchase.requisition</field>
+        <field name="arch" type="xml">
+            <form string="Purchase Requisition">
+                <header>
+                    <button class="btn btn-primary" name="button_confirm" type="object" string="Confirm"
+                            invisible="state != 'draft'"
+                            groups="construction_material_management.material_purchase_requisition_user"/>
+                    <button class="btn btn-primary" name="button_approve" type="object" string="Approve"
+                            invisible="state != 'confirm'"
+                            groups="construction_material_management.material_purchase_requisition_manager"/>
+                    <button class="btn btn-primary" name="button_create_rfq" type="object" string="Create RFQ"
+                            invisible="state != 'approve'"
+                            groups="construction_material_management.purchase_requisition_create_rfq_visibility"/>
+                    <button class="btn btn-light" name="button_close" type="object" string="Close"
+                            invisible="state != 'bidding'"
+                            groups="construction_material_management.material_purchase_requisition_admin"/>
+                    <button class="btn btn-danger" name="button_cancel" type="object" string="Cancel"
+                            invisible="state not in ['draft', 'confirm', 'approve']"/>
+                    <button class="btn btn-light" name="button_reset" type="object" string="Reset To Draft"
+                            invisible="state != 'cancel'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirm,approve"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" type="object" icon="fa-book"
+                                name="action_show_po" string="RFQ" invisible="not rfq_count">
+                        </button>
+                        <field name="rfq_count" invisible="1"/>
+                    </div>
+                    <div class="oe_title mb24">
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="purchase_requisition_type" invisible="1"/>
+                            <field name="project_id" domain="[('partner_id', '!=', False)]"
+                                   options="{'no_create': True, 'no_quick_create':True}"
+                                   readonly="state not in ['draft', 'confirm']"/>
+                            <field name="picking_ids" widget="many2many_tags"
+                                   domain="[('project_id', '=', project_id), ('state', 'in', ['waiting', 'confirmed', 'assigned'])]"
+                                   options="{'no_create': True, 'no_quick_create':True}"
+                                   readonly="state not in ['draft', 'confirm'] or not project_id"
+                                   invisible="purchase_requisition_type != 'transfer'"/>
+                            <field name="task_ids" widget="many2many_tags"
+                                   domain="[('project_id', '=', project_id), ('stage_id.in_progress', '=', True)]"
+                                   options="{'no_create': True, 'no_quick_create':True}"
+                                   readonly="state not in ['draft', 'confirm'] or not project_id"
+                                   invisible="purchase_requisition_type != 'cost_bom'"/>
+                            <field name="cost_bom_ids" widget="many2many_tags"
+                                   domain="[('task_id', 'in', task_ids), ('state', 'in', ['approved'])]"
+                                   options="{'no_create': True, 'no_quick_create':True}"
+                                   readonly="state not in ['draft', 'confirm'] or not task_ids"
+                                   invisible="purchase_requisition_type != 'cost_bom'"/>
+                            <span class="o_form_label o_td_label" name="requisition_product_ids">
+                                <button name="get_requisition_products" string="Add Products"
+                                        type="object" class="oe_stat_button" icon="fa-download"
+                                        invisible="state not in ['draft', 'confirm']"/>
+                            </span>
+                        </group>
+                        <group>
+                            <field name="company_id" invisible="1"/>
+                            <field name="created_on" readonly="state not in ['draft', 'confirm']"/>
+                            <span class="o_form_label o_td_label" name="requisition_vendor_ids">
+                                <b>Vendors</b>
+                            </span>
+                            <div class="o_address_format">
+                                <field name="vendor_ids" widget="many2many_tags"
+                                       options="{'no_create': True, 'no_quick_create':True}"
+                                       readonly="state not in ['draft', 'confirm', 'approve']"/>
+                                <button name="apply_vendors" string="Add Vendors" type="object" class="oe_stat_button"
+                                        icon="fa-download" invisible="state not in ['draft', 'confirm', 'approve']"/>
+                            </div>
+                            <field name="stock_picking_id" readonly="1" invisible="not stock_picking_id"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="purchase_requisition_line" string="Requisition Lines">
+                            <button name="action_select_all" type="object" class="oe_stat_button" icon="fa-check"
+                                    invisible="state not in ['draft', 'confirm']"/>
+                            <button name="action_deselect_all" type="object" class="oe_stat_button" icon="fa-times"
+                                    invisible="state not in ['draft', 'confirm']"/>
+                            <field name="requisition_line_ids" readonly="state not in ['draft', 'confirm']">
+                                <tree create="0" editable="1">
+                                    <field name="is_select"/>
+                                    <field name="task_id" readonly="1" optional="hide"
+                                           column_invisible="parent.purchase_requisition_type != 'cost_bom'"/>
+                                    <field name="cost_bom_line_id" readonly="1" optional="hide"
+                                           column_invisible="parent.purchase_requisition_type != 'cost_bom'"/>
+                                    <field name="picking_id" readonly="1" optional="hide"
+                                           column_invisible="parent.purchase_requisition_type != 'transfer'"/>
+                                    <field name="product_id" options="{'no_create': True, 'no_quick_create':True}"
+                                           readonly="1"/>
+                                    <field name="bom_avl_quantity" readonly="1" optional="hide"
+                                           column_invisible="parent.purchase_requisition_type != 'cost_bom'"
+                                           groups="construction_material_management.purchase_requisition_bom_qty_visibility"/>
+                                    <field name="transfer_avl_quantity" readonly="1" optional="hide"
+                                           column_invisible="parent.purchase_requisition_type != 'transfer'"/>
+                                    <field name="bom_requested_qty"
+                                           column_invisible="parent.purchase_requisition_type != 'cost_bom'"/>
+                                    <!--                                    <field name="additional_qty" readonly="parent.state not in ['draft', 'confirm']"-->
+                                    <!--                                           column_invisible="parent.purchase_requisition_type != 'cost_bom'"-->
+                                    <!--                                           optional="hide"/>-->
+                                    <!--                                    <field name="qty_bom"-->
+                                    <!--                                           column_invisible="parent.purchase_requisition_type != 'cost_bom'"/>-->
+                                    <field name="qty"
+                                           column_invisible="parent.purchase_requisition_type != 'transfer'"/>
+                                    <field name="po_qty" optional="hide"/>
+                                    <field name="uom" options="{'no_create': True, 'no_quick_create':True}"
+                                           readonly="1"/>
+                                    <field name="vendor_ids" widget="many2many_tags"
+                                           options="{'no_create': True, 'no_quick_create':True}"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="material_purchase_requisition_action" model="ir.actions.act_window">
+        <field name="name">Purchase Requisition</field>
+        <field name="res_model">material.purchase.requisition</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'tree', 'view_id': ref('material_purchase_requisition_tree_view')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('material_purchase_requisition_form_view')})]"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new purchase requisition!
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="material_purchase_requisition_menu"
+              name="Purchase Requisition"
+              parent="purchase.menu_procurement_management"
+              action="material_purchase_requisition_action"
+              groups="construction_material_management.material_purchase_requisition_user"
+              sequence="7"/>
+
+</odoo>

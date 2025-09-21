@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="amendment_request_id" model="ir.actions.report">
+        <field name="name">Print</field>
+        <field name="model">amendment.request</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">Amendment_Request_Print.report_amendment_request</field>
+        <field name="report_file">Amendment_Request_Print.report_amendment_request</field>
+        <field name="binding_model_id" ref="model_amendment_request"/>
+        <field name="binding_view_types">form</field>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

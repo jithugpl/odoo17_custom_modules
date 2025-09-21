@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="view_material_request_tree" model="ir.ui.view">
+        <field name="name">material.request.tree</field>
+        <field name="model">material.request</field>
+        <field name="arch" type="xml">
+            <tree string="Material Request">
+                <field name="name" decoration-bf="1"/>
+                <field name="date"/>
+                <field name="project_id"/>
+                <field name="task_id"/>
+                <field name="state" decoration-info="state == 'draft'"
+                       decoration-success="state == 'approved'" decoration-danger="state == 'cancelled'"
+                       decoration-warning="state == 'in_review'" widget="badge"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_material_request_form" model="ir.ui.view">
+        <field name="name">material.request.form</field>
+        <field name="model">material.request</field>
+        <field name="arch" type="xml">
+            <form string="Material Request">
+                <header>
+                    <button name="action_in_review" string="Review" type="object" class="oe_highlight"
+                            invisible="state not in ['draft']"
+                            groups="construction_material_management.material_request_manager"/>
+                    <button name="action_approve" string="Approve" type="object" class="oe_highlight"
+                            invisible="state not in ['in_review']"
+                            groups="construction_material_management.material_request_admin"/>
+                    <button name="action_reset" string="Reset to Draft" type="object"
+                            invisible="state not in ['cancelled']"
+                            groups="construction_material_management.material_request_admin"/>
+                    <button name="action_cancel" string="Cancel" type="object" invisible="state == 'cancelled'"
+                            groups="construction_material_management.material_request_admin"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,in_review,approved"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="button_open_picking" type="object"
+                                class="oe_stat_button" icon="fa-truck" invisible="not transfer_count">
+                            <field name="transfer_count" widget="statinfo" string="Transfers"/>
+                        </button>
+                    </div>
+                    <div class="oe_title mb24">
+                        <h1>
+                            <field class="text-break" name="name" default_focus="1" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="project_id" readonly="state not in ['draft', 'in_review']"
+                                   domain="[('partner_id', '!=', False)]" options="{'no_create': True}" required="1"/>
+                            <field name="task_id" readonly="state not in ['draft', 'in_review'] or not project_id"
+                                   domain="[('project_id', '=', project_id), ('stage_id.in_progress', '=', True)]"
+                                   options="{'no_create': True}"
+                                   required="1"/>
+                            <field name="cost_bom_ids" widget="many2many_tags"
+                                   readonly="state not in ['draft', 'in_review'] or not task_id"
+                                   domain="[('state', '=', 'approved'), ('task_id', '=', task_id)]"
+                                   options="{'no_create': True}" required="1"/>
+                        </group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="date" readonly="1"/>
+                            <field name="expected_date" readonly="state not in ['draft', 'in_review']"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="bom_line" string="BOM Lines">
+                            <button name="action_select_all" type="object" class="oe_stat_button" icon="fa-check"
+                                    invisible="state not in ['draft', 'in_review']"/>
+                            <button name="action_deselect_all" type="object" class="oe_stat_button" icon="fa-times"
+                                    invisible="state not in ['draft', 'in_review']"/>
+                            <field name="material_request_line_ids" readonly="state not in ['draft', 'in_review']">
+                                <tree create="0" editable="1">
+                                    <field name="is_true" column_invisible="1"/>
+                                    <field name="is_select"/>
+                                    <field name="bom_line_id" readonly="1" force_save="1" decoration-bf="1"
+                                           decoration-success="is_true" decoration-danger="not is_true"
+                                           optional="hide"/>
+                                    <field name="product_id" readonly="1" force_save="1" decoration-bf="1"
+                                           decoration-success="is_true" decoration-danger="not is_true"/>
+                                    <field name="uom_id" readonly="1" force_save="1"
+                                           decoration-success="is_true" decoration-danger="not is_true"/>
+                                    <field name="avl_quantity" readonly="1" force_save="1"
+                                           decoration-success="is_true" decoration-danger="not is_true"
+                                           optional="hide"/>
+                                    <field name="quantity" decoration-success="is_true"
+                                           decoration-danger="not is_true"/>
+                                    <field name="cost" decoration-success="is_true" decoration-danger="not is_true"
+                                           column_invisible="1"/>
+                                    <field name="total" decoration-success="is_true" decoration-danger="not is_true"
+                                           column_invisible="1"/>
+                                </tree>
+                            </field>
+                            <field name="note" placeholder="Note..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" groups="base.group_user"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_material_request" model="ir.actions.act_window">
+        <field name="name">Material Request</field>
+        <field name="res_model">material.request</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new material request!
+            </p>
+        </field>
+    </record>
+
+    <menuitem
+            id="menu_material_request"
+            name="Material Request"
+            parent="menu_transition_root"
+            action="action_material_request"
+            groups="construction_material_management.material_request_user"
+            sequence="5"/>
+</odoo>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="view_stock_picking_inherit_construction_material_management_form" model="ir.ui.view">
+        <field name="name">view.stock.picking.inherit.construction.material.management.form</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='origin']" position="after">
+                <field name="project_id" invisible="not project_id"/>
+                <field name="task_id" readonly="1" invisible="not task_id"/>
+                <field name="material_request_id" readonly="1" invisible="not material_request_id"/>
+                <field name="amendment_request_id" readonly="1" invisible="not amendment_request_id"/>
+                <field name="show_purchase_requisition" invisible="1"/>
+                <field name="purchase_id" invisible="1"/>
+                <field name="supplier_reference" invisible="not purchase_id" required="purchase_id"/>
+                <field name="is_manufacture_order" invisible="1"/>
+                <field name="inv_bill_generated" invisible="not inv_bill_generated" readonly="1"/>
+            </xpath>
+            <xpath expr="//form/sheet/notebook/page/field/tree/field[@name='company_id']" position="after">
+                <field name="analytic_account_id" column_invisible="1"/>
+                <field name="is_manufacture" column_invisible="1"/>
+            </xpath>
+            <xpath expr="//form/sheet/notebook/page/field/tree/field[@name='quantity']" position="after">
+                <field name="requisition_quantity" column_invisible="1"/>
+                <!--                <field name="requisition_quantity" readonly="1" optional="hide"/>-->
+            </xpath>
+            <xpath expr="//form/sheet/div[@name='button_box']" position="inside">
+                <button name="button_manufacture" type="object"
+                        class="oe_stat_button" icon="fa-wrench"
+                        invisible="not manufacture_count">
+                    <field name="manufacture_count" widget="statinfo" string="Manufacture"/>
+                </button>
+                <button name="action_show_requisition" type="object"
+                        class="oe_stat_button" icon="fa-list" invisible="not purchase_requisition_count">
+                    <field name="purchase_requisition_count" widget="statinfo" string="Purchase Requisition"/>
+                </button>
+            </xpath>
+            <xpath expr="//header" position="inside">
+                <button name="action_manufacture" string="Manufacture Request" type="object" class="oe_highlight"
+                        invisible="1"/>
+                <button name="action_create_purchase_requisition" string="Purchase Requisition" type="object"
+                        class="oe_highlight" invisible="1"/>
+                <!--                <button name="action_manufacture" string="Manufacture Request" type="object" class="oe_highlight"-->
+                <!--                        invisible="state in ['draft', 'done', 'cancel'] or not is_manufacture_order"-->
+                <!--                        groups="construction_material_management.material_request_admin"/>-->
+                <!--                <button name="action_create_purchase_requisition" string="Purchase Requisition" type="object"-->
+                <!--                        class="oe_highlight" invisible="not show_purchase_requisition"-->
+                <!--                        groups="construction_material_management.material_request_admin"/>-->
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_res_company_inherit_construction_material_management_form" model="ir.ui.view">
+        <field name="name">view.res.company.inherit.construction.material.management.form</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='color']" position="after">
+                <field name="operational_type_id"/>
+                <field name="manufacture_operational_type_id"/>
+                <field name="purchase_requisition_type"/>
+                <field name="site_material_transfer_journal_id"/>
+                <field name="site_material_transfer_credit_account_id"/>
+                <field name="site_material_transfer_debit_account_id"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="view_running_bill_tree" model="ir.ui.view">
+        <field name="name">running.bill.tree</field>
+        <field name="model">running.bill</field>
+        <field name="arch" type="xml">
+            <tree string="Running Bill">
+                <field name="name"/>
+                <field name="ra_sequence"/>
+                <field name="partner_id"/>
+                <field name="date"/>
+                <field name="sale_id"/>
+                <field name="project_id"/>
+                <field name="state" decoration-warning="state == 'draft'"
+                       decoration-success="state == 'done'" decoration-danger="state == 'cancelled'" widget="badge"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_running_bill_form" model="ir.ui.view">
+        <field name="name">running.bill.form</field>
+        <field name="model">running.bill</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_done" string="Done" type="object" class="oe_highlight"
+                            invisible="state not in ['draft']"
+                            groups="ra_bill.running_bill_manager"/>
+                    <button name="action_reset" string="Reset to Draft" type="object"
+                            invisible="state not in ['cancelled']"
+                            groups="ra_bill.running_bill_admin"/>
+                    <button name="action_cancel" string="Cancel" type="object" invisible="state == 'cancelled'"
+                            groups="ra_bill.running_bill_admin"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_title mb24">
+                        <h1>
+                            <field class="text-break" name="name" default_focus="1" readonly="1"/>
+                        </h1>
+                        <h1 invisible="not ra_sequence">
+                            <field class="text-break" name="ra_sequence" default_focus="1" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="project_id" readonly="state != 'draft'"
+                                   domain="[('partner_id', '!=', False)]" options="{'no_create': True}" required="1"/>
+                            <field name="partner_id"/>
+                            <field name="project_sale_ids" widget="many2many_tags" invisible="1"/>
+                            <field name="sale_id" domain="[('id', 'in', project_sale_ids)]" readonly="state != 'draft'"
+                                   options="{'no_create': True}"/>
+                        </group>
+                        <group>
+                            <field name="date" readonly="1"/>
+                            <field name="order_type" readonly="state != 'draft'" required="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="ra_line" string="RA Lines">
+                            <button name="action_get_product" string="Get Product" type="object"
+                                    invisible="state != 'draft'"/>
+                            <field name="ra_line_ids" readonly="state not in ['draft']">
+                                <tree editable="bottom" create="0">
+                                    <field name="product_id" readonly="1"/>
+                                    <field name="description" optional="show"/>
+                                    <field name="quantity" readonly="1"/>
+                                    <field name="present_quantity"/>
+                                    <field name="previous_quantity" readonly="1"/>
+                                    <field name="previous_amount" readonly="1"
+                                           groups="ra_bill.group_show_ra_bill_amount"/>
+                                    <field name="cum_quantity" sum="Sum of Cumulative Quantity"/>
+                                    <field name="sale_line_id" column_invisible="1"/>
+                                    <field name="uom_id" optional="hide" readonly="1"/>
+                                    <field name="unit_price" readonly="1"
+                                           groups="ra_bill.group_show_ra_bill_amount"/>
+                                    <field name="total" sum="Sum of Total"
+                                           groups="ra_bill.group_show_ra_bill_amount"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" groups="base.group_user"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_running_bill" model="ir.actions.act_window">
+        <field name="name">Running Bill</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">running.bill</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+            id="menu_ra_bill_root"
+            name="RA Bill"
+            parent="construction_material_management.menu_transition_root"
+            action="action_running_bill"
+            groups="ra_bill.running_bill_user"
+            sequence="6"/>
+</odoo>

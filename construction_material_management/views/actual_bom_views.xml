@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="view_actual_bom_tree" model="ir.ui.view">
+        <field name="name">actual.bom.tree</field>
+        <field name="model">actual.bom</field>
+        <field name="arch" type="xml">
+            <tree string="Cost BOM">
+                <field name="name" decoration-bf="1"/>
+                <field name="bom_reference" decoration-bf="1" decoration-primary="1" optional="hide"/>
+                <field name="partner_id"/>
+                <field name="date"/>
+                <field name="project_id"/>
+                <field name="task_id"/>
+                <field name="reviewed_user_id" optional="hide"/>
+                <field name="review_date" optional="hide"/>
+                <field name="approved_user_id" optional="hide"/>
+                <field name="approve_date" optional="hide"/>
+                <field name="actual_total_amount" optional="hide" decoration-bf="1"/>
+                <field name="state" decoration-warning="state == 'in_review'" decoration-primary="state == 'verified'"
+                       decoration-success="state == 'approved'" decoration-danger="state == 'revised'"
+                       decoration-info="state == 'cancelled'" widget="badge"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_actual_bom_form" model="ir.ui.view">
+        <field name="name">actual.bom.form</field>
+        <field name="model">actual.bom</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_in_review" string="Review" type="object" class="oe_highlight"
+                            invisible="state not in ['draft']" groups="construction_material_management.cost_bom_user"/>
+                    <button name="action_verify" string="Verify" type="object" class="oe_highlight"
+                            invisible="state not in ['in_review']"
+                            groups="construction_material_management.cost_bom_user_verify"/>
+                    <button name="action_approve" string="Approve" type="object" class="oe_highlight"
+                            invisible="state not in ['verified']"
+                            groups="construction_material_management.cost_bom_manager"/>
+                    <button name="action_revision" string="Revision" type="object" invisible="state not in ['approved']"
+                            class="oe_highlight" groups="construction_material_management.cost_bom_admin"/>
+                    <button name="action_reset" string="Reset to Draft" type="object"
+                            invisible="state not in ['cancelled']"/>
+                    <button name="action_cancel" string="Cancel" type="object"
+                            invisible="state in ['revised', 'cancelled']"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,in_review,verified,approved"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" bg_color="text-bg-warning" title="In Review"
+                            invisible="state != 'in_review'"/>
+                    <widget name="web_ribbon" bg_color="text-bg-primary" title="Verified"
+                            invisible="state != 'verified'"/>
+                    <widget name="web_ribbon" bg_color="text-bg-success" title="Approved"
+                            invisible="state != 'approved'"/>
+                    <widget name="web_ribbon" bg_color="text-bg-danger" title="Revised"
+                            invisible="state != 'revised'"/>
+                    <widget name="web_ribbon" bg_color="text-bg-info" title="Cancelled"
+                            invisible="state != 'cancelled'"/>
+                    <div class="oe_title mb24">
+                        <h1>
+                            <field class="text-break" name="name" default_focus="1" readonly="1"/>
+                        </h1>
+                        <h2 invisible="not bom_reference">
+                            <field class="text-break" name="bom_reference" default_focus="1" decoration-primary="1"
+                                   readonly="1"/>
+                        </h2>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="company_id" invisible="1"/>
+                            <field name="project_id" readonly="state != 'draft'"
+                                   domain="[('partner_id', '!=', False)]" options="{'no_create': True}" required="1"/>
+                            <field name="task_id" readonly="state != 'draft' or not project_id"
+                                   domain="[('project_id', '=', project_id)]" options="{'no_create': True}"
+                                   required="1"/>
+                            <field name="reviewed_user_id" invisible="1"/>
+                            <field name="review_date" invisible="1"/>
+                            <field name="verified_user_id" invisible="1"/>
+                            <field name="verify_date" invisible="1"/>
+                            <field name="approved_user_id" invisible="1"/>
+                            <field name="approve_date" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="date" readonly="1"/>
+                            <field name="work_order_product_id" invisible="not work_order_product_id"/>
+                            <field name="work_order_qty" invisible="not work_order_qty"/>
+                            <field name="work_order_uom_id" invisible="not work_order_uom_id"/>
+                            <field name="work_order_price" invisible="not work_order_price"/>
+                            <field name="revision_reason" invisible="state not in ['approved', 'revised']"
+                                   readonly="state != 'approved'"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="bom_line" string="Material">
+                            <button name="action_select_all" type="object" class="oe_stat_button" icon="fa-check"
+                                    invisible="state != 'draft'"/>
+                            <button name="action_select" type="object" class="oe_stat_button" icon="fa-times"
+                                    invisible="state != 'draft'"/>
+                            <field name="bom_line_ids" readonly="state != 'draft'">
+                                <tree editable="bottom">
+                                    <field name="is_select"/>
+                                    <field name="product_id" decoration-bf="1" options="{'no_create': True}"
+                                           domain="[('project_item_type', '=', 'material')]"/>
+                                    <field name="previous_quantity" readonly="1" optional="hide"
+                                           column_invisible="not parent.bom_reference"/>
+                                    <field name="quantity"/>
+                                    <field name="balance_quantity" force_save="1" readonly="1" optional="hide"/>
+                                    <field name="mr_used_quantity" readonly="1" optional="hide"/>
+                                    <field name="requisition_balance_quantity" force_save="1" readonly="1"
+                                           optional="hide"/>
+                                    <field name="pr_used_quantity" readonly="1" optional="hide"/>
+                                    <field name="uom_id"/>
+                                    <field name="cost"/>
+                                    <field name="total" sum="Total" decoration-bf="1"/>
+                                </tree>
+                            </field>
+                            <group name="cost_bom_total">
+                                <group class="oe_subtotal_footer" string="Cost BOM" name="cost_bom_total_group">
+                                    <field name="actual_material_total"/>
+                                    <field name="actual_labour_total"/>
+                                    <field name="actual_overhead_total"/>
+                                    <field name="actual_other_total"/>
+                                    <field name="actual_total_amount" decoration-bf="1"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page name="cost_bom_labour_line" string="Labour">
+                            <field name="labour_line_ids" readonly="state != 'draft'">
+                                <tree editable="bottom">
+                                    <field name="product_id" decoration-bf="1" options="{'no_create': True}"
+                                           domain="[('project_item_type', '=', 'labour')]"/>
+                                    <field name="quantity"/>
+                                    <field name="uom_id"/>
+                                    <field name="cost"/>
+                                    <field name="total" sum="Total" decoration-bf="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="cost_bom_overhead_line" string="Overhead">
+                            <field name="overhead_line_ids" readonly="state != 'draft'">
+                                <tree editable="bottom">
+                                    <field name="product_id" decoration-bf="1" options="{'no_create': True}"
+                                           domain="[('project_item_type', '=', 'overhead')]"/>
+                                    <field name="quantity"/>
+                                    <field name="uom_id"/>
+                                    <field name="cost"/>
+                                    <field name="total" sum="Total" decoration-bf="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="cost_bom_subcontract_line" string="Subcontract">
+                            <field name="subcontract_line_ids" readonly="state != 'draft'">
+                                <tree editable="bottom">
+                                    <field name="product_id" decoration-bf="1" options="{'no_create': True}"
+                                           domain="[('project_item_type', '=', 'other')]"/>
+                                    <field name="quantity"/>
+                                    <field name="uom_id"/>
+                                    <field name="cost"/>
+                                    <field name="total" sum="Total" decoration-bf="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" groups="base.group_user"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_actual_bom" model="ir.actions.act_window">
+        <field name="name">Cost BOM</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">actual.bom</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+            id="menu_transition_root"
+            name="Transactions"
+            parent="project.menu_main_pm"
+            groups="construction_material_management.cost_bom_user,construction_material_management.amendment_request_user,construction_material_management.material_request_user"
+            sequence="6"/>
+
+    <menuitem
+            id="menu_actual_bom"
+            name="Cost BOM"
+            parent="menu_transition_root"
+            action="action_actual_bom"
+            groups="construction_material_management.cost_bom_user"
+            sequence="4"/>
+</odoo>

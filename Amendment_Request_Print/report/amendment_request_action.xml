@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="cost_header">
+        <!--        variable creation-->
+        <t t-if="not o" t-set="o" t-value="doc"/>
+        <t t-if="not company">
+            <!--            multicompany-->
+            <t t-if="company_id">
+                <t t-set="company" t-value="company_id"/>
+            </t>
+            <t t-elif="o and 'company_id' in o and o.company_id.sudo()">
+                <t t-set="company" t-value="o.company_id.sudo()"/>
+            </t>
+            <t t-else="else">
+                <t t-set="company" t-value="res_company"/>
+            </t>
+        </t>
+        <!--        variable creation ends here-->
+        <div class="header">
+
+            <div class="row" style="report_header_style; border-bottom: 2px solid black;" >
+                <div class="col-4 mt-2">
+                    <img alt="img" t-if="company.logo" t-att-src="image_data_uri(company.logo)"
+                         style="max-height:90px;  mb-2"/>
+                 <div>
+                <h5>Amendment Request No:
+                        <span t-esc="o.name"></span>
+                </h5>
+                 </div>
+
+
+                </div>
+                <div class="col-4"></div>
+                <div class="col-4">
+                   <h5><strong><span t-field="res_company.partner_id.name"/></strong></h5>
+                    <h6><span t-field="res_company.partner_id.street"/></h6>
+                    <h6><span t-field="res_company.partner_id.city"/></h6>
+                    <h6><span t-field="res_company.partner_id.mobile"/></h6>
+                    <h6><span t-field="res_company.partner_id.email"/></h6>
+                </div>
+            </div>
+
+        </div>
+        <div class="article o_report_layout_standard">
+            <t t-out="0"/>
+        </div>
+        <div class="footer o_standard_footer" style="margin-bottom:10px;">
+            <div class="row" style="border-top: 2px">
+                <div class="col-6">
+
+
+                        <span>Printed Time: </span> <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/>
+
+                    <h6>User:
+                        <span t-esc="user.name"/>
+                    </h6>
+                </div>
+                <div class="col-6">
+                    <div class="pageno" >
+                          <span t-esc="0" class="page " style="mt-3"/>
+        /
+        <span class="topage"/>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </template>
+    <template id="report_amendment_request">
+         <t t-call="web.html_container">
+             <t t-foreach="docs" t-as="o">
+                  <t t-call="Amendment_Request_Print.cost_header">
+<!--                <t t-call="web.external_layout">-->
+                     <div class="page" >
+                        <div class="content" >
+                            <br></br>
+
+                            <style>
+                                h1{
+                                margin-top:100px;
+                                }
+
+                                table.table-bordered {
+                                    border: 1px solid black;
+                                }
+                                table.table-bordered th, table.table-bordered td {
+                                    border: 1px solid black;
+                                }
+                                .inline-reason {
+                                    display: inline;
+                                 }
+
+                            </style>
+                         <h1 class="text-center ">
+                         <strong>Amendment Request</strong>
+                         </h1>
+                             <div class="row mt-5">
+                                <div class="col-6 ">
+<!--                                    <h5>Amendment Request No:-->
+<!--                                        <span t-esc="o.name"></span>-->
+<!--                                    </h5>-->
+<!--                                    <table>-->
+<!--                                        <tr>-->
+<!--                                            <h5>Date:</h5>-->
+<!--                                            <span t-esc="o.date"></span>-->
+<!--                                        </tr>-->
+
+<!--                                        <tr>-->
+<!--                                             <h5>Task: </h5>-->
+<!--                                             <span t-esc="o.task_id.name"></span>-->
+
+<!--                                        </tr>-->
+<!--                                         <tr>-->
+<!--                                            <h5>Reason: </h5>-->
+<!--                                             <span t-esc="o.note" ></span>-->
+<!--                                         </tr>-->
+
+<!--                                </table>-->
+                                    <div>
+                                    <style>
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+
+}
+</style>
+
+                                    <table style="width:200%">
+
+  <tr>
+    <td>Date</td>
+    <td style="margin-left:10px;"> <span t-esc="o.date"></span></td>
+
+  </tr>
+  <tr>
+    <td>Task</td>
+    <td> <span t-esc="o.task_id.name"></span></td>
+
+  </tr>
+  <tr>
+    <td>Reason</td>
+    <td>  <span t-esc="o.note" ></span></td>
+
+  </tr>
+</table>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-6"></div>
+                            </div>
+                        </div>
+                     </div>
+
+                    <table class="table table-sm table-bordered " >
+                        <thead>
+                            <tr>
+                               <th name="product_name" class="text-center">
+                                   <span>Product</span>
+                               </th>
+                                <th name="unit_of_measure" class="text-center">
+                                   <span>Unit of Measure</span>
+                               </th>
+                                <th name="quantity" class="text-center">
+                                   <span>Quantity</span>
+                               </th>
+
+                            </tr>
+                        </thead>
+                        <tbody class="amendment_request">
+                                        <t t-foreach="o.amendment_request_line_ids" t-as="line">
+                                            <tr>
+                                                <td name="Product">
+                                                    <span t-esc="line.product_id.name"/>
+                                                </td>
+                                                <td name="uom">
+                                                    <span t-esc="line.uom_id.name"/>
+                                                </td>
+                                                <td name="Quantity">
+                                                    <span t-esc="line.quantity"/>
+                                                </td>
+
+                                            </tr>
+                                        </t>
+                        </tbody>
+                     </table>
+<!--                       <div>-->
+<!--                                <h6>Printed Time</h6>-->
+<!--                                <strong>-->
+<!--                                    <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/>-->
+<!--                                </strong>-->
+<!--                                <h6>User:-->
+<!--                                    <span t-esc="user.name"/>-->
+<!--                                </h6>-->
+<!--                       </div>-->
+
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

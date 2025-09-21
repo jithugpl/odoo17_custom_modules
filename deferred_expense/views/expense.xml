@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="deferred_expense_schedule_tree" model="ir.ui.view">
+        <field name="name">deferred expense schedule Tree</field>
+        <field name="model">deferred.expense.schedule</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="reference"/>
+                <field name="debit_account"/>
+                <field name="amount"/>
+                <field name="number_of_month"/>
+                <field name="credit_account"/>
+                <field name="date"/>
+                <field name="state" widget="badge" decoration-bf="state == 'draft'" decoration-success="state == 'post'"
+                       decoration-warning="state == 'approved'" decoration-danger="state =='Cancel'"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="deferred_expense_schedule_form" model="ir.ui.view">
+        <field name="name">Deferred Expense</field>
+        <field name="model">deferred.expense.schedule</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_schedule" string="Schedule" class="btn-primary" type="object"
+                            invisible="state in ['approved','Cancel']"
+                            groups="deferred_expense.group_deferred_user,deferred_expense.group_deferred_manager"/>
+
+                    <button name="action_cancel" string="Cancel" class="btn-primary" type="object"
+                            invisible="state in ['Cancel']" groups="deferred_expense.group_deferred_manager"/>
+                    <field name="state" widget="statusbar" nolabel="1" statusbar_visible="draft,approved,Cancel"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="reference" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="date" readonly="state in ['Cancel','approved']"/>
+                            <field name="debit_account"   options="{'no_create': True, 'no_open': True}"  readonly="state in ['Cancel','approved']"/>
+                            <field name="amount"  readonly="state in ['Cancel','approved']"/>
+
+                        </group>
+                        <group>
+                            <field name="end_date"  readonly="state in ['Cancel','approved']"/>
+                            <field name="credit_account"  options="{'no_create': True, 'no_open': True}" readonly="state in ['Cancel','approved']"/>
+                            <field name="vendor_bill_number"  readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Deferred Expense" invisible="not generated_data_ids">
+                            <field name="generated_data_ids" readonly="1">
+                                <tree>
+                                    <field name="date"/>
+                                    <field name="amount"/>
+                                    <field name="status"/>
+                                    <field name="journal_entry" string="Journal Entry"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" groups="base.group_user"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="deferred_expense_action" model="ir.actions.act_window">
+        <field name="name">Deferred Expense Schedule</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">deferred.expense.schedule</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_noncontent_smiling_face">
+                create your first deferred expense schedule
+            </p>
+        </field>
+    </record>
+
+    <record id="deferred_expense_action_form" model="ir.actions.act_window">
+        <field name="name">Deferred Expense Schedule Form</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">deferred.expense.schedule</field>
+        <field name="view_mode">form</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_noncontent_smiling_face">
+                create your first deferred expense schedule
+            </p>
+        </field>
+    </record>
+
+
+    <menuitem id="deferred_sub_menu_accounting"
+              name="Deferred Expense Schedule"
+              parent="account.menu_finance_entries"
+              action="deferred_expense_action"
+              sequence="10"/>
+</odoo>

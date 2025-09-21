@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+   <data>
+    <record id="seq_trial_form" model="ir.sequence">
+        <field name="name">New Form</field>
+        <field name="code">new.code</field>
+        <field name="prefix">NW</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False"></field>
+    </record>
+   </data>
+</odoo>

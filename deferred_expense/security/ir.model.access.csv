@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_deferred_expense_schedule,deferred_expense_schedule,model_deferred_expense_schedule,base.group_user,1,1,1,1
+access_deferred_expense_data,deferred_expense_data,model_deferred_expense_data,base.group_user,1,1,1,1
+access_monthly_expense,monthly_expense,model_monthly_expense,base.group_user,1,1,1,1
+access_deferred_expense_filter,deferred_expense_filter,model_deferred_expense_filter,base.group_user,1,1,1,1

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="view_amendment_request_tree" model="ir.ui.view">
+        <field name="name">amendment.request.tree</field>
+        <field name="model">amendment.request</field>
+        <field name="arch" type="xml">
+            <tree string="Amendment Request">
+                <field name="name" decoration-bf="1"/>
+                <field name="date"/>
+                <field name="project_id"/>
+                <field name="task_id"/>
+                <field name="state" decoration-info="state == 'draft'"
+                       decoration-success="state == 'approved'" decoration-danger="state == 'cancelled'"
+                       decoration-warning="state == 'in_review'" widget="badge"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_amendment_request_form" model="ir.ui.view">
+        <field name="name">amendment.request.form</field>
+        <field name="model">amendment.request</field>
+        <field name="arch" type="xml">
+            <form string="Amendment Request">
+                <header>
+                    <button name="action_in_review" string="Review" type="object" class="oe_highlight"
+                            invisible="state not in ['draft']"
+                            groups="construction_material_management.amendment_request_manager"/>
+                    <button name="action_approve" string="Approve" type="object" class="oe_highlight"
+                            invisible="state not in ['in_review']"
+                            groups="construction_material_management.amendment_request_admin"/>
+                    <button name="action_reset" string="Reset to Draft" type="object"
+                            invisible="state not in ['cancelled']"
+                            groups="construction_material_management.amendment_request_admin"/>
+                    <button name="action_cancel" string="Cancel" type="object" invisible="state == 'cancelled'"
+                            groups="construction_material_management.amendment_request_admin"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,in_review,approved"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="button_open_picking" type="object"
+                                class="oe_stat_button" icon="fa-truck" invisible="not transfer_count">
+                            <field name="transfer_count" widget="statinfo" string="Transfers"/>
+                        </button>
+                    </div>
+                    <div class="oe_title mb24">
+                        <h1>
+                            <field class="text-break" name="name" default_focus="1" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="project_id" readonly="state not in ['draft', 'in_review']"
+                                   domain="[('partner_id', '!=', False)]" options="{'no_create': True}" required="1"/>
+                            <field name="task_id" readonly="state not in ['draft', 'in_review'] or not project_id"
+                                   domain="[('project_id', '=', project_id), ('stage_id.in_progress', '=', True)]"
+                                   options="{'no_create': True}"
+                                   required="1"/>
+                        </group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="date" readonly="1"/>
+                            <field name="expected_date" readonly="state not in ['draft', 'in_review']"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="amendment_line" string="Amendment Lines">
+                            <button name="action_select_all" type="object" class="oe_stat_button" icon="fa-check"
+                                    invisible="state not in ['draft', 'in_review']"/>
+                            <button name="action_deselect_all" type="object" class="oe_stat_button" icon="fa-times"
+                                    invisible="state not in ['draft', 'in_review']"/>
+                            <field name="amendment_request_line_ids" readonly="state not in ['draft', 'in_review']">
+                                <tree editable="bottom">
+                                    <field name="is_true" column_invisible="1"/>
+                                    <field name="is_select"/>
+                                    <field name="product_id" required="1" decoration-bf="1"
+                                           options="{'no_create': True, 'no_quick_create':True}"
+                                           decoration-success="is_true" decoration-danger="not is_true"/>
+                                    <field name="uom_id" required="1"
+                                           options="{'no_create': True, 'no_quick_create':True}"
+                                           decoration-success="is_true" decoration-danger="not is_true" readonly="0"/>
+                                    <field name="quantity" decoration-success="is_true"
+                                           decoration-danger="not is_true"/>
+                                </tree>
+                            </field>
+                            <field name="note" placeholder="Reason For Amendment..." required="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" groups="base.group_user"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_amendment_request" model="ir.actions.act_window">
+        <field name="name">Amendment Request</field>
+        <field name="res_model">amendment.request</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new amendment request!
+            </p>
+        </field>
+    </record>
+
+    <menuitem
+            id="menu_amendment_request"
+            name="Amendment Request"
+            parent="menu_transition_root"
+            action="action_amendment_request"
+            groups="construction_material_management.amendment_request_user"
+            sequence="5"/>
+</odoo>

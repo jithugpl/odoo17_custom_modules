@@ -1,0 +1,483 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <template id="smbg_tax_invoice_action_report_template">
+            <t t-call="web.html_container">
+                <t t-call="web.basic_layout">
+                    <t t-foreach="docs" t-as="doc">
+                        <style type="text/css">
+                            #first_table_head_border{
+                            vertical-align: middle;
+                            border-right: 1px solid black;
+                            border-left: 1px solid black;
+                            border-top: 1px solid black;
+                            border-bottom: 1px solid black;
+                            }
+                        </style>
+                        <div class="page">
+                            <!--                            Header-->
+                            <table width="100%" class="table table-borderless">
+                                <tr>
+                                    <td style="vertical-align: top;line-height:1; font-weight: bold;" width="45%"
+                                        align="left">
+                                        <span t-field="doc.company_id.name"
+                                              style="font-size: 31px; color: #0f3d4d;"/>
+                                        <br/>
+                                        <span t-field="doc.company_id.street"/>
+                                        <span t-field="doc.company_id.street2"/>
+                                        <br/>
+                                        <span t-field="doc.company_id.city"/>,
+                                        <span t-field="doc.company_id.state_id"/>,
+                                        <span t-field="doc.company_id.zip"/>
+                                        <br/>
+                                        <span t-field="doc.company_id.email"/>
+                                        <br/>
+                                        <span t-field="doc.company_id.website"/>
+                                        <t t-if="doc.company_id.phone">
+                                            <br/>
+                                            <span>
+                                                Call:
+                                                <span t-field="doc.company_id.phone"/>
+                                            </span>
+                                        </t>
+                                        <t t-if="doc.company_id.vat">
+                                            <br/>
+                                            <span>
+                                                TRN:
+                                                <span t-field="doc.company_id.vat"/>
+                                            </span>
+                                        </t>
+                                    </td>
+                                    <td style="vertical-align: bottom;" width="20%">
+                                        <span style="color: #DA1182; font-weight:bold; font-size: 25px;">فاتورة
+                                            ضريبية
+                                        </span>
+                                        <br/>
+                                        <span style="color: #DA1182; font-weight:bold; font-size: 25px;">TAX INVOICE
+                                        </span>
+                                    </td>
+                                    <td width="35%" style="vertical-align: top;" align="right">
+                                        <img t-if="doc.company_id.logo" t-att-src="image_data_uri(doc.company_id.logo)"
+                                             style="width:60%; max-height:140pt;" alt="Logo"/>
+                                        <!--                                        <img src='/web/binary/company_logo'-->
+                                        <!--                                             style="width:60%; max-height:140pt;" alt="Logo"/>-->
+                                    </td>
+                                </tr>
+                            </table>
+                            <!--                            Header End-->
+                            <!--                            line-->
+                            <table width="100%" class="table table-borderless">
+                                <tr>
+                                    <td style="border-top: 1px solid black; padding: 0 0 0 0;"/>
+                                </tr>
+                            </table>
+                            <!--                            line end-->
+                            <!--                            First-->
+                            <table width="100%" class="table table-borderless">
+                                <tr>
+                                    <td style="text-align:left;padding: 0px 0px 0px 5px; font-weight: bold;">
+                                        Invoice No
+                                    </td>
+                                    <td style="text-align:left;padding: 0px 0px 0px 5px; font-weight: bold;">
+                                        :&amp;nbsp;&amp;nbsp;
+                                        <span t-field="doc.name"/>
+                                    </td>
+                                    <td style="text-align:left;padding: 0px 0px 0px 5px; font-weight: bold;">
+                                        Invoice Date
+                                    </td>
+                                    <td style="text-align:left;padding: 0px 0px 0px 5px;">
+                                        :&amp;nbsp;&amp;nbsp;
+                                        <span t-field="doc.invoice_date"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align:left;padding: 0px 0px 0px 5px; font-weight: bold;">
+                                        Payment Terms
+                                    </td>
+                                    <td style="text-align:left;padding: 0px 0px 0px 5px;">
+                                        :&amp;nbsp;&amp;nbsp;
+                                        <span t-field="doc.invoice_payment_term_id.name"/>
+                                    </td>
+                                    <td style="text-align:left;padding: 0px 0px 0px 5px; font-weight: bold;">
+                                        Due Date
+                                    </td>
+                                    <td style="text-align:left;padding: 0px 0px 0px 5px;">
+                                        :&amp;nbsp;&amp;nbsp;
+                                        <span t-field="doc.invoice_date_due"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align:left;padding: 0px 0px 0px 5px; font-weight: bold;">
+                                        Currency
+                                    </td>
+                                    <td colspan="3" style="text-align:left;padding: 0px 0px 0px 5px;">
+                                        :&amp;nbsp;&amp;nbsp;
+                                        <span t-field="doc.currency_id.name"/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <!--                            Second-->
+                            <table width="100%" class="table table-borderless" style="border: 1px solid black;">
+                                <tr>
+                                    <td id="first_table_head_border" align="center"
+                                        style="background-color: #e5e5e5; font-weight: bold;">Details of Receiver
+                                        (Billed To)
+                                    </td>
+                                    <td id="first_table_head_border" align="center"
+                                        style="background-color: #e5e5e5; font-weight: bold;">Details of Consignee
+                                        (Shipped To)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight: 800;border-right: 1px solid black;text-align:left;padding: 0px 0px 0px 5px;">
+                                        <span t-field="doc.partner_id.name"/>
+                                    </td>
+                                    <td style="font-weight: 800;text-align:left;padding: 0px 0px 0px 5px;">
+                                        <t t-if="doc.partner_shipping_id">
+                                            <span t-field="doc.partner_shipping_id.name"/>
+                                        </t>
+                                        <t t-else="">
+                                            <span t-field="doc.partner_id.name"/>
+                                        </t>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align:left;border-right: 1px solid black;padding: 10px 0px 0px 5px;">
+                                        <span t-field="doc.partner_id"
+                                              t-options='{"widget": "contact", "fields": ["address", "mobile", "phone", "email"], "no_marker": True}'/>
+                                    </td>
+                                    <td style="text-align:left;padding: 10px 0px 0px 5px;">
+                                        <t t-if="doc.partner_shipping_id">
+                                            <span t-field="doc.partner_shipping_id"
+                                                  t-options='{"widget": "contact", "fields": ["address", "mobile", "phone", "email"], "no_marker": True}'/>
+                                        </t>
+                                        <t t-else="">
+                                            <span t-field="doc.partner_id"
+                                                  t-options='{"widget": "contact", "fields": ["address", "mobile", "phone", "email"], "no_marker": True}'/>
+                                        </t>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border-right: 1px solid black;text-align:left;padding: 5px 0px 0px 5px;">
+                                        <span>TRN</span>:&amp;nbsp;&amp;nbsp;
+                                        <span t-field="doc.partner_id.vat"/>
+                                    </td>
+                                    <td style="text-align:left;padding: 5px 0px 0px 5px;">
+                                        <span>TRN</span>:&amp;nbsp;&amp;nbsp;
+                                        <t t-if="doc.partner_shipping_id">
+                                            <span t-field="doc.partner_shipping_id.vat"/>
+                                        </t>
+                                        <t t-else="">
+                                            <span t-field="doc.partner_id.vat"/>
+                                        </t>
+                                    </td>
+                                </tr>
+                            </table>
+                            <!--THIRD TABLE-->
+                            <table width="100%" class="table table-borderless">
+                                <tr>
+                                    <td id="first_table_head_border" align="center"
+                                        style="font-weight: bold; background-color: #e5e5e5;"
+                                        width="38%">Sales
+                                        Rep
+                                    </td>
+                                    <td id="first_table_head_border" align="center"
+                                        style="font-weight: bold; background-color: #e5e5e5;">Customer
+                                        ID
+                                    </td>
+                                    <td id="first_table_head_border" align="center"
+                                        style="font-weight: bold; background-color: #e5e5e5;">Order
+                                        No.
+                                    </td>
+                                    <td id="first_table_head_border" align="center"
+                                        style="font-weight: bold; background-color: #e5e5e5;">
+                                        Reference
+                                    </td>
+                                    <td id="first_table_head_border" align="center"
+                                        style="font-weight: bold; background-color: #e5e5e5;">
+                                        Transported By
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td id="first_table_head_border" style="padding-left: 7px;">
+                                        <span t-field="doc.invoice_user_id.name"/>
+                                    </td>
+                                    <td id="first_table_head_border" align="center">
+                                        <span t-field="doc.partner_id.customer_id"/>
+                                    </td>
+                                    <td id="first_table_head_border" align="center">
+                                        <span t-esc="', '.join(doc.line_ids.sale_line_ids.order_id.mapped('name'))"/>
+                                    </td>
+                                    <td id="first_table_head_border" align="center">
+                                        <span t-field="doc.ref"/>
+                                    </td>
+                                    <td id="first_table_head_border" style="padding-left: 7px;"/>
+                                </tr>
+                            </table>
+                            <!--FOURTH TABLE-->
+                            <table width="100%" class="table table-borderless">
+                                <thead>
+                                    <tr>
+                                        <td id="first_table_head_border" align="center"
+                                            style="font-weight: bold; background-color: #e5e5e5;"
+                                            width="3%">#
+                                        </td>
+                                        <td id="first_table_head_border" align="center"
+                                            style="font-weight: bold; background-color: #e5e5e5;"
+                                            width="35%">
+                                            Item
+                                        </td>
+                                        <td id="first_table_head_border" align="center"
+                                            style="font-weight: bold; background-color: #e5e5e5;">
+                                            Barcode
+                                        </td>
+                                        <td id="first_table_head_border" align="center"
+                                            style="font-weight: bold; background-color: #e5e5e5;">Qty
+                                        </td>
+                                        <td id="first_table_head_border" align="center"
+                                            style="font-weight: bold; background-color: #e5e5e5;">UOM
+                                        </td>
+                                        <td id="first_table_head_border" align="center"
+                                            style="font-weight: bold; background-color: #e5e5e5;">
+                                            Rate
+                                        </td>
+                                        <td id="first_table_head_border" align="center"
+                                            style="font-weight: bold; background-color: #e5e5e5;">
+                                            Disc
+                                        </td>
+                                        <td id="first_table_head_border" align="center"
+                                            style="font-weight: bold; background-color: #e5e5e5;">
+                                            Taxable<br/>Amount
+                                        </td>
+                                        <td id="first_table_head_border" align="center"
+                                            style="font-weight: bold; background-color: #e5e5e5;">VAT %
+                                        </td>
+                                        <td id="first_table_head_border" align="center"
+                                            style="font-weight: bold; background-color: #e5e5e5;">
+                                            VAT<br/>Amount
+                                        </td>
+                                        <td id="first_table_head_border" align="center"
+                                            style="font-weight: bold; background-color: #e5e5e5;">
+                                            Total Amount<br/>(Incl. VAT)
+                                        </td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-set="sl_no" t-value="0"/>
+                                    <t t-set="disc_total" t-value="0"/>
+                                    <t t-foreach="doc.invoice_line_ids" t-as="line">
+                                        <t t-if="line.product_id">
+                                            <t t-set="sl_no" t-value="sl_no + 1"/>
+                                            <t t-set="disc_total" t-value="disc_total + line.aml_discount_amount"/>
+                                            <tr>
+                                                <td id="first_table_head_border" align="center">
+                                                    <span t-esc="sl_no"/>
+                                                </td>
+                                                <td id="first_table_head_border" style="padding-left: 7px;">
+                                                    <span t-field="line.product_id"/>
+                                                </td>
+                                                <td id="first_table_head_border" align="center">
+                                                    <span t-field="line.product_id.barcode"/>
+                                                </td>
+                                                <td id="first_table_head_border" align="right"
+                                                    style="padding-right: 7px;">
+                                                    <span t-esc="'%.2f'%line.quantity"/>
+                                                </td>
+                                                <td id="first_table_head_border" align="center">
+                                                    <span t-field="line.product_uom_id.name"/>
+                                                </td>
+                                                <td id="first_table_head_border" align="right"
+                                                    style="padding-right: 7px;">
+                                                    <span t-esc="'%.2f'%line.price_unit"/>
+                                                </td>
+                                                <td id="first_table_head_border" align="right"
+                                                    style="padding-right: 7px;">
+                                                    <span t-esc="'%.2f'%line.aml_discount_amount"/>
+                                                </td>
+                                                <td id="first_table_head_border" align="right"
+                                                    style="padding-right: 7px;">
+                                                    <span t-esc="'%.2f'%line.price_subtotal"/>
+                                                </td>
+                                                <td id="first_table_head_border" align="center">
+                                                    <!--                                                    <span t-esc="', '.join(map(lambda x: (x.name), line.tax_ids))"/>-->
+                                                    <t t-if="line.tax_ids">
+                                                        <t t-if="len(line.tax_ids) == 1">
+                                                            <span t-esc="'%.0f'%line.tax_ids.amount"/>
+                                                        </t>
+                                                    </t>
+                                                </td>
+                                                <td id="first_table_head_border" align="right"
+                                                    style="padding-right: 7px;">
+                                                    <span t-esc="'%.2f'%line.l10n_ae_vat_amount"/>
+                                                </td>
+                                                <td id="first_table_head_border" align="right"
+                                                    style="padding-right: 7px;">
+                                                    <span t-esc="'%.2f'%line.price_total"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </t>
+                                    <tr>
+                                        <td id="first_table_head_border" colspan="6"
+                                            style="padding-left: 7px; font-weight: bold;">Total
+                                            Amount
+                                            :
+                                            <span t-field="doc.price_total_amount_in_words"/>
+                                        </td>
+                                        <td id="first_table_head_border" align="right"
+                                            style="padding-right: 7px; font-weight: bold;">
+                                            <span t-esc="'%.2f'%disc_total"/>
+                                        </td>
+                                        <td id="first_table_head_border" align="right"
+                                            style="padding-right: 7px; font-weight: bold;">
+                                            <span t-esc="'%.2f'%doc.amount_untaxed"/>
+                                        </td>
+                                        <td id="first_table_head_border"/>
+                                        <td id="first_table_head_border" align="right"
+                                            style="padding-right: 7px; font-weight: bold;">
+                                            <span t-esc="'%.2f'%doc.amount_tax"/>
+                                        </td>
+                                        <td id="first_table_head_border" align="right"
+                                            style="padding-right: 7px; font-weight: bold;">
+                                            <span t-esc="'%.2f'%doc.amount_total"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <!--FIFTH TABLE-->
+                            <br/>
+                            <table class="table table-borderless"
+                                   style="width:57%; float:left; page-break-inside: avoid;">
+                                <tr>
+                                    <td style="font-weight: bold; padding: 2px 1px;">Bank</td>
+                                    <td style="padding: 2px 1px;">:
+                                        <span t-field="doc.partner_bank_id.bank_id.name"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight: bold; padding: 2px 1px;">A/c No</td>
+                                    <td style="padding: 2px 1px;">:
+                                        <span t-field="doc.partner_bank_id.acc_number"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight: bold; padding: 2px 1px;">IBAN</td>
+                                    <td style="padding: 2px 1px;">:
+                                        <span t-field="doc.partner_bank_id.iban"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight: bold; padding: 2px 1px;">SWIFT</td>
+                                    <td style="padding: 2px 1px;">:
+                                        <span t-field="doc.partner_bank_id.swift_code"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight: bold; padding: 2px 1px;" width="17%">Beneficiary</td>
+                                    <td style="padding: 2px 1px;">:
+                                        <span t-field="doc.partner_bank_id.acc_holder_name"/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table class="table table-borderless"
+                                   style="width:43%; float:left; page-break-inside: avoid;">
+                                <tr>
+                                    <td id="first_table_head_border"
+                                        style="font-weight: bold; padding-left: 7px; background-color: #e5e5e5;">Gross
+                                        Total
+                                        <span t-field="doc.currency_id.name"/>
+                                    </td>
+                                    <td id="first_table_head_border" style="font-weight: bold; padding-right: 7px;"
+                                        align="right">
+                                        <span t-esc="'%.2f'%(doc.amount_untaxed + disc_total)"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td id="first_table_head_border"
+                                        style="font-weight: bold; padding-left: 7px; background-color: #e5e5e5;">Total
+                                        Discount
+                                    </td>
+                                    <td id="first_table_head_border" style="font-weight: bold; padding-right: 7px;"
+                                        align="right">
+                                        <span t-esc="'%.2f'%disc_total"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td id="first_table_head_border"
+                                        style="font-weight: bold; padding-left: 7px; background-color: #e5e5e5;">Sub
+                                        Total
+                                    </td>
+                                    <td id="first_table_head_border" style="font-weight: bold; padding-right: 7px;"
+                                        align="right">
+                                        <span t-esc="'%.2f'%doc.amount_untaxed"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td id="first_table_head_border"
+                                        style="font-weight: bold; padding-left: 7px; background-color: #e5e5e5;">Total
+                                        VAT
+                                    </td>
+                                    <td id="first_table_head_border" style="font-weight: bold; padding-right: 7px;"
+                                        align="right">
+                                        <span t-esc="'%.2f'%doc.amount_tax"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td id="first_table_head_border"
+                                        style="font-weight: 900; padding-left: 7px; background-color: #e5e5e5;">Total
+                                        <span t-field="doc.currency_id.name"/>
+                                    </td>
+                                    <td id="first_table_head_border" style="font-weight: 900; padding-right: 7px;"
+                                        align="right">
+                                        <span t-esc="'%.2f'%doc.amount_total"/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <!--SIXTH TABLE-->
+                            <table width="100%" class="table table-borderless" style="page-break-inside: avoid;">
+                                <tr>
+                                    <td align="right" style="padding-top: 55px;">
+                                        <span>
+                                            Receiver:..................................................Mob:..................................................Sign:..................................................
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="right">
+                                        <span>I / We received the above mentioned materials in good condition</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border-top: 1px solid black;"/>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>
+                                            <b>Terms and Conditions:</b>
+                                            <span t-field="doc.company_id.inv_terms_and_conditions"/>
+                                        </span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="footer o_standard_footer">
+                            <div class="row text-center">
+                                <div class="col col-12 text-center">
+                                    <ul class="list-inline">
+                                        <li class="list-inline-item">
+                                            <span class="page"/>
+                                        </li>
+                                        <li class="list-inline-item">/</li>
+                                        <li class="list-inline-item">
+                                            <span class="topage"/>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

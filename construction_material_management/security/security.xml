@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <!--    Cost BOM-->
+        <record model="ir.module.category" id="cost_bom_type">
+            <field name="name">Cost BoM</field>
+            <field name="description">Types of Cost BoM users.</field>
+            <field name="sequence">10</field>
+        </record>
+
+        <record id="cost_bom_user" model="res.groups">
+            <field name="name">User</field>
+            <field name="category_id" ref="cost_bom_type"/>
+        </record>
+
+        <record id="cost_bom_user_verify" model="res.groups">
+            <field name="name">Verify User</field>
+            <field name="implied_ids" eval="[(4, ref('cost_bom_user'))]"/>
+            <field name="category_id" ref="cost_bom_type"/>
+        </record>
+
+        <record id="cost_bom_manager" model="res.groups">
+            <field name="name">Manager</field>
+            <field name="implied_ids" eval="[(4, ref('cost_bom_user_verify'))]"/>
+            <field name="category_id" ref="cost_bom_type"/>
+        </record>
+
+        <record id="cost_bom_admin" model="res.groups">
+            <field name="name">Administrator</field>
+            <field name="implied_ids" eval="[(4, ref('cost_bom_manager'))]"/>
+            <field name="category_id" ref="cost_bom_type"/>
+        </record>
+        <!--        Material Request-->
+        <record model="ir.module.category" id="material_request_type">
+            <field name="name">Material Request</field>
+            <field name="description">Types of material Request users.</field>
+            <field name="sequence">10</field>
+        </record>
+
+        <record id="material_request_user" model="res.groups">
+            <field name="name">User</field>
+            <field name="category_id" ref="material_request_type"/>
+        </record>
+
+        <record id="material_request_manager" model="res.groups">
+            <field name="name">Manager</field>
+            <field name="implied_ids" eval="[(4, ref('material_request_user'))]"/>
+            <field name="category_id" ref="material_request_type"/>
+        </record>
+
+        <record id="material_request_admin" model="res.groups">
+            <field name="name">Administrator</field>
+            <field name="implied_ids" eval="[(4, ref('material_request_manager'))]"/>
+            <field name="category_id" ref="material_request_type"/>
+        </record>
+
+        <record model="ir.rule" id="material_request_project_follower_rule">
+            <field name="name">Material Request: projects follower-only</field>
+            <field name="model_id" ref="model_material_request"/>
+            <field name="domain_force">[('project_id.message_partner_ids', 'in', [user.partner_id.id])]</field>
+            <field name="groups"
+                   eval="[(4, ref('material_request_user')),(4, ref('material_request_manager')),(4, ref('material_request_admin'))]"/>
+        </record>
+
+        <record model="ir.rule" id="stock_picking_project_follower_rule">
+            <field name="name">Stock Picking: projects follower-only</field>
+            <field name="model_id" ref="stock.model_stock_picking"/>
+            <field name="domain_force">['|', ('project_id.message_partner_ids', 'in', [user.partner_id.id]),
+                ('project_id', '=', False)]
+            </field>
+            <field name="groups"
+                   eval="[(4, ref('stock.group_stock_user')),(4, ref('stock.group_stock_manager'))]"/>
+        </record>
+        <!--Amendment Request-->
+        <record model="ir.module.category" id="amendment_request_type">
+            <field name="name">Amendment Request</field>
+            <field name="description">Types of amendment Request users.</field>
+            <field name="sequence">10</field>
+        </record>
+
+        <record id="amendment_request_user" model="res.groups">
+            <field name="name">User</field>
+            <field name="category_id" ref="amendment_request_type"/>
+        </record>
+
+        <record id="amendment_request_manager" model="res.groups">
+            <field name="name">Manager</field>
+            <field name="implied_ids" eval="[(4, ref('amendment_request_user'))]"/>
+            <field name="category_id" ref="amendment_request_type"/>
+        </record>
+
+        <record id="amendment_request_admin" model="res.groups">
+            <field name="name">Administrator</field>
+            <field name="implied_ids" eval="[(4, ref('amendment_request_manager'))]"/>
+            <field name="category_id" ref="amendment_request_type"/>
+        </record>
+        <!--Purchase Requisition-->
+        <record model="ir.module.category" id="material_purchase_requisition_group">
+            <field name="name">Purchase Requisition</field>
+            <field name="sequence">10</field>
+        </record>
+
+        <record id="material_purchase_requisition_user" model="res.groups">
+            <field name="name">User</field>
+            <field name="category_id" ref="material_purchase_requisition_group"/>
+        </record>
+
+        <record id="material_purchase_requisition_manager" model="res.groups">
+            <field name="name">Manager</field>
+            <field name="implied_ids" eval="[(4, ref('material_purchase_requisition_user'))]"/>
+            <field name="category_id" ref="material_purchase_requisition_group"/>
+        </record>
+
+        <record id="material_purchase_requisition_admin" model="res.groups">
+            <field name="name">Administrator</field>
+            <field name="implied_ids" eval="[(4, ref('material_purchase_requisition_manager'))]"/>
+            <field name="category_id" ref="material_purchase_requisition_group"/>
+        </record>
+
+        <record model="ir.rule" id="purchase_requisition_project_follower_rule">
+            <field name="name">Purchase Requisition: projects follower-only</field>
+            <field name="model_id" ref="model_material_purchase_requisition"/>
+            <field name="domain_force">[('project_id.message_partner_ids', 'in', [user.partner_id.id])]</field>
+            <field name="groups"
+                   eval="[(4, ref('material_purchase_requisition_user')),(4, ref('material_purchase_requisition_manager')),(4, ref('material_purchase_requisition_admin'))]"/>
+        </record>
+
+        <!--site to site material transfer access right-->
+        <record model="ir.module.category" id="site_material_transfer_category">
+            <field name="name">Site To Site Material Transfer</field>
+            <field name="sequence">10</field>
+        </record>
+
+        <record id="site_material_transfer_user" model="res.groups">
+            <field name="name">User</field>
+            <field name="category_id" ref="site_material_transfer_category"/>
+        </record>
+
+        <record id="site_material_transfer_manager" model="res.groups">
+            <field name="name">Manager</field>
+            <field name="implied_ids" eval="[(4, ref('site_material_transfer_user'))]"/>
+            <field name="category_id" ref="site_material_transfer_category"/>
+        </record>
+
+        <record id="site_material_transfer_company_rule" model="ir.rule">
+            <field name="name">Site to Site Material transfer Multi-Company</field>
+            <field name="model_id" ref="model_site_material_transfer"/>
+            <field name="domain_force">['|',('company_id','=',False),('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <record id="site_material_transfer_line_company_rule" model="ir.rule">
+            <field name="name">Site to Site Material transfer Line Multi-Company</field>
+            <field name="model_id" ref="model_site_material_transfer_line"/>
+            <field name="domain_force">['|',('company_id','=',False),('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <!--site to site material transfer access right-->
+        <record id="purchase_requisition_bom_qty_visibility" model="res.groups">
+            <field name="name">Purchase Requisition BOM Qty Visibility</field>
+        </record>
+
+        <record id="purchase_requisition_create_rfq_visibility" model="res.groups">
+            <field name="name">Purchase Requisition Create RFQ Visibility</field>
+        </record>
+
+    </data>
+
+</odoo>

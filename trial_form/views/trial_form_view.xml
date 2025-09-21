@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    #to create list view
+    <record id="view_trial_form_tree" model="ir.ui.view">
+        <field name="name">trial.tree</field>
+        <field name="model">trial.form</field>
+        <field name="arch" type="xml">
+            <tree default_order="create_date desc">
+                <field name="trial_no"/>
+                <field name="trial_date"/>
+                <field name="project_name"/>
+
+
+            </tree>
+        </field>
+    </record>
+
+    <!--kanban view    -->
+    #kanban view code
+    <record id="view_trial_form_kanban" model="ir.ui.view">
+        <field name="name">trial.kanban</field>
+        <field name="model">trial.form</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <group>
+                    <templates>
+                        <!-- Define the template for each Kanban card -->
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_content">
+                                <!-- Primary content for the Kanban card -->
+                                <div>
+                                    <strong>
+                                        <field name="trial_no"/>
+                                    </strong>
+                                </div>
+
+                                <div>
+                                    <field name="customer_name"/>
+                                </div>
+
+
+                            </div>
+                        </t>
+                    </templates>
+                </group>
+            </kanban>
+        </field>
+    </record>
+
+    <!--form view-->
+    <record id="view_trial_form" model="ir.ui.view">
+        <field name="name">trial.form</field>
+        <field name="model">trial.form</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_reset_to_draft" string="Reset to draft" type="object"
+                            class="btn-primary" />
+                    <button name="action_review" string="Review" type="object" class="btn-primary"
+                            />
+                    <button name="action_dispatch" string="Dispatch" type="object" class="btn-primary"
+                            />
+                    <button name="action_cancel" string="Cancel"
+                            confirm="Are you sure?" type="object" class="btn-primary"
+                            />
+
+                    <field name="state" widget="statusbar" nolabel="1"
+                           statusbar_visible="draft,review,dispatch" class="btn-primary"/>
+                </header>
+
+
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="trial_no" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="trial_no"/>
+                        </group>
+                        <group>
+                            <field name="project_name" />
+                        </group>
+
+                        <group>
+                            <field name="trial_date" />
+                        </group>
+                        <group>
+                            <field name="customer_name" />
+                        </group>
+                        <group>
+                            <field name="checked_by" />
+                        </group>
+                        <group>
+                            <field name="employee_name" />
+                        </group>
+
+                    </group>
+
+
+
+                </sheet>
+
+            </form>
+        </field>
+    </record>
+
+
+
+</odoo>

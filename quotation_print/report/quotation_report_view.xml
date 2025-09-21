@@ -1,0 +1,685 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <template id="snowbell_quotation_action_report_template">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.basic_layout">
+                        <div class="cover-letter" style="page-break-after: always;">
+                            <div class="centered-box" style="margin-top:20px;">
+
+                                <div class="rounded-box ">
+                                    <h3 class="mt-2">COVER LETTER</h3>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <br/>
+                                    <br/>
+                                    <strong>
+                                        <p>To,</p>
+                                    </strong>
+                                    <br/>
+                                    <span t-field="o.partner_id"/>
+                                </div>
+                                <div class="col-4"></div>
+                                <div class="col-4"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <br/>
+                                    <br/>
+                                    <strong>Sub</strong>:
+                                    <span t-field="o.extra_data"/>
+                                    <br/>
+                                    <br/>
+                                </div>
+                                <div class="col-6"></div>
+                            </div>
+                            <div class="row1">
+                                Dear&amp;nbsp;Sir,
+                                <br/>
+                                <br/>
+                                <p>Thank you for considering Snowbell Technologies Pvt. Ltd. as your partner for
+                                    Automation ELV (Extra-Low Voltage) and IT solutions. With over a decade of
+                                    experience,
+                                    we take pride in delivering impeccable service and best-in-class products to our
+                                    clients.
+
+                                </p>
+                                <p>Snowbell Technologies Pvt. Ltd. is pleased to submit our cost quotation for the
+                                    <span t-field="o.additional_details"/>. As a leading IT, ELV, and Automation Project
+                                    Designing and
+                                    Implementing team, we are committed to providing exceptional service and innovative
+                                    solutions tailored to your specific needs.
+
+                                </p>
+                                <p>
+                                    Our team of experts has carefully analyzed your project requirements and has
+                                    developed a comprehensive proposal that outlines the scope of work, pricing, and
+                                    timeline. We have included a detailed breakdown of costs to ensure transparency and
+                                    clarity.
+                                </p>
+                                <p>
+                                    Snowbell Technologies is renowned for delivering best-in-class products and
+                                    services. We are confident in our ability to exceed your expectations and provide a
+                                    solution that is both effective and efficient.
+
+
+                                </p>
+                                <p>
+                                    We invite you to review our quotation and contact us if you have any questions or
+                                    would like to discuss the project further. We look forward to the opportunity to
+                                    collaborate with you.
+                                </p>
+                                <br/>
+                                <br/>
+                                <br/>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <p>Sincerely,</p>
+                                    <span>
+                                        <span t-field="o.user_id"/>
+                                    </span>
+                                    <br/>
+                                    <span>Salesperson</span>
+                                    <br/>
+                                    <span>Snowbell Technologies Pvt. Ltd.</span>
+                                    <br/>
+                                    <span t-field="o.user_id.login"/>
+                                    <br/>
+                                    <span t-field="o.user_id.phone"/>
+                                </div>
+                                <div class="col-4"></div>
+                                <div class="col-4"></div>
+                            </div>
+
+                        </div>
+                        <div class="header" style="position: relative; width: 100%; height: 150px;">
+                            <div class="row">
+                                <img t-if="o.company_id.company_header"
+                                     t-att-src="image_data_uri(o.company_id.company_header)"
+                                     style="width:120%; max-height:140pt;" alt="header"/>
+                            </div>
+                            <div style="position: absolute; top: 103px; right: 150px; color: white; font-size: 20px; font-weight: bold;">
+                                <span t-field="o.name"/>
+                            </div>
+                        </div>
+                        <div class="page">
+                            <style>
+                                body {
+                                font-family: Arial, sans-serif;
+                                margin: 20px;
+                                }
+
+                                .box {
+                                border: 1px solid #000;
+                                border-radius: 5px;
+                                padding: 20px;
+                                margin-bottom: 20px;
+                                display: grid;
+                                grid-template-columns: 1fr 1fr;
+                                grid-gap: 10px;
+                                }
+                                .rounded-box{
+                                background-color: #4682B4;;
+                                border-radius: 15px;
+                                padding: 3px 8px;
+                                text-align: center;
+                                margin: 0 40px;
+                                width: fit-content;
+                                }
+                                .centered-box{
+                                display:flex;
+                                justify-content:center;
+                                align-items:center;
+                                height:100vh;
+                                color: #FFFFFF;
+
+                                }
+                                .row{
+                                margin: 0 40px;
+                                }
+                                .row1{
+                                margin: 0 40px;
+                                }
+                                .cover-letter{
+                                font-size:18px;
+                                }
+                                #summary{
+                                border-collapse: collapse;
+                                }
+
+                            </style>
+
+                            <div class="watermark-container" style="position: relative; width: 100%; height: auto;">
+                                <div class="content" style="position: relative; z-index: 2; padding: 40px;">
+                                    <div class="box">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <tr>
+                                                    <td>
+                                                        <span>Client Name and Address:</span>
+                                                        <br/>
+
+                                                        <span t-field="o.partner_id"/>
+                                                        <br/>
+                                                        <t t-if="o.partner_id.street">
+                                                            <span t-field="o.partner_id.street"/>
+                                                            <br/>
+                                                        </t>
+
+                                                        <t t-if="o.partner_id.street2">
+                                                            <span t-field="o.partner_id.street2"/>
+                                                            <br/>
+                                                        </t>
+
+                                                        <t t-if="o.partner_id.phone">
+                                                            <span class="fa fa-phone" aria-hidden="true"
+                                                                  t-field="o.partner_id.phone"/>
+                                                            <br/>
+                                                        </t>
+                                                        <t t-if="o.partner_id.phone">
+                                                            <span class="fa fa-phone" aria-hidden="true"
+                                                                  t-field="o.partner_id.email"/>
+                                                        </t>
+                                                    </td>
+                                                </tr>
+                                                <br/>
+                                                <tr>
+                                                    <td style="vertical-align: center;font-size:12px;" align="right"
+                                                        colspan="2">
+                                                        GST Number
+                                                        <span style="margin-left:30px;">:
+                                                            <span style="margin-left:30px;" t-field="o.company_id.vat"/>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                                <br/>
+
+                                            </div>
+                                            <div class="col-6">
+
+                                                <tr>
+                                                    <th>
+                                                        Quotation Date
+                                                    </th>
+                                                    <td>
+                                                        <span style="margin-left:80px;">:
+                                                            <span style="margin-left:30px;" t-field="o.date_order"/>
+                                                        </span>
+                                                    </td>
+                                                    <br/>
+                                                    <th>
+                                                        Valid Until
+                                                    </th>
+                                                    <td>
+                                                        <span style="margin-left:115px;">:
+                                                            <span style="margin-left:30px;" t-field="o.validity_date"/>
+                                                        </span>
+                                                    </td>
+                                                    <br/>
+                                                    <th>
+                                                        Salesperson
+                                                    </th>
+                                                    <td>
+                                                        <span style="margin-left:98px;">:
+                                                            <span style="margin-left:30px;" t-field="o.user_id"/>
+                                                        </span>
+                                                    </td>
+                                                    <br/>
+                                                    <th>
+                                                        Project Description
+                                                    </th>
+                                                    <td style="vertical-align:center;font-size:13px;padding-left:5px; border-right: 1px solid black;padding-top:5px;padding-bottom:5px;">
+
+                                                        <span style="margin-left:52px;">:
+                                                            <span style="margin-left:30px;"
+                                                                  t-field="o.additional_details"/>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <style>
+                                        .table, th, .img {
+                                        padding: 10px;
+                                        text-align: center;
+                                        border-top: 3px solid white;
+                                        border-bottom: 1px solid transparent;
+                                        border-left: 3px solid white;
+                                        border-right: 3px solid white;
+
+                                        }
+
+
+                                    </style>
+
+
+                                    <table class="table">
+                                        <tr>
+                                            <th style="text-align:center; width:3%; background-color: #E0E0E0;">Sl.No
+                                            </th>
+                                            <!--                                            <th style="text-align:center; width:40%; background-color: #E0E0E0; ">-->
+                                            <!--                                                Image-->
+                                            <!--                                            </th>-->
+                                            <th style="text-align:center; width:40%; background-color: #E0E0E0; width:55%;">
+                                                Description
+                                            </th>
+                                            <th style="text-align:center;   background-color: #E0E0E0; width:7%;">Qty
+                                            </th>
+                                            <th style="text-align:center; background-color: #E0E0E0;width:10%;">UoM</th>
+                                            <th style="text-align:center; background-color: #E0E0E0;">Unit Price</th>
+                                            <th style="text-align:center; background-color: #E0E0E0;">Amount</th>
+                                        </tr>
+
+                                        <t t-set="current_subtotal" t-value="0"/>
+                                        <t t-foreach="o.order_line" t-as="line">
+                                            <t t-set="current_subtotal"
+                                               t-value="current_subtotal + (line.product_uom_qty * line.price_unit)"/>
+                                            <t t-if="line.display_type == 'line_section'">
+
+
+                                                <tr>
+                                                    <td colspan="6" style="text-align:left; font-weight:bold;">
+                                                        <span t-field="line.name"/>
+                                                    </td>
+                                                    <t t-set="current_section" t-value="line"/>
+                                                    <t t-set="current_subtotal" t-value="0"/>
+                                                </tr>
+                                            </t>
+
+                                            <t t-if="line.display_type != 'line_section'">
+                                                <tr>
+                                                    <td class="img" style="background-color: #E0E0E0;">
+                                                        <span t-field="line.serial_number"/>
+                                                    </td>
+                                                    <!--                                                    <td class="img" style="background-color: #E0E0E0; ">-->
+                                                    <!--                                                       <img t-attf-src="data:image/*;base64,{{line.product_id.image_1920}}" style="width:50%; height:20%"/>-->
+                                                    <!--                                                    </td>-->
+                                                    <td class="img" style="text-align:left; background-color: #E0E0E0;">
+                                                        <span t-field="line.name"/>
+                                                        <br/>
+                                                        <t t-if="line.product_id.image_1920">
+                                                            <img t-attf-src="data:image/*;base64,{{line.product_id.image_1920}}"
+                                                                 style="width:50%; height:50%"/>
+                                                        </t>
+                                                    </td>
+                                                    <td class="img"
+                                                        style="background-color: #E0E0E0;">
+                                                        <span t-field="line.product_uom_qty"/>
+                                                    </td>
+                                                    <td class="img" style="background-color: #E0E0E0;">
+                                                        <span t-field="line.product_uom.l10n_in_code"/>
+                                                    </td>
+                                                    <td class="img"
+                                                        style="background-color: #E0E0E0; text-align:right;">
+                                                        <span t-field="line.price_unit"/>
+                                                    </td>
+                                                    <td class="img"
+                                                        style="text-align:right; background-color: #E0E0E0; text-align:right;">
+                                                        <span t-esc="'%.2f' % (line.product_uom_qty * line.price_unit)"/>
+                                                    </td>
+                                                </tr>
+
+
+                                            </t>
+                                            <t t-if="current_section and (line_last or o.order_line[line_index+1].display_type == 'line_section')">
+                                                <tr class="is-subtotal text-end">
+                                                    <td name="td_section_subtotal" colspan="99">
+                                                        <strong class="mr16">Subtotal</strong>
+                                                        <span
+                                                                t-out="current_subtotal"
+                                                                t-options='{"widget": "monetary", "display_currency": o.currency_id}'
+                                                        >
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </t>
+
+                                    </table>
+
+                                    <!--                                    <div class="row">-->
+                                    <!--                                        <div class="col-6"></div>-->
+                                    <!--                                        <div class="col-6">-->
+                                    <!--                                            <table class="table"-->
+                                    <!--                                                   style="margin-left:40px; background-color: #E0E0E0; border-bottom: 1px solid white; ">-->
+                                    <!--&lt;!&ndash;                                                <t t-set="tax_totals" t-value="o.tax_totals"/>&ndash;&gt;-->
+                                    <!--&lt;!&ndash;                                                <t t-call="sale.document_tax_totals"/>&ndash;&gt;-->
+                                    <!--                                            </table>-->
+                                    <!--                                        </div>-->
+                                    <!--                                    </div>-->
+                                    <div class="row">
+                                        <div class="col-6"></div>
+                                        <div class="col-6">
+                                            <table class="table"
+                                                   style="margin-left:40px; background-color: #E0E0E0; border-bottom: 3px solid white; ">
+
+
+                                                <tr>
+                                                    <td style="background-color: #3b89a8; color:white;">
+                                                        <b>Total Amount</b>
+                                                    </td>
+                                                    <td style="background-color: #3b89a8; color:white;">
+                                                        <span t-esc="'%.2f' % (sum(line.price_subtotal for line in o.order_line) + o.total_discount_amount)"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <b>Discount Amount</b>
+                                                    </td>
+                                                    <td>
+                                                        <span t-esc="'%.2f' % o.total_discount_amount"/>
+                                                    </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td style="background-color: #3b89a8; color:white;">
+                                                        <b>Total</b>
+                                                    </td>
+                                                    <td style="background-color: #3b89a8; color:white;">
+                                                        <span t-esc="'%.2f' % o.amount_untaxed"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <t t-set="tax_totals" t-value="{}"/>
+                                                    <t t-foreach="o.order_line" t-as="line">
+                                                        <t t-foreach="line.tax_id" t-as="tax">
+                                                            <t t-set="tax_name_with_label" t-value="'Tax ' + tax.name"/>
+                                                            <t t-set="current_total"
+                                                               t-value="tax_totals.get(tax_name_with_label, 0) + (line.price_subtotal * tax.amount / 100)"/>
+                                                            <t t-set="tax_totals"
+                                                               t-value="dict(list(tax_totals.items()) + [(tax_name_with_label, current_total)])"/>
+                                                        </t>
+                                                    </t>
+
+                                                    <t t-foreach="tax_totals.items()" t-as="tax_item">
+                                                        <tr>
+                                                            <td style="padding-left: 20px;">
+                                                                <span t-esc="tax_item[0]"/> <!-- Tax name with "Tax " included -->
+                                                            </td>
+                                                            <td>
+                                                                <span t-esc="'%.2f' % tax_item[1]"/>
+                                                            </td>
+                                                        </tr>
+                                                    </t>
+                                                </tr>
+
+                                                <tr>
+                                                    <td style="background-color: #3b89a8; color:white;">
+                                                        <b>Net Total</b>
+                                                    </td>
+                                                    <td style="background-color: #3b89a8; color:white;">
+                                                        <span t-esc="'%.2f' % o.amount_total"/>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <br/>
+                                    <br/>
+                                    <style>
+
+                                        .table table-sm
+                                        {
+                                        border: 1px solid black;
+                                        border-collapse: collapse;
+                                        }
+                                    </style>
+                                    <div class="row">
+                                        <div class="col-6"></div>
+                                        <div class="col-6">
+                                            <h5 style="margin-left:40px;">Summary</h5>
+                                            <table class="table" style="margin-left:40px;">
+                                                <tr>
+                                                    <th style="text-align:center;   background-color: #3b89a8; color:white; ">
+                                                        ITEM DESCRIPTION
+                                                    </th>
+                                                    <th style="text-align:center;   background-color: #3b89a8; color:white;">
+                                                        TOTAL
+                                                    </th>
+                                                </tr>
+                                                <t t-set="current_subtotal" t-value="0"/>
+                                                <tr>
+                                                    <t t-set="grand_total" t-value="0"/>
+                                                    <t t-foreach="o.order_line" t-as="line">
+                                                        <t t-set="current_subtotal"
+                                                           t-value="current_subtotal + (line.product_uom_qty * line.price_unit)"/>
+
+                                                        <t t-if="line.display_type == 'line_section'">
+
+
+                                                            <td colspan="6"
+                                                                style="text-align:left; font-weight:bold;  background-color: #E0E0E0;">
+                                                                <span t-field="line.name"/>
+                                                            </td>
+                                                            <t t-set="current_section" t-value="line"/>
+                                                            <t t-set="current_subtotal" t-value="0"/>
+
+                                                        </t>
+                                                        <t t-if="current_section and (line_last or o.order_line[line_index+1].display_type == 'line_section')">
+                                                            <tr class="is-subtotal text-end">
+                                                                <td name="td_section_subtotal" colspan="99"
+                                                                    style=" background-color: #E0E0E0;">
+                                                                    <!--                                                        <strong class="mr16">Subtotal</strong>-->
+                                                                    <span
+                                                                            t-out="current_subtotal"
+                                                                            t-options='{"widget": "monetary", "display_currency": o.currency_id}'
+                                                                    >
+                                                                    </span>
+                                                                </td>
+                                                            </tr>
+                                                            <t t-set="grand_total"
+                                                               t-value="grand_total + current_subtotal"/>
+                                                        </t>
+                                                    </t>
+                                                </tr>
+
+                                                <!--                                                <t t-set="subtotal" t-value="0"/>-->
+
+                                                <!--                                                <t t-foreach="o.order_line" t-as="line">-->
+                                                <!--                                                    <tr>-->
+                                                <!--                                                        <t t-if="line.display_type == 'line_section'">-->
+
+                                                <!--                                                            <td style="text-align:left;background-color: #E0E0E0; border: 3px solid white;">-->
+                                                <!--                                                                <b>-->
+                                                <!--                                                                    <span t-field="line.name"/>-->
+
+                                                <!--                                                                </b>-->
+                                                <!--                                                            </td>-->
+                                                <!--                                                            <td style="text-align:left;background-color: #E0E0E0; text-align:right; border: 3px solid white;">-->
+                                                <!--                                                                  <t t-if="current_section and (line_last or o.order_line[line_index+1].display_type == 'line_section')">-->
+                                                <!--                                                                <b>-->
+                                                <!--                                                                    <span-->
+
+                                                <!--                                                                            t-out="current_subtotal"-->
+                                                <!--                                                                            t-options='{"widget": "monetary", "display_currency": o.currency_id}'-->
+                                                <!--                                                                    ></span>-->
+
+
+                                                <!--                                                                </b>-->
+                                                <!--                                                                  </t>-->
+                                                <!--                                                            </td>-->
+
+
+                                                <!--                                                                                                <t t-set="subtotal" t-value="0"/>-->
+                                                <!--                                                        </t>-->
+
+                                                <!--                                                                                            <t t-if="line.display_type != 'line_section'">-->
+                                                <!--                                                                                                <t t-set="subtotal"-->
+                                                <!--                                                                                                   t-value="subtotal + line.price_subtotal"/>-->
+                                                <!--                                                                                            </t>-->
+                                                <!--                                                    </tr>-->
+                                                <!--                                                </t>-->
+
+                                                <!--                                                                                    <t t-if="line.display_type != 'line_section'">-->
+                                                <!--                                                                                        <t t-set="subtotal" t-value="subtotal + line.price_subtotal"/>-->
+                                                <!--                                                                                    </t>-->
+                                                <!--                                                                                    <t t-set="last_section_subtotal" t-value="subtotal"/>-->
+
+                                                <!--                                                <tr>-->
+                                                <!--                                                    <b>-->
+                                                <!--                                                        <th style="text-align:right; background-color: #3b89a8; color:white;">-->
+                                                <!--                                                            TOTAL AMOUNT-->
+                                                <!--                                                        </th>-->
+                                                <!--                                                    </b>-->
+                                                <!--                                                    <td style="text-align:right; background-color: #3b89a8; color:white; border:3px solid white;">-->
+                                                <!--                                                        <b>-->
+                                                <!--                                                            <span t-out="grand_total" t-options='{"widget": "monetary", "display_currency": o.currency_id}'></span>-->
+                                                <!--                                                        </b>-->
+                                                <!--                                                    </td>-->
+                                                <!--                                                </tr>-->
+                                                <!--                                                <tr>-->
+                                                <!--                                                    <b>-->
+                                                <!--                                                        <th style="text-align:right;  background-color:#386a7e;color:white; ">-->
+                                                <!--                                                            TOTAL GST-->
+                                                <!--                                                        </th>-->
+                                                <!--                                                    </b>-->
+                                                <!--                                                    <td style="text-align:right; background-color:#386a7e; color:white;border:3px solid white;">-->
+                                                <!--                                                        <b>-->
+                                                <!--                                                            <span t-esc="o.amount_tax"/>-->
+                                                <!--                                                        </b>-->
+                                                <!--                                                    </td>-->
+                                                <!--                                                </tr>-->
+                                                <!--                                                <tr>-->
+                                                <!--                                                    <b>-->
+                                                <!--                                                        <th style="text-align:right; background-color: #3b89a8;color:white;">-->
+                                                <!--                                                            TOTAL-->
+                                                <!--                                                        </th>-->
+                                                <!--                                                    </b>-->
+                                                <!--                                                    <td style="text-align:right; background-color: #3b89a8; color:white; border:3px solid white;">-->
+                                                <!--                                                        <b>-->
+                                                <!--                                                            <span t-esc="o.amount_total"/>-->
+                                                <!--                                                        </b>-->
+                                                <!--                                                    </td>-->
+                                                <!--                                                </tr>-->
+                                                <!--                                                <tr>-->
+                                                <!--                                                    <b>-->
+                                                <!--                                                        <th style="text-align:right; background-color:#386a7e; color:white; border:3px solid white;">-->
+                                                <!--                                                            GRAND TOTAL-->
+                                                <!--                                                        </th>-->
+                                                <!--                                                    </b>-->
+                                                <!--                                                    <td style="text-align:right; background-color:#386a7e; color:white; border:3px solid white;">-->
+                                                <!--                                                        <b>-->
+                                                <!--                                                            <span t-esc="o.amount_total"/>-->
+                                                <!--                                                        </b>-->
+                                                <!--                                                    </td>-->
+                                                <!--                                                </tr>-->
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    <br/>
+                                    <br/>
+                                    <t t-if="o.sale_order_option_ids">
+                                        <h4>Options</h4>
+                                        <table class="table">
+                                            <tr>
+                                                <th style="text-align:center; width:3%;   background-color: #E0E0E0;">
+                                                    Sl.No
+                                                </th>
+                                                <th style="text-align:center; width:55%;   background-color: #E0E0E0;">
+                                                    Description
+                                                </th>
+                                                <th style="text-align:center;   background-color: #E0E0E0;">Qty
+                                                </th>
+                                                <th style="text-align:center;   background-color: #E0E0E0;">UoM</th>
+                                                <th style="text-align:center;   background-color: #E0E0E0;">Unit Price
+                                                </th>
+                                                <th style="text-align:center;  background-color: #E0E0E0; ">Amount</th>
+                                            </tr>
+                                            <t t-foreach="o.sale_order_option_ids" t-as="option">
+                                                <tr>
+                                                    <td class="img" style="background-color: #E0E0E0;">
+
+                                                        <span t-field="option.sl_no"/>
+                                                    </td>
+                                                    <td class="img"
+                                                        style="text-align:left;  background-color: #E0E0E0;">
+                                                        <span t-field="option.name"/>
+                                                    </td>
+                                                    <td class="img"
+                                                        style="background-color: #E0E0E0;">
+                                                        <span t-field="option.quantity"/>
+                                                    </td>
+                                                    <td class="img" style="background-color: #E0E0E0;">
+                                                        <span t-field="option.uom_id.l10n_in_code"/>
+
+                                                    </td>
+                                                    <td class="img"
+                                                        style="text-align:right; background-color: #E0E0E0;">
+                                                        <span t-field="option.price_unit"/>
+                                                    </td>
+                                                    <td class="img"
+                                                        style="text-align:right; background-color: #E0E0E0;">
+                                                        <span t-esc="'%.2f' % (option.quantity * option.price_unit)"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </table>
+                                    </t>
+                                    <br/>
+                                    <div class="terms_conditions">
+                                        <td>
+                                            <span t-field="o.note"/>
+                                        </td>
+
+                                    </div>
+                                    <br/>
+                                    <br/>
+                                    <br/>
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <b>Client signature</b>
+                                        </div>
+                                        <div class="col-3">
+                                        </div>
+                                        <div class="col-3">
+                                        </div>
+                                        <div class="col-3" style="text-align:center;">
+                                            <b>Bussiness signature</b>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    <br/>
+                                </div>
+                            </div>
+                            <div>
+
+                                <table>
+
+                                </table>
+                            </div>
+
+                            <div class="footer">
+                                <div class="last-page" style="text-align:center;">
+                                    <tr>
+                                        <td>
+                                            <b>We're grateful for the trust you've placed in us.Thank you for being our
+                                                valued customer
+                                            </b>
+                                        </td>
+                                    </tr>
+                                </div>
+                                <div class="row" style="margin-top:60px;">
+                                    <img t-if="o.company_id.company_footer"
+                                         t-att-src="image_data_uri(o.company_id.company_footer)"
+                                         style="width:100%; max-height:140pt;" alt="header"/>
+                                </div>
+                            </div>
+                        </div>
+
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

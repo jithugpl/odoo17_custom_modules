@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+   <data>
+    <record id="seq_manpower_request" model="ir.sequence">
+        <field name="name">Manpower Request</field>
+        <field name="code">manpower.request</field>
+        <field name="prefix">MPR</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False"></field>
+    </record>
+   </data>
+</odoo>

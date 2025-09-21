@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="package_template_category" model="ir.module.category">
+        <field name="name">Package Template</field>
+        <field name="sequence">10</field>
+    </record>
+    <record id="package_template_group_user" model="res.groups">
+        <field name="name">User</field>
+        <field name="category_id" ref="package_template_category"/>
+    </record>
+    <record id="package_template_group_manager" model="res.groups">
+        <field name="name">Manager</field>
+        <field name="implied_ids" eval="[(4, ref('package_template_group_user'))]"/>
+        <field name="category_id" ref="package_template_category"/>
+    </record>
+    <record id="package_template_group_administrator" model="res.groups">
+        <field name="name">Administrator</field>
+        <field name="implied_ids" eval="[(4, ref('package_template_group_manager'))]"/>
+        <field name="category_id" ref="package_template_category"/>
+    </record>
+    <record id="package_template_comp_rule" model="ir.rule">
+        <field name="name">Package Template multi-company</field>
+        <field name="model_id" ref="model_package_template"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="cost_related_field" model="res.groups">
+        <field name="name">Cost Related Field</field>
+    </record>
+
+
+
+</odoo>

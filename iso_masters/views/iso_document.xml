@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+
+    <!-- Blank Overview Page -->
+    <record id="action_iso_overview" model="ir.actions.act_window">
+        <field name="name">Overview</field>
+        <field name="res_model">iso.masters.shift</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'default_name': 'Overview'}</field>
+    </record>
+
+
+    <menuitem id="menu_iso_documents_root"
+              name="Iso Documents"
+              sequence="30"/>
+
+    <menuitem id="menu_iso_overview"
+              name="Overview"
+              action="action_iso_overview"
+              parent="menu_iso_documents_root"
+              sequence="1"/>
+
+    <menuitem id="menu_iso_power_factor_root_one"
+              name="Masters"
+              parent="menu_iso_documents_root"
+              sequence="10"/>
+
+    <menuitem id="menu_iso_power_factor_root_two"
+              name="Power Meter"
+              action="iso_masters.action_iso_master_meter"
+              parent="menu_iso_power_factor_root_one"
+              sequence="10"/>
+
+    <menuitem id="menu_power_factor_root_three"
+              name="Shift"
+              action="iso_masters.power_factor_master_action"
+              parent="menu_iso_power_factor_root_one"
+              sequence="10"/>
+
+    <menuitem id="menu_power_factor_transactions"
+              name="Transactions"
+              parent="menu_iso_documents_root"
+              sequence="14"/>
+</odoo>

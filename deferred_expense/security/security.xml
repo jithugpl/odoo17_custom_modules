@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record model="ir.module.category" id="module_deferred_expense_privilege">
+        <field name="name">Deferred Expense</field>
+        <field name="description">Category for  deferred expense management</field>
+        <field name="sequence">50</field>
+    </record>
+    <record id="group_deferred_user" model="res.groups">
+        <field name="name">User</field>
+        <field name="category_id" ref="module_deferred_expense_privilege"/>
+    </record>
+    <record id="group_deferred_manager" model="res.groups">
+        <field name="name">Manager</field>
+        <field name="category_id" ref="module_deferred_expense_privilege"/>
+         <field name="implied_ids" eval="[(4, ref('group_deferred_user'))]"/>
+    </record>
+</odoo>

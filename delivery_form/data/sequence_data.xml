@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+   <data>
+    <record id="seq_delivery_slip" model="ir.sequence">
+        <field name="name">Delivery Slip</field>
+        <field name="code">delivery.slip</field>
+        <field name="prefix">DS</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False"></field>
+    </record>
+   </data>
+</odoo>

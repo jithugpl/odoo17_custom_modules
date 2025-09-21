@@ -1,0 +1,212 @@
+<odoo>
+    <!-- Report Template -->
+    <template id="report_delivery_form">
+        <t t-call="web.html_container">
+            <t t-call="web.basic_layout">
+                <t t-foreach="docs" t-as="doc">
+                    <style type="text/css">
+                        #first_table_head_border {
+                            vertical-align: middle;
+                            border-right: 1px solid black;
+                            border-left: 1px solid black;
+                            border-top: 1px solid black;
+                            border-bottom: 1px solid black;
+                        }
+                        table.table-bordered {
+                            border: 1px solid black;
+                            width: 100%;
+                        }
+                        table.table-bordered th, table.table-bordered td {
+                            border: 1px solid black;
+                            font-size: 20px;
+                        }
+                        .ashcolor {
+                            background-color: #e5e5e5;
+                        }
+                        .footer-tables {
+                            position: fixed;
+                            bottom: 0;
+                            width: 100%;
+                        }
+                    </style>
+
+                    <!-- Header -->
+                    <div class="header o_standard_header">
+                        <div class="row">
+                            <table width="100%" class="table table-borderless">
+                                <tr>
+                                    <td style="vertical-align: top; line-height: 1; font-weight: bold; font-size: 20px;"
+                                        width="45%" align="left">
+                                        <span t-field="doc.company_id.name" style="font-size: 31px; color: #0f3d4d;"/>
+                                        <br/>
+                                        <span t-field="doc.company_id.street"/>
+                                        <span t-field="doc.company_id.street2"/>
+                                        <br/>
+                                        <span t-field="doc.company_id.city"/>,
+                                        <span t-field="doc.company_id.state_id"/>,
+                                        <span t-field="doc.company_id.zip"/>
+                                        <br/>
+                                        <span t-field="doc.company_id.email"/>
+                                        <br/>
+                                        <span t-field="doc.company_id.website"/>
+                                        <t t-if="doc.company_id.phone">
+                                            <br/>
+                                            <span>
+                                                Call:
+                                                <span t-field="doc.company_id.phone"/>
+                                            </span>
+                                        </t>
+                                        <t t-if="doc.company_id.vat">
+                                            <br/>
+                                            <span>
+                                                TRN:
+                                                <span t-field="doc.company_id.vat"/>
+                                            </span>
+                                        </t>
+                                    </td>
+                                    <td width="35%" style="vertical-align: top;" align="right">
+                                        <img alt="Company Logo" t-if="doc.company_id.logo"
+                                             t-att-src="image_data_uri(doc.company_id.logo)"
+                                             style="width:60%; max-height:140pt;"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <table width="100%" class="table table-borderless">
+                            <tr>
+                                <td style="border-top: 1px solid black; padding: 0 0 0 0; text-align: center">
+                                    <h1>
+                                        <strong style="color: red">Delivery Slip</strong>
+                                    </h1>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <!-- Header End -->
+
+                    <div class="page" style="font-size: 20px">
+                        <!-- First -->
+                        <table width="100%" class="table table-borderless">
+                            <tr>
+                                <td style="text-align:left;padding: 0px 0px 0px 5px; font-weight: bold;">
+                                    Customer
+                                </td>
+                                <td style="text-align:left;padding: 0px 0px 0px 5px; font-weight: bold;">:
+                                    <span t-field="doc.customer_name"/>
+                                </td>
+                                <td style="text-align:left;padding: 0px 0px 0px 5px; font-weight: bold;">
+                                    Work No
+                                </td>
+                                <td style="text-align:left;padding: 0px 0px 0px 5px;">:
+                                    <span t-field="doc.project_name"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:left;padding: 0px 0px 0px 5px; font-weight: bold;">
+                                    Vehicle No
+                                </td>
+                                <td style="text-align:left;padding: 0px 0px 0px 5px;">:
+                                    <span t-field="doc.vehicle_no"/>
+                                </td>
+                                <td style="text-align:left;padding: 0px 0px 0px 5px; font-weight: bold;">
+                                    Delivery Date
+                                </td>
+                                <td style="text-align:left;padding: 0px 0px 0px 5px;">:
+                                    <span t-esc="doc.delivery_date.strftime('%d/%m/%y')"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:left;padding: 0px 0px 0px 5px; font-weight: bold;width=30px;">
+                                    Delivery No
+                                </td>
+                                <td style="text-align:left;padding: 0px 0px 0px 5px;">:
+                                    <span t-field="doc.delivery_no"/>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <table style="width: 100%; padding-bottom: 50px;" name="delivery_slip_table">
+                            <thead>
+                                <tr class="ashcolor">
+                                    <th name="sl_no" style="text-align: center;">
+                                        <span>SlNo</span>
+                                    </th>
+                                    <th name="description" style="text-align: center;">
+                                        <span>Description</span>
+                                    </th>
+                                    <th name="unit" style="text-align: center;">
+                                        <span>Unit</span>
+                                    </th>
+                                    <th name="quantity" style="text-align: center;">
+                                        <span>Qty</span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-set="counter" t-value="1"/>
+                                <t t-foreach="doc.product_line_ids" t-as="line">
+                                    <tr>
+                                        <td style="text-align: center;">
+                                            <t t-esc="counter"/>
+                                            <t t-set="counter" t-value="counter + 1"/>
+                                        </td>
+                                        <td style="padding: 0px 0px 0px 5px;">
+                                            <span t-field="line.description"/>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <span t-field="line.uom_id.name"/>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <span t-field="line.quantity"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+
+                        <!-- Footer -->
+                        <div class="footer o_standard_footer" style="font-size:20px; margin-top: 50px;">
+                            <div class="last-page">
+                                <table class="table table-borderless" style="width: 100%;">
+                                    <tr style="text-align: center;">
+                                        <td colspan="9" style="padding-bottom: 25px;"></td>
+                                    </tr>
+                                    <tr style="text-align: center;">
+                                        <td style="padding-right: 25px;">
+                                            <strong>Prepared by:</strong>
+                                        </td>
+                                        <td style="padding-left: 25px; padding-right: 25px;">|</td>
+                                        <td style="padding-left: 25px; padding-right: 25px;">
+                                            <strong>Checked by:</strong>
+                                        </td>
+                                        <td style="padding-left: 25px; padding-right: 25px;">|</td>
+                                        <td style="padding-left: 25px; padding-right: 25px;">
+                                            <strong>Approved by:</strong>
+                                        </td>
+                                        <td style="padding-left: 25px; padding-right: 25px;">|</td>
+                                        <td style="padding-left: 25px; padding-right: 25px;">
+                                            <strong>Received by:</strong>
+                                        </td>
+                                        <td style="padding-left: 25px; padding-right: 25px;">|</td>
+                                        <td style="padding-left: 25px;">
+                                            <strong>DOC Date:</strong>
+                                            <span t-esc="doc.delivery_date.strftime('%d/%m/%y')"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="row text-center">
+                                <div class="col col-12 text-center">
+                                    <span class="page"></span>
+                                    /
+                                    <span class="topage"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

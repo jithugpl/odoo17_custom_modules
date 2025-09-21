@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+
+        <record id="group_show_ra_bill_amount" model="res.groups">
+            <field name="name">Show RA Bill Amount</field>
+        </record>
+
+        <record model="ir.module.category" id="running_bill_type">
+            <field name="name">Running Bill</field>
+            <field name="description">Types of Running Bill users.</field>
+            <field name="sequence">10</field>
+        </record>
+
+        <record id="running_bill_user" model="res.groups">
+            <field name="name">User</field>
+            <field name="category_id" ref="running_bill_type"/>
+        </record>
+
+        <record id="running_bill_manager" model="res.groups">
+            <field name="name">Manager</field>
+            <field name="implied_ids" eval="[(4, ref('running_bill_user'))]"/>
+            <field name="category_id" ref="running_bill_type"/>
+        </record>
+
+        <record id="running_bill_admin" model="res.groups">
+            <field name="name">Administrator</field>
+            <field name="implied_ids" eval="[(4, ref('running_bill_manager')), (4, ref('group_show_ra_bill_amount'))]"/>
+            <field name="category_id" ref="running_bill_type"/>
+        </record>
+
+    </data>
+</odoo>

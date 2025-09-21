@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="aggregated_delivery_data_tree" model="ir.ui.view">
+        <field name="name">Aggregated Delivery Data Tree</field>
+        <field name="model">aggregated.delivery.data</field>
+        <field name="arch" type="xml">
+            <tree string="Aggregated Delivery Data" create="false">
+                <field name="delivery_no"/>
+                <field name="delivery_date"/>
+                <field name="product_name"/>
+                <field name="quantity"/>
+                <field name="rate"/>
+                <field name="amount"/>
+                <field name="vehicle_no"/>
+                <field name="project_name"/>
+            </tree>
+        </field>
+    </record>
+</odoo>

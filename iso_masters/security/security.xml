@@ -1,0 +1,22 @@
+<odoo>
+    <!-- Module Category -->
+    <record model="ir.module.category" id="module_category_iso_masters">
+        <field name="name">ISO Master Module</field>
+        <field name="sequence">20</field>
+    </record>
+
+    <!-- Employee Group (View-Only) -->
+    <record id="group_iso_master_employee" model="res.groups">
+        <field name="name">ISO Master Employee</field>
+        <field name="category_id" ref="module_category_iso_masters"/>
+        <field name="comment">Group for employees who can view ISO master records.</field>
+    </record>
+
+    <!-- Manager Group (Can Edit) -->
+    <record id="group_iso_master_manager" model="res.groups">
+        <field name="name">ISO Master Manager</field>
+        <field name="category_id" ref="module_category_iso_masters"/>
+        <field name="implied_ids" eval="[(4, ref('group_iso_master_employee'))]"/>
+        <field name="comment">Group for managers who can manage ISO master records.</field>
+    </record>
+</odoo>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="project_project_form_view_inherit_construction_material_management" model="ir.ui.view">
+        <field name="name">project.project.form.view.inherit.construction.material.management</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook/page[@name='settings']" position="after">
+                <page name="project_site_details" string="Site Details">
+                    <field name="site_details" options="{'resizable': false}"
+                           placeholder="Project site details..."/>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="task_type_edit_inherit_construction_material_management" model="ir.ui.view">
+        <field name="name">task.type.edit.inherit.construction.material.management</field>
+        <field name="model">project.task.type</field>
+        <field name="inherit_id" ref="project.task_type_edit"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='project_ids']" position="after">
+                <field name="in_progress"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

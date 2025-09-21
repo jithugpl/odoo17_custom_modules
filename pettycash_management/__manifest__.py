@@ -1,0 +1,23 @@
+{
+    'name': 'Petty Cash Management',
+    'version': '17.0',
+    'category': 'Account',
+    'summary': 'Petty Cash Management',
+    'author': 'Divergent Catalist ERP Solutions',
+    'company': 'Divergent Catalist ERP Solutions',
+    'maintainer': 'Divergent Catalist ERP Solutions',
+    'depends': ['base', 'stock','account','project','hr_expense'],
+    'data': [
+        'security/ir.model.access.csv',
+        'security/security.xml',
+        'security/record_rule.xml',
+        'views/petty_management.xml',
+        'views/petty_cash_in_account.xml',
+        'views/petty_journal.xml',
+        'data/sequence.xml',
+             ],
+    'license': 'LGPL-3',
+    'installable': True,
+    'application': False,
+    'auto_install': False,
+}

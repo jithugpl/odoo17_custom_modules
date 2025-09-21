@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="action_delivery_note" model="ir.actions.act_window">
+        <field name="name">Delivery Note</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">delivery.form</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                create new delivery note !
+            </p>
+        </field>
+    </record>
+    <record model="ir.rule" id="record_shared_company_rule">
+        <field name="name">Shared Record: multi-company</field>
+        <field name="model_id" ref="model_delivery_form"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">
+            ['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]
+        </field>
+    </record>
+
+    #to create menu button
+
+    <menuitem
+            id="delivery_transcation_menu"
+            name="Transcations"
+            parent="stock.menu_stock_root"
+            sequence="25"/>
+    <menuitem
+            id="delivery_note_menu"
+            name="Delivery Note"
+            action="action_delivery_note"
+            parent="delivery_transcation_menu"
+            groups="delivery_form.group_delivery_user,delivery_form.group_delivery_manager"
+            sequence="25"/>
+
+
+
+
+
+</odoo>

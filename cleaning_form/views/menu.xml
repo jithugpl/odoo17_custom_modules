@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="action_cleaning_form" model="ir.actions.act_window">
+        <field name="name">Cleaning Form</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">cleaning.form</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                create new cleaning data !
+            </p>
+        </field>
+    </record>
+
+
+
+
+    #to create menu button
+
+    <menuitem
+            id="cleaning_form_menu"
+            name="Cleaning"
+            action="action_cleaning_form"
+            parent="iso_masters.menu_power_factor_transactions"
+            groups="cleaning_form.group_cleaning_user,cleaning_form.group_cleaning_manager"
+            sequence="25"/>
+
+
+
+
+
+</odoo>

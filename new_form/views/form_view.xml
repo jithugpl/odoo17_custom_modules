@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    #to create list view
+    <record id="view_new_form_tree" model="ir.ui.view">
+        <field name="name">new.form.tree</field>
+        <field name="model">new.form</field>
+        <field name="arch" type="xml">
+            <tree default_order="create_date desc">
+                <field name="vehicle_no"/>
+
+            </tree>
+        </field>
+    </record>
+
+    <!--kanban view    -->
+    #kanban view code
+
+    <record id="view_new_form_kanban" model="ir.ui.view">
+        <field name="name">new.form.kanban</field>
+        <field name="model">new.form</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="stage_id">
+                <field name="form_no"/>
+                <field name="stage_id"/>
+                <field name="vehicle_no"/>
+
+                <templates>
+                    <!-- Define the template for each Kanban card -->
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click o_kanban_record">
+                            <div class="oe_kanban_content">
+                                <!-- Display the form number -->
+                                <div>
+                                    <strong t-esc="record.form_no.value"/>
+                                </div>
+                                <!-- Display the vehicle number -->
+                                <div>
+                                    <span>Vehicle No: </span>
+                                    <span t-esc="record.vehicle_no.value"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+
+<!--    <record id="view_new_form_kanban" model="ir.ui.view">-->
+<!--        <field name="name">new.form.kanban</field>-->
+<!--        <field name="model">new.form</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <kanban>-->
+<!--                <group>-->
+<!--                    <templates>-->
+<!--                        &lt;!&ndash; Define the template for each Kanban card &ndash;&gt;-->
+<!--                        <t t-name="kanban-box">-->
+<!--                            <div class="oe_kanban_content">-->
+<!--                                &lt;!&ndash; Primary content for the Kanban card &ndash;&gt;-->
+<!--                                <div>-->
+<!--                                    <strong>-->
+<!--                                        <field name="form_no"/>-->
+<!--                                    </strong>-->
+<!--                                </div>-->
+
+
+<!--                            </div>-->
+<!--                        </t>-->
+<!--                    </templates>-->
+<!--                </group>-->
+<!--            </kanban>-->
+<!--        </field>-->
+<!--    </record>-->
+
+    <!--form view-->
+    <record id="view_new_form" model="ir.ui.view">
+        <field name="name">new.form</field>
+        <field name="model">new.form</field>
+        <field name="arch" type="xml">
+            <form>
+
+
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="form_no" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="vehicle_no"/>
+                        </group>
+
+                    </group>
+
+
+                </sheet>
+
+            </form>
+        </field>
+    </record>
+
+
+
+</odoo>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_order_form_inherit_package_template" model="ir.ui.view">
+            <field name="name">sale.order.inherited.package.template</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='payment_term_id']" position="after">
+                    <field name="package_template_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                    <button name="action_generate_lines_from_packages" class="btn btn-primary" string="Generate"
+                            type="object"/>
+                    <br/>
+                    <field name="profit_percentage" groups="package_template.cost_related_field"/>
+                    <button name="action_profit_percentage" class="btn btn-primary" string="Apply"
+                            type="object" groups="package_template.cost_related_field"/>
+                </xpath>
+                <xpath expr="//field[@name='order_line']/tree/field[@name='price_unit']" position="before">
+                    <field name="cost" groups="package_template.cost_related_field" optional="hide"/>
+                    <field name="cost_amount" groups="package_template.cost_related_field" optional="hide"/>
+                    <field name="profit" groups="package_template.cost_related_field" optional="hide"/>
+                    <field name="profit_amount" groups="package_template.cost_related_field" optional="hide"/>
+                </xpath>
+                 <xpath expr="//field[@name='order_line']/tree/field[@name='price_subtotal']" position="before">
+                    <field name="disc_amount" optional="hide"/>
+                </xpath>
+                <xpath expr="//field[@name='sale_order_option_ids']/tree/field[@name='product_id']" position="before">
+                    <field name="sl_no" groups="package_template.cost_related_field"/>
+                </xpath>
+                <xpath expr="//field[@name='sale_order_option_ids']/tree/field[@name='price_unit']" position="before">
+                    <field name="cost" groups="package_template.cost_related_field" optional="hide"/>
+                    <field name="cost_amount" groups="package_template.cost_related_field" optional="hide"/>
+                    <field name="profit" groups="package_template.cost_related_field" optional="hide"/>
+                    <field name="profit_amount" groups="package_template.cost_related_field" optional="hide"/>
+                </xpath>
+                <xpath expr="//field[@name='order_line']/tree/field[@name='product_template_id']" position="before">
+                    <field name="serial_number" />
+                </xpath>
+                <xpath expr="//field[@name='sale_order_option_ids']/tree/field[@name='price_unit']" position="after">
+                    <field name="tax_id" widget='many2many_tags' groups="package_template.cost_related_field"/>
+
+                </xpath>
+                <xpath expr="//notebook" position="inside">
+                    <page name="Additional Details">
+                        <group string="Project Description" name="description">
+                            <field colspan="2" name="additional_details" nolabel="1"
+                                   placeholder="Add Project Description here"/>
+
+                        </group>
+                        <group string="Subject" name="description">
+                            <field colspan="2" name="extra_data" nolabel="1"
+                                   placeholder="Add Subject of Cover Letter here"/>
+
+                        </group>
+                    </page>
+                </xpath>
+
+
+                <xpath expr="//field[@name='tax_totals']" position="after">
+                    <field name="net_cost" widget="monetary" options="{'currency_field': 'currency_id'}"
+                           groups="package_template.cost_related_field"/>
+                    <field name="net_profit_amount" widget="monetary" options="{'currency_field': 'currency_id'}"
+                           groups="package_template.cost_related_field"/>
+                </xpath>
+
+
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

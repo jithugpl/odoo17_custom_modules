@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_account_move_inherit_deferred_expense" model="ir.ui.view">
+        <field name="name">deferred expense</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <header>
+                <button name="%(deferred_expense_action_form)d"
+                        type="action"
+                        ref="deferred_expense.deferred_expense_schedule_form"
+                        string="Schedule"
+                        class="btn-primary"
+                        context="{'default_vendor_bill_number': name}"
+                        invisible="move_type != 'in_invoice'or state =='draft'"/>
+            </header>
+        </field>
+    </record>
+</odoo>
+

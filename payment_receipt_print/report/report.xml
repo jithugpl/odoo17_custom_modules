@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="paperformat_payment_receipt" model="report.paperformat">
+        <field name="name">Payment Receipt Paper Format</field>
+        <field name="default" eval="False"/>
+        <field name="format">A4</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">65</field>
+        <field name="margin_bottom">40</field>
+        <field name="margin_left">5</field>
+        <field name="margin_right">5</field>
+        <field name="header_spacing">60</field>
+        <field name="dpi">90</field>
+    </record>
+
+<!--#orignal delivery slip.xml-->
+    <record id="action_report_payment_receipt" model="ir.actions.report">
+        <field name="name">Payment Receipt Print</field>
+        <field name="model">account.payment</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">payment_receipt_print.report_payment_receipt</field>
+        <field name="report_file">payment_receipt_print.report_payment_receipt</field>
+        <field name="paperformat_id" ref="paperformat_payment_receipt"/>
+        <field name="binding_model_id" ref="post_dated_cheque.model_account_payment"/>
+        <field name="binding_type">report</field>
+    </record>
+
+
+</odoo>

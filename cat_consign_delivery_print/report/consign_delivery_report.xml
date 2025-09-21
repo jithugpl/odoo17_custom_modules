@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+   <record id="report_consign_delivery" model="ir.actions.report">
+       <field name="name">Consignment Delivery</field>
+       <field name="model">stock.picking</field>
+       <field name="report_type">qweb-pdf</field>
+       <field name="report_name">cat_consign_delivery_print.report_consignment_delivery</field>
+       <field name="report_file">cat_consign_delivery_print.report_consignment_delivery</field>
+       <field name="binding_model_id" ref="stock.model_stock_picking"/>
+       <field name="binding_type">report</field>
+   </record>
+</odoo>

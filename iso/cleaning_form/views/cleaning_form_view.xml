@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+<!--    to create list view-->
+    <record id="view_trial_form_tree" model="ir.ui.view">
+        <field name="name">cleaning.tree</field>
+        <field name="model">cleaning.form</field>
+        <field name="arch" type="xml">
+            <tree default_order="create_date desc">
+                <field name="cleaning_no"/>
+                <field name="date"/>
+                <field name="cleaned_by"/>
+                <field name="state" string="Status"
+                       decoration-success="state == 'draft'"
+                       decoration-danger="state == 'approved'"
+                       decoration-warning="state == 'cancelled'"
+                       widget="badge"/>
+
+
+            </tree>
+        </field>
+    </record>
+
+    <!--kanban view    -->
+    #kanban view code
+    <record id="view_trial_form_kanban" model="ir.ui.view">
+        <field name="name">cleaning.kanban</field>
+        <field name="model">cleaning.form</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <group>
+                    <templates>
+                        <!-- Define the template for each Kanban card -->
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_content">
+                                <!-- Primary content for the Kanban card -->
+                                <div>
+                                    <strong>
+                                        <field name="cleaning_no"/>
+                                    </strong>
+                                </div>
+                                
+                                <div>
+                                    <field name="date"/>
+                                </div>
+                                <div>
+                                    <field name="cleaned_by"/>
+                                </div>
+
+
+                            </div>
+                        </t>
+                    </templates>
+                </group>
+            </kanban>
+        </field>
+    </record>
+
+    <!--form view-->
+    <record id="view_trial_form" model="ir.ui.view">
+        <field name="name">cleaning.form</field>
+        <field name="model">cleaning.form</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_reset_to_draft" string="Reset to draft" type="object"
+                            class="btn-primary" invisible="state in ['draft']"
+                            groups="cleaning_form.group_cleaning_manager"/>
+
+                    <button name="action_approve" string="Approve" type="object" class="btn-primary"
+                            invisible="state in ['approve']"
+                            groups="cleaning_form.group_cleaning_manager"/>
+                    <button name="action_cancel" string="Cancel"
+                            confirm="Are you sure?" type="object" class="btn-primary"
+                            groups="cleaning_form.group_cleaning_user,cleaning_form.group_cleaning_manager"/>
+
+                    <field name="state" widget="statusbar" nolabel="1"
+                           statusbar_visible="draft,approve" class="btn-primary"/>
+                </header>
+
+
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="cleaning_no" readonly="1"/>
+                        </h1>
+<!--                        <h1>-->
+<!--                            <field name="number" readonly="1"/>-->
+<!--                        </h1>-->
+                    </div>
+                    <group>
+                        <group>
+                            <field name="date"/>
+                        </group>
+                        <group>
+                            <field name="number"/>
+                        </group>
+
+                        <group>
+                            <field name="strength_of_solution" readonly="state in ['approve']"/>
+                        </group>
+
+                        <group>
+                            <field name="cleaned_by" readonly="state in ['approve']"/>
+                        </group>
+                        <group>
+                            <field name="checked_by" />
+                        </group>
+
+
+                    </group>
+
+
+
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" groups="base.group_user"
+                           options="{'post_refresh': 'recipients'}"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+
+            </form>
+        </field>
+    </record>
+
+<!--    to create search view-->
+    <record id="view_cleaning_search" model="ir.ui.view">
+        <field name="name">cleaning.search</field>
+        <field name="model">cleaning.form</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="cleaning_no"
+                       filter_domain="['|','|','|',('cleaned_by','ilike',self),('checked_by','ilike',self),('date','ilike',self),('state','ilike',self)]"/>
+                <field name="date"/>
+                <field name="cleaned_by"/>
+                <field name="checked_by"/>
+            </search>
+        </field>
+    </record>
+
+
+
+</odoo>

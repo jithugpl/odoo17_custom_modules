@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_delivery_form_user,access.delivery.form.user,model_delivery_form,group_delivery_user,1,1,1,0
+access_delivery_form_manager,access.delivery.form.manager,model_delivery_form,group_delivery_manager,1,1,1,1
+access_delivery_form_lines,access.delivery.form.lines,model_delivery_form_lines,base.group_user,1,1,1,1
+access_dispatch_report_wizard,access.dispatch.report.wizard,model_dispatch_report_wizard,base.group_user,1,1,1,1
+access_aggregated_delivery_data,access.aggregated.delivery.data,model_aggregated_delivery_data,base.group_user,1,1,1,1

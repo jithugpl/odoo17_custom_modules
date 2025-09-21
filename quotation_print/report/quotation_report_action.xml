@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="paperformat_euro_quotation_print_report" model="report.paperformat">
+            <field name="name">Delivery Note A4 Format</field>
+            <field name="default" eval="True"/>
+            <field name="format">A4</field>
+            <field name="margin_left">0</field>
+            <field name="margin_right">0</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">40</field>
+            <field name="margin_bottom">35</field>
+            <field name="header_spacing">42</field>
+            <field name="dpi">100</field>
+        </record>
+
+        <record id="action_quotation_report_template" model="ir.actions.report">
+            <field name="name">Quotation Report</field>
+            <field name="model">sale.order</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">quotation_print.snowbell_quotation_action_report_template</field>
+            <field name="report_file">quotation_print.snowbell_quotation_action_report_template</field>
+            <field name="paperformat_id" ref="quotation_print.paperformat_euro_quotation_print_report"/>
+            <field name="binding_model_id" ref="sale.model_sale_order"/>
+            <field name="binding_type">report</field>
+         </record>
+    </data>
+</odoo>

@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_manpower_request,account.manpower.request,model_manpower_request,,1,1,1,1
+access.manpower.skills,access_manpower_skills,manpower_request.model_manpower_skills,base.group_user,1,1,1,1

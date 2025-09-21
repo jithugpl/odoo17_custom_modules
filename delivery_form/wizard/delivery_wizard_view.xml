@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Form View for the Wizard -->
+    <record id="view_dispatch_report_wizard" model="ir.ui.view">
+        <field name="name">dispatch.report.wizard.form</field>
+        <field name="model">dispatch.report.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group>
+                        <field name="from_date"/>
+                        <field name="to_date"/>
+                    </group>
+                    <group>
+                        <field name="project_name"/>
+                        <field name="product_id"/>
+                    </group>
+                </group>
+                <footer>
+                    <button string="View Report" type="object" name="action_open_report" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+ <!-- Search View for Aggregated Delivery Data -->
+    <record id="view_delivery_report_search" model="ir.ui.view">
+        <field name="name">delivery.report.search</field>
+        <field name="model">aggregated.delivery.data</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="delivery_no"/>
+                <field name="customer_name"/>
+                <field name="project_name"/>
+                <field name="delivery_date"/>
+                <field name="vehicle_no"/>
+                <field name="product_name"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action to Open the Wizard -->
+    <record id="action_dispatch_report_wizard" model="ir.actions.act_window">
+        <field name="name">Dispatch Report Wizard</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">dispatch.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Menu Item for the Wizard -->
+    <menuitem
+        id="dispatch_report_menu"
+        name="Dispatch Report"
+        action="action_dispatch_report_wizard"
+        parent="stock.menu_warehouse_report"
+        sequence="25"/>
+</odoo>

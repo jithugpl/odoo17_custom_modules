@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="package_template_view_tree" model="ir.ui.view">
+        <field name="name">package.template.view.tree</field>
+        <field name="model">package.template</field>
+        <field name="arch" type="xml">
+            <tree string="Package Template Tree">
+                <field name="product_id"/>
+                <field name="uom_id"/>
+                <field name="state" widget="badge" decoration-muted="state=='review'"
+                       decoration-success="state == 'confirm'"/>
+            </tree>
+        </field>
+    </record>
+    <record id="package_template_view_form" model="ir.ui.view">
+        <field name="name">package.template.view.form</field>
+        <field name="model">package.template</field>
+        <field name="arch" type="xml">
+            <form string="Package Template Form">
+                <header>
+                    <button name="action_confirm" string="Confirm" type="object" invisible="state != 'review'"
+                            class="oe_highlight" />
+                    <button name="back_to_review" string="Back To Review" type="object" class="btn btn-secondary"
+                            groups="package_template.package_template_group_administrator"
+                            invisible="state == 'review'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="review,confirm"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group name="main_details">
+                            <field name="product_id" required="1" options="{'no_create': True}" readonly="state in ['confirm']"/>
+                            <field name="uom_id"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="item_details" string="Item Details">
+                            <field name="package_template_line_ids" readonly="state == 'confirm'" widget="section_and_note_one2many"
+                                   mode="tree" context="{'default_display_type': False}">
+                                <tree editable="bottom">
+                                    <control>
+                                        <create name="add_line_control" string="Add a line"/>
+                                        <create name="add_section_control"
+                                                string="Add a section"
+                                                context="{'default_display_type': 'line_section'}"/>
+                                    </control>
+
+
+                                     <field name="product_id"/>
+                                    <field name="name" widget="section_and_note_text" />
+                                    <field name="uom_id"/>
+                                    <field name="quantity"/>
+                                    <field name="cost"/>
+                                    <field name="amount"/>
+                                    <field name="display_type"   column_invisible="1"/>
+
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" groups="base.group_user"/>
+                    <field name="message_ids"/>
+                    <field name="activity_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="package_template_action" model="ir.actions.act_window">
+        <field name="name">Package Template</field>
+        <field name="res_model">package.template</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new Package Template
+            </p>
+        </field>
+    </record>
+    <menuitem
+            id="packagetemplate_main_menu"
+            name="Package Template"
+            parent="sale.sale_order_menu"
+            action="package_template_action"
+            sequence="25"/>
+</odoo>
+

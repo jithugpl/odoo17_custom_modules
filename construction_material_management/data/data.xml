@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="seq_actual_bom" model="ir.sequence">
+        <field name="name">Actual Bom Sequence</field>
+        <field name="code">actual.bom.seq</field>
+        <field name="prefix">CB</field>
+        <field name="padding">6</field>
+        <field name="company_id" eval="True"/>
+    </record>
+
+    <record id="seq_material_request" model="ir.sequence">
+        <field name="name">Material Request Sequence</field>
+        <field name="code">material.request.seq</field>
+        <field name="prefix">MR</field>
+        <field name="padding">6</field>
+        <field name="company_id" eval="True"/>
+    </record>
+
+    <record id="seq_amendment_request" model="ir.sequence">
+        <field name="name">Amendment Request Sequence</field>
+        <field name="code">amendment.request.seq</field>
+        <field name="prefix">AR</field>
+        <field name="padding">6</field>
+        <field name="company_id" eval="True"/>
+    </record>
+
+    <record id="seq_material_purchase_requisition" model="ir.sequence">
+        <field name="name">Material Purchase Requisition Sequence</field>
+        <field name="code">material.purchase.requisition.code</field>
+        <field name="prefix">PR</field>
+        <field name="padding">6</field>
+        <field name="company_id" eval="True"/>
+    </record>
+
+</odoo>

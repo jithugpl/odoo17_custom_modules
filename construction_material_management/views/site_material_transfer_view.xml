@@ -1,0 +1,113 @@
+<odoo>
+
+    <record id="site_material_transfer_tree" model="ir.ui.view">
+        <field name="name">site_material_transfer.view.tree</field>
+        <field name="model">site.material.transfer</field>
+        <field name="arch" type="xml">
+            <tree string="Site To Site Material Transfer Tree">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="from_project_id"/>
+                <field name="to_project_id"/>
+                <field name="state" widget="badge" decoration-muted="state == 'draft'"
+                       decoration-info="state == 'review'"
+                       decoration-success="state in ('issued', 'receive')"
+                />
+            </tree>
+        </field>
+    </record>
+
+    <record id="site_material_transfer_view_form" model="ir.ui.view">
+        <field name="name">site_material_transfer.view.form</field>
+        <field name="model">site.material.transfer</field>
+        <field name="arch" type="xml">
+            <form string="Site To Site Material Transfer Form">
+                <header>
+                    <button name="action_review" string="Review" type="object" invisible="state != 'draft'"
+                            groups="construction_material_management.site_material_transfer_user"
+                            class="oe_highlight" data-hotkey="v"/>
+                    <button name="action_approve" string="Approve" type="object" invisible="state != 'review'"
+                            groups="construction_material_management.site_material_transfer_manager"
+                            class="oe_highlight" data-hotkey="w"/>
+                    <button name="action_receive" string="Received" type="object" invisible="state != 'issued'"
+                            groups="construction_material_management.site_material_transfer_user"
+                            class="oe_highlight" data-hotkey="X"/>
+                    <button name="action_draft" string="Reset To Draft" type="object" class="btn btn-secondary"
+                            groups="construction_material_management.site_material_transfer_user"
+                            invisible="state != 'review'"
+                            data-hotkey="Z"/>
+
+                    <field name="state" widget="statusbar" statusbar_visible="draft,review,issued,receive"/>
+                </header>
+
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+
+                    <group>
+                        <group name="main_details">
+                            <field name="from_project_id" readonly="state != 'draft'"/>
+                            <field name="to_project_id" readonly="state != 'draft'"/>
+                        </group>
+                        <group>
+                            <field name="date" readonly="state != 'draft'"/>
+                            <field name="move_id" invisible="move_id == False" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Lines" name="lines">
+                            <field name="site_material_line_ids" readonly="state != 'draft'">
+                                <tree editable="bottom">
+                                    <field name="product_id"
+                                           required="1" options="{'no_create': True, 'no_quick_create':True}"/>
+                                    <field name="quantity"/>
+                                    <field name="price_unit" readonly="0"/>
+                                    <field name="currency_id" column_invisible="True"/>
+                                    <field name="amount_total" sum="Total Amount"/>
+                                </tree>
+                            </field>
+
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" groups="base.group_user"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+
+            </form>
+        </field>
+    </record>
+
+    <record id="site_material_transfer_action" model="ir.actions.act_window">
+        <field name="name">Site To Site Material Transfer</field>
+        <field name="res_model">site.material.transfer</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new Site To Site Material Transfer
+            </p>
+        </field>
+    </record>
+
+    <menuitem
+            id="menu_site_material_transfer_main"
+            name="Site To Site Material Transfer"
+            parent="project.menu_main_pm"
+            groups="construction_material_management.site_material_transfer_user"
+            sequence="7"/>
+
+    <menuitem
+            id="menu_site_material_transfer"
+            name="Site To Site Material Transfer"
+            action="site_material_transfer_action"
+            parent="menu_site_material_transfer_main"
+            groups="construction_material_management.site_material_transfer_user"
+            sequence="7"/>
+
+
+</odoo>

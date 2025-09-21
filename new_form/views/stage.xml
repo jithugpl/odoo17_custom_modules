@@ -1,0 +1,15 @@
+<odoo>
+    <record id="new_form_stage_draft" model="new.form.stage">
+        <field name="name">Draft</field>
+        <field name="sequence">1</field>
+    </record>
+    <record id="new_form_stage_in_progress" model="new.form.stage">
+        <field name="name">In Progress</field>
+        <field name="sequence">2</field>
+    </record>
+    <record id="new_form_stage_done" model="new.form.stage">
+        <field name="name">Done</field>
+        <field name="sequence">3</field>
+        <field name="fold">True</field>
+    </record>
+</odoo>

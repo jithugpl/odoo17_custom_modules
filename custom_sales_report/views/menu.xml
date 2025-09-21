@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+
+<!--    <menuitem id="sales_root_menu"-->
+<!--              name="sales report"-->
+<!--              sequence="20"/>-->
+        <menuitem id="sales_master"
+                  name="Daily sales report"
+                  parent="sale.menu_sale_report"
+                  action="custom_sales_report.action_salerinheritance"
+                  sequence="0"/>
+
+</odoo>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="seq_running_bill" model="ir.sequence">
+        <field name="name">Running Bill Sequence</field>
+        <field name="code">running.bill.seq</field>
+        <field name="prefix">RB</field>
+        <field name="padding">6</field>
+        <field name="company_id" eval="True"/>
+    </record>
+
+</odoo>

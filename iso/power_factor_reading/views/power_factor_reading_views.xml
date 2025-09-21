@@ -1,0 +1,113 @@
+<odoo>
+    <!-- Action for Power Factor Reading -->
+    <record id="power_factor_action" model="ir.actions.act_window">
+        <field name="name">Power Factor Reading</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">power.factor.record</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Power Factor Reading
+            </p>
+        </field>
+    </record>
+
+    <!-- Form view for PowerFactorRecord -->
+    <record id="view_power_factor_record_form" model="ir.ui.view">
+        <field name="name">power.factor.record.form</field>
+        <field name="model">power.factor.record</field>
+        <field name="arch" type="xml">
+            <form string="Power Factor Record">
+                <header>
+                    <button name="action_approve" type="object" string="Approve"
+                            invisible="status == 'approved'" groups="power_factor_reading.group_power_factor_employee"
+                            class="oe_highlight"/>
+                    <button name="action_set_to_draft" type="object" string="Set to Draft"
+                            invisible="status == 'draft'" groups="power_factor_reading.group_power_factor_manager"/>
+                    <field name="status" widget="statusbar" statusbar_visible="draft,approved"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="date" />
+
+                        <field name="shift_number" readonly="status == 'approved'"/>
+                        <field name="meter_name" readonly="status == 'approved'"/>
+                        <field name="power_factor" readonly="status == 'approved'"/>
+                        <field name="recording_time" widget="timesheet_uom"
+                               decoration-danger="recording_time &gt; 24 or recording_time &lt; 0" readonly="True"/>
+
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" groups="base.group_user"
+                           options="{'post_refresh': 'recipients'}"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree view for PowerFactorRecord -->
+    <record id="view_power_factor_record_tree" model="ir.ui.view">
+        <field name="name">power.factor.record.tree</field>
+        <field name="model">power.factor.record</field>
+        <field name="arch" type="xml">
+            <tree string="Power Factor Records" default_order="date desc, recording_time desc">
+                <field name="date"/>
+                <field name="shift_number"/>
+                <field name="recording_time" widget="timesheet_uom"/>
+                <field name="power_factor"/>
+                <field name="status"  decoration-danger="['draft']" decoration-muted="['approved']"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Action to open the Power Factor Record views -->
+    <record id="action_power_factor_record" model="ir.actions.act_window">
+        <field name="name">Power Factor Records</field>
+        <field name="res_model">power.factor.record</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_power_factor_record_tree"/>
+    </record>
+
+
+
+    <menuitem id="menu_power_factor_root_test"
+              name="Power Factor Reading"
+              parent="iso_masters.menu_power_factor_transactions"
+              action="power_factor_reading.power_factor_action"
+              sequence="3"/>
+
+<!--    <menuitem id="power_factor_root"-->
+<!--              name="Iso Documents"-->
+<!--              sequence="30"/>-->
+<!--    <menuitem id="menu_power_factor_root"-->
+<!--              name="Power Factor Records"-->
+<!--              action="power_factor_action"-->
+<!--              parent="power_factor_root"-->
+<!--              sequence="10"/>-->
+<!--    <menuitem id="menu_power_factor_root_one"-->
+<!--              name="Masters"-->
+<!--              action="power_factor_action"-->
+<!--              parent="power_factor_root"-->
+<!--              sequence="10"/>-->
+<!--    <menuitem id="menu_power_factor_root_two"-->
+<!--              name="Power Meter"-->
+<!--              action="iso_masters.action_iso_master_meter"-->
+<!--              parent="menu_power_factor_root_one"-->
+<!--              sequence="10"/>-->
+<!--    <menuitem id="menu_power_factor_root_three"-->
+<!--              name="Shift"-->
+<!--              action="iso_masters.power_factor_master_action"-->
+<!--              parent="menu_power_factor_root_one"-->
+<!--              sequence="10"/>-->
+
+
+    <!--    <menuitem id="menu_power_factor_root" name="Power Factor Records" action="power_factor_master_action"-->
+    <!--              parent="power_factor_root" sequence="11"/>-->
+
+
+</odoo>
+
+

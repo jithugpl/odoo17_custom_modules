@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="purchase_order_header">
+        <t t-if="not o" t-set="o" t-value="doc"/>
+        <t t-if="not company">
+            <!-- Multicompany -->
+            <t t-if="company_id">
+                <t t-set="company" t-value="company_id"/>
+            </t>
+            <t t-elif="o and 'company_id' in o and o.company_id.sudo()">
+                <t t-set="company" t-value="o.company_id.sudo()"/>
+            </t>
+            <t t-else="else">
+                <t t-set="company" t-value="res_company"/>
+            </t>
+        </t>
+
+        <!-- Header -->
+        <div class="header">
+            <div class="row" style="report_header_style;">
+                <div class="col-4">
+                    <img alt="img" t-if="company.logo" t-att-src="image_data_uri(company.logo)"
+                         style="width:60%; max-height:140pt;"/>
+                </div>
+                <div class="col-4"></div>
+                <div class="col-4" style="text-align:right;">
+                    <h5 style="color:red;font-size: 26px;">
+                        <strong>
+                            <span t-field="res_company.partner_id.name"/>
+                        </strong>
+                    </h5>
+                    <span t-field="res_company.partner_id.street" style="font-size: 20px;"/>
+                    <br/>
+                    <span t-field="res_company.partner_id.city" style="font-size: 20px;"/>
+                    <br/>
+                    <span t-field="res_company.partner_id.country_id.name" style="font-size: 20px;"/>
+                    <br/>
+                    <span t-field="res_company.partner_id.mobile" style="font-size: 20px;"/>
+                    <br/>
+                    <span t-field="res_company.partner_id.email" style="font-size: 20px;"/>
+                </div>
+            </div>
+        </div>
+
+        <div class="article o_report_layout_standard">
+            <div class="page">
+                <div class="content">
+                    <style>
+
+                        table.table-bordered {
+                        border: 1px solid black;
+                        }
+                        table.table-bordered th, table.table-bordered td {
+                        border: 1px solid black;font-size:20px
+                        }
+                        .ashcolor{ background-color:#e5e5e5;}
+                        .center {
+                        text-align: center;
+                        }
+                        .invoice-details .left-column,
+                        .invoice-details .right-column {
+                        width: 50%; /* Equal width for both columns */
+                        vertical-align: top; /* Align content at the top */
+                        }
+                        .avoid-page-break {
+                        page-break-inside: avoid;
+                        }
+
+                        .table-container {
+                        width: 100%;
+                        overflow: hidden;
+                        display: flex;
+                        flex-direction: row;
+                        page-break-inside: avoid;
+                        }
+
+                        .left-table {
+                        width: 57%;
+                        float: left;
+                        page-break-inside: avoid;
+                        }
+
+                        .right-table {
+                        width: 43%;
+                        margin-left: auto;
+                        page-break-inside: avoid;
+                        }
+                    </style>
+
+                    <div class="oe_structure"/>
+                    <div class=" text-center" style="color:red;">
+                        <h1 t-if="o.state in ['draft', 'sent', 'to approve']">
+                            <strong>Request for Quotation</strong>
+                        </h1>
+                        <h1 t-if="o.state in ['purchase', 'done']">
+                            <strong>Purchase Order</strong>
+                        </h1>
+                        <h1 t-if="o.state == 'cancel'">
+                            <strong>Cancelled Purchase Order</strong>
+                        </h1>
+                    </div>
+                    <div>
+                        <h5>Purchase Order No:
+                            <span t-esc="o.name"/>
+                        </h5>
+                        <h5>Date of Supply:
+                            <span t-field="o.date_planned" t-options='{"format": "dd-MM-yyyy"}'/>
+                        </h5>
+                        <h5>Order Date:
+                            <span t-field="o.date_order" t-options='{"format": "dd-MM-yyyy"}'/>
+                        </h5>
+                    </div>
+
+                    <div class="invoice-details">
+                        <table class="table table-sm o_main_table table-bordered ">
+                            <tr>
+                                <th class="center bold left-column" style="text-align:center">Supplier Details</th>
+                                <th class="center bold right-column" style="text-align:center">Details of Consignee
+                                    (Shipped To)
+                                </th>
+                            </tr>
+                            <tr>
+                                <td class="left-column" style="text-align:left">
+                                    <span t-field="o.partner_id"
+                                          t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}'/>
+                                    <br/>
+                                    <br/>
+                                </td>
+                                <td class="right-column" style="text-align:left">
+                                    <span t-field="o.project_id.site_details" />
+                                    <br/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <table class="table table-sm o_main_table table-bordered "
+                           name="purchase_order_table">
+                        <thead>
+                            <tr class="ashcolor">
+                                <th name="sl_no" style="text-align:center;">
+                                    <span>SlNo</span>
+                                </th>
+                                <th name="product_name" class="text-start">
+                                    <span>Product Name</span>
+                                </th>
+
+                                <th name="unit_of_measurement" style="text-align:center;">
+                                    <span>UOM</span>
+                                </th>
+                                <th name="quantity" style="text-align:center;">
+                                    <span>Quantity</span>
+                                </th>
+                                <th name="rate" style="text-align:center;">
+                                    <span>Rate</span>
+                                </th>
+                                <th name="rate" style="text-align:center;">
+                                    <span>Discount</span>
+                                </th>
+                                <th name="gst" style="text-align:center;">
+                                    <span>GST</span>
+                                </th>
+                                <th name="taxable" style="text-align:center;">
+                                    <span>Taxable Value</span>
+                                </th>
+                                <th name="total" style="text-align:center;">
+                                    <span>Total</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <t t-set="counter" t-value="1"/>
+                            <t t-set="added_products" t-value="set()"/>
+                            <t t-set="product_totals" t-value="{}"/>
+                            <t t-set="total_taxable_value"
+                               t-value="sum(line.price_subtotal for line in doc.order_line)"/>
+                            <t t-set="total_gst" t-value="0"/>
+                            <t t-foreach="doc.order_line" t-as="line">
+                                <t t-if="line.taxes_id">
+                                    <t t-set="first_tax" t-value="line.taxes_id[0]"/>
+                                    <t t-set="total_gst"
+                                       t-value="total_gst + line.price_subtotal * (first_tax.amount / 100.0)"/>
+                                </t>
+                            </t>
+                            <t t-set="grand_total" t-value="sum(line.price_total for line in doc.order_line)"/>
+                            <t t-foreach="doc.order_line" t-as="line">
+                                <t t-if="(line.product_id.id, line.price_unit, line.taxes_id, line.discount) not in added_products">
+                                    <tr>
+                                        <td style="text-align:center;">
+                                            <t t-esc="counter"/>
+                                            <t t-set="counter" t-value="counter + 1"/>
+                                        </td>
+                                        <td class="text-start">
+                                            <t t-esc="line.name"/>
+                                            <t t-foreach="line.product_id.product_tmpl_id.attribute_line_ids"
+                                               t-as="attribute_line">
+                                                <t t-foreach="line.product_id.product_template_attribute_value_ids"
+                                                   t-as="attr_value">
+                                                    <t t-if="attr_value.attribute_id.id == attribute_line.attribute_id.id">
+                                                        <t t-esc="attr_value.name"/>,
+                                                    </t>
+                                                </t>
+                                            </t>
+                                        </td>
+                                        <td style="text-align:center;">
+                                            <t t-esc="line.product_uom.name"/>
+                                        </td>
+                                        <td style="text-align:center;">
+                                            <t t-esc="sum(l.product_qty for l in doc.order_line if l.product_id.id == line.product_id.id and l.price_unit == line.price_unit and l.taxes_id == line.taxes_id and l.discount == line.discount)"/>
+                                        </td>
+                                        <td style="text-align:center;">
+                                            <t t-esc="line.price_unit"/>
+                                        </td>
+                                        <td style="text-align:center;">
+                                            <t t-esc="'%.0f' % line.discount"/>%
+                                        </td>
+                                        <td style="text-align:center;">
+                                            <t t-esc="'%.0f' % (line.taxes_id[0].amount if line.taxes_id else 0)"/>%
+                                        </td>
+
+
+                                        <td style="text-align:center;">
+                                            <t t-esc="'{:.2f}'.format(sum(l.price_subtotal for l in doc.order_line if l.product_id.id == line.product_id.id and l.price_unit == line.price_unit and l.taxes_id == line.taxes_id and l.discount == line.discount))"/>
+                                        </td>
+                                        <td style="text-align:right;">
+                                            <t t-esc="'{:.2f}'.format(sum(l.price_total for l in doc.order_line if l.product_id.id == line.product_id.id and l.price_unit == line.price_unit and l.taxes_id == line.taxes_id and l.discount == line.discount))"/>
+                                        </td>
+                                    </tr>
+                                    <t t-set="added_products"
+                                       t-value="added_products | {(line.product_id.id, line.price_unit, line.taxes_id, line.discount)}"/>
+                                </t>
+                            </t>
+                        </tbody>
+                    </table>
+
+                    <div class="avoid-page-break">
+                        <div class="table-container">
+                            <table class="table table-borderless left-table">
+                                <tr>
+                                    <td style="font-size:20px; padding: 2px 1px;">
+                                        <h4>Terms and Conditions:</h4>
+                                        <span t-field="o.notes"/>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <table class="table table-sm o_main_table table-bordered right-table">
+                                <tr>
+                                    <td id="first_table_head_border"
+                                        style="font-weight: bold; padding-left: 7px; background-color: #e5e5e5;">
+                                        Total Taxable Value
+                                        <span t-field="doc.currency_id.name"/>
+                                    </td>
+                                    <td id="first_table_head_border" style="font-weight: bold; padding-right: 7px;"
+                                        align="right">
+                                        <span t-esc="'{:.2f}'.format(total_taxable_value)"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td id="first_table_head_border"
+                                        style="font-weight: bold; padding-left: 7px; background-color: #e5e5e5;">
+                                        Total GST
+                                    </td>
+                                    <td id="first_table_head_border" style="font-weight: bold; padding-right: 7px;"
+                                        align="right">
+                                        <span t-esc="'{:.2f}'.format(total_gst)"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td id="first_table_head_border"
+                                        style="font-weight: bold; padding-left: 7px; background-color: #e5e5e5;">
+                                        Grand Total
+                                    </td>
+                                    <td id="first_table_head_border" style="font-weight: bold; padding-right: 7px;"
+                                        align="right">
+                                        <span t-esc="'{:.2f}'.format(grand_total)"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Footer -->
+        <div class="footer o_standard_footer" style="margin-bottom:10px;">
+            <div class="row" style="border-top: 2px solid red; padding-top: 10px; text-align: right;">
+                <div class="col-6">
+                    <div class="pageno">
+                        <span t-esc="0" class="page " style="mt-3"/>
+                        /
+                        <span class="topage"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="report_purchase_order">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="purchase_order_print.purchase_order_header">
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

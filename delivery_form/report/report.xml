@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="paperformat_delivery_slip" model="report.paperformat">
+        <field name="name">Delivery Slip Paper Format</field>
+        <field name="default" eval="False"/>
+        <field name="format">A4</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">65</field>
+        <field name="margin_bottom">40</field>
+        <field name="margin_left">5</field>
+        <field name="margin_right">5</field>
+        <field name="header_spacing">60</field>
+        <field name="dpi">120</field>
+    </record>
+
+<!--#orignal delivery slip.xml-->
+    <record id="action_report_delivery_slip" model="ir.actions.report">
+        <field name="name">Delivery Slip Print</field>
+        <field name="model">delivery.form</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">delivery_form.report_delivery_form</field>
+        <field name="report_file">delivery_form.report_delivery_form</field>
+        <field name="paperformat_id" ref="paperformat_delivery_slip"/>
+        <field name="binding_model_id" ref="delivery_form.model_delivery_form"/>
+        <field name="binding_type">report</field>
+    </record>
+
+
+</odoo>

@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_iso_masters_shift_employee,iso.masters.shift employee,model_iso_masters_shift,group_iso_master_employee,1,0,0,0
+access_iso_masters_shift_manager,iso.masters.shift manager,model_iso_masters_shift,group_iso_master_manager,1,1,1,1
+access_iso_masters_meter_employee,iso.masters.meter employee,model_iso_masters_meter,group_iso_master_employee,1,0,0,0
+access_iso_masters_meter_manager,iso.masters.meter manager,model_iso_masters_meter,group_iso_master_manager,1,1,1,1

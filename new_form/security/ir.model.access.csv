@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_new_form_manager,new.form manager access,model_new_form,base.group_user,1,1,1,1
+access_new_form_readonly,new.form readonly access,model_new_form,,1,0,0,0
+access_new_form_stage_user,new.form.stage user,model_new_form_stage,base.group_user,1,0,0,0
+access_new_form_stage_manager,new.form.stage manager,model_new_form_stage,base.group_system,1,1,1,1
