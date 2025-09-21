@@ -1,0 +1,100 @@
+<odoo>
+
+<!--    <record id="action_detailing_appointments" model="ir.actions.act_window">-->
+<!--        <field name="name">Detailing Appointments</field>-->
+<!--        <field name="res_model">detailing.appointment</field>-->
+<!--        <field name="view_mode">tree,form</field>-->
+<!--    </record>-->
+    <!-- Add menu item under "Wash" -->
+<!--    <menuitem id="menu_car_wash_appointments" name="Detailing Appointments"-->
+<!--              parent="menu_car_wash_main" action="action_detailing_appointments" sequence="3"/>-->
+    <record id="view_detailing_appointment_tree" model="ir.ui.view">
+        <field name="name">detailing.appointment.tree</field>
+        <field name="model">detailing.appointment</field>
+        <field name="arch" type="xml">
+            <tree string="Detailing Appointments">
+                <field name="scheduled_time"/>
+                <field name="customer_id"/>
+                <field name="vehicle_number_id"/>
+<!--                <field name="vehicle_number"/>-->
+                <field name="vehicle_type_id"/>
+                <field name="rate" readonly="1"/>
+<!--                <field name="wash_type_id"/>-->
+                <field name="detailing_type_id"/>
+                <field name="employee_id"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'new'"
+                       decoration-info="state == 'started'"
+                       decoration-muted="state == 'pending'"
+                       decoration-danger="state == 'finished'
+                       "/>
+            </tree>
+<!--            <tree string="Detailing Appointments">-->
+<!--                <field name="vehicle_number_id"/>-->
+<!--                <field name="customer_id"/>-->
+<!--                <field name="vehicle_type_id"/>-->
+<!--                <field name="detailing_type_id"/>-->
+<!--                <field name="employee_id"/>-->
+<!--                <field name="scheduled_time"/>-->
+<!--                <field name="rate"/>-->
+<!--                <field name="state"/>-->
+<!--            </tree>-->
+        </field>
+    </record>
+
+    <record id="view_detailing_appointment_form" model="ir.ui.view">
+        <field name="name">detailing.appointment.form</field>
+        <field name="model">detailing.appointment</field>
+        <field name="arch" type="xml">
+            <form string="Detailing Appointment">
+                <header>
+                    <button name="action_start" string="Start" type="object"  class="btn-primary"/>
+                    <button name="action_pending" string="Pending" type="object"  class="btn-warning"/>
+                    <button name="action_finish" string="Finish" type="object"  class="btn-success"/>
+                    <button name="action_deliver" string="Deliver" type="object"  class="btn-secondary"/>
+                    <field name="state" widget="statusbar" statusbar_visible="new,started,pending,finished,delivered"/>
+                </header>
+                <sheet>
+                    <group>
+                    <field name="scheduled_time"/>
+                        <field name="customer_id"/>
+                        <field name="customer_mobile" readonly="1"/>
+                        <field name="vehicle_number_id"/>
+<!--                        <field name="vehicle_number"/>-->
+                        <field name="vehicle_type_id"/>
+                        <field name="rate"/>
+<!--                        <field name="wash_type_id"/>-->
+                        <field name="detailing_type_id"/>
+
+                        <field name="employee_id"/>
+                    </group>
+<!--                    <group>-->
+<!--                        <field name="vehicle_number_id"/>-->
+<!--                        <field name="customer_id" readonly="1"/>-->
+<!--                        <field name="vehicle_type_id" readonly="1"/>-->
+<!--                        <field name="detailing_type_id"/>-->
+<!--                        <field name="employee_id"/>-->
+<!--                        <field name="scheduled_time"/>-->
+<!--                        <field name="rate"/>-->
+<!--                    </group>-->
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_detailing_appointments" model="ir.actions.act_window">
+        <field name="name">Detailing Appointments</field>
+        <field name="res_model">detailing.appointment</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_detailing_appointments"
+              name="Detailing Appointments"
+              parent="menu_car_detailing_main"
+              action="action_detailing_appointments"
+              sequence="1"/>
+</odoo>

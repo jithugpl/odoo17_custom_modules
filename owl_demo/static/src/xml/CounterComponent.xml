@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+  <t t-name="owl_demo.CounterComponent">
+    <div class="o_form_view">
+      <h2>Owl Counter Demo</h2>
+      <div style="margin: 10px 0;">
+        <button type="button" t-on-click="decrement">-</button>
+        <span style="margin: 0 10px;"><t t-esc="state.count"/></span>
+        <button type="button" t-on-click="increment">+</button>
+      </div>
+    </div>
+  </t>
+</templates>

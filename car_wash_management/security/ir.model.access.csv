@@ -1,0 +1,12 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_car_wash_type_user,access.car.wash.type.user,model_car_wash_type,base.group_user,1,1,1,1
+access_car_detailing_type_user,access.car.detailing.type.user,model_car_detailing_type,base.group_user,1,1,1,1
+access_car_wash_appointment_user,access.car.wash.appointment.user,model_car_wash_appointment,base.group_user,1,1,1,1
+access_vehicle_type_user,access.vehicle.type.user,model_vehicle_type,base.group_user,1,1,1,1
+access_vehicle_details_user,access.vehicle.details.user,model_vehicle_details,base.group_user,1,1,1,1
+access_detailing_appointment_user,access.detailing.appointment.user,model_detailing_appointment,base.group_user,1,1,1,1
+access_home_page_user,access.home.page.user,model_home_page,base.group_user,1,1,1,1
+access_car_wash_billing_line_user,access.car.wash.billing.line.user,model_car_wash_billing_line,base.group_user,1,1,1,1
+access_car_wash_product_line_user,access.car.wash.product.line.user,model_car_wash_product_line,base.group_user,1,1,1,1
+
+

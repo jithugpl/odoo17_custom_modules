@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+     <!-- Security Group Category -->
+    <record model="ir.module.category" id="module_category_js_assets">
+        <field name="name">JS Classes and Asset Requests</field>
+        <field name="description">Access rights for JS Classes and Asset Requests</field>
+        <field name="sequence">10</field>
+    </record>
+
+    <!-- User Group -->
+    <record id="group_js_assets_user" model="res.groups">
+        <field name="name">User</field>
+        <field name="category_id" ref="module_category_js_assets"/>
+    </record>
+
+    <!-- Manager Group -->
+    <record id="group_js_assets_manager" model="res.groups">
+        <field name="name">Manager</field>
+        <field name="category_id" ref="module_category_js_assets"/>
+        <field name="implied_ids" eval="[(4, ref('group_js_assets_user'))]"/>
+    </record>
+
+     <!-- Assets Request User Group -->
+    <record id="group_assets_request_user" model="res.groups">
+        <field name="name">Assets Request User</field>
+        <field name="category_id" ref="module_category_js_assets"/>
+    </record>
+
+    <!-- Assets Request Manager Group -->
+    <record id="group_assets_request_manager" model="res.groups">
+        <field name="name">Assets Request Manager</field>
+        <field name="category_id" ref="module_category_js_assets"/>
+        <field name="implied_ids" eval="[(4, ref('group_assets_request_user'))]"/>
+    </record>
+
+
+</odoo>

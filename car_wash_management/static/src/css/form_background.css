@@ -1,0 +1,20 @@
+.o_form_view {
+    background-image: url('/car_wash_management/static/src/img/bg.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.custom-sheet-bg {
+    background-color: #FF0000	;  /* Light gray */
+}
+.custom-group-bg {
+    background-color: #FF0000	;  /* Light blue */
+    padding: 10px;
+    border-radius: 6px;
+}
+.oe_chatter {
+    background-color: #FF0000	;  /* Light blue */
+    border: 1px solid #d3e3fc;
+    border-radius: 6px;
+    padding: 10px;
+}

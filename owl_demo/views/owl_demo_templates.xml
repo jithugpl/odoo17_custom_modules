@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <template id="owl_demo_page" name="OWL Demo Page" inherit_id="website.layout">
+        <xpath expr="//main" position="inside">
+            <div id="counter-root"></div> <!-- Your OWL component mount point -->
+        </xpath>
+    </template>
+
+
+    <!--    <template id="owl_demo_page" name="Owl Demo Page">-->
+    <!--        <t t-call="web.layout">-->
+    <!--            <t t-set="title">Owl Demo</t>-->
+    <!--            <div class="container mt-4" id="counter_mount">-->
+    <!--                <t t-component="owl_demo.CounterComponent"/>-->
+    <!--            </div>-->
+    <!--        </t>-->
+    <!--    </template>-->
+</odoo>

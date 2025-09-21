@@ -1,0 +1,90 @@
+<odoo>
+    <record id="view_vehicle_details_tree" model="ir.ui.view">
+        <field name="name">vehicle.details.tree</field>
+        <field name="model">vehicle.details</field>
+        <field name="arch" type="xml">
+            <tree string="Vehicles">
+                <field name="name"/>
+                <field name="customer_id"/>
+                <field name="vehicle_type_id"/>
+                <field name="brand"/>
+                <field name="model"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_vehicle_details_form" model="ir.ui.view">
+        <field name="name">vehicle.details.form</field>
+        <field name="model">vehicle.details</field>
+        <field name="arch" type="xml">
+            <form string="Vehicle">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="customer_id"/>
+                        <field name="vehicle_type_id"/>
+                        <field name="brand"/>
+                        <field name="model"/>
+                        <field name="notes"/>
+                    </group>
+                    <notebook>
+                        <page string="Wash History">
+                            <field name="wash_appointment_ids" readonly="1">
+                                <tree>
+                                    <field name="wash_type_id"/>
+                                    <field name="in_time"/>
+                                    <field name="employee_id"/>
+                                    <!--                                    <field name="state"/>-->
+                                    <field name="state" widget="badge"
+                                           decoration-success="state == 'new'"
+                                           decoration-info="state == 'started'"
+                                           decoration-muted="state == 'pending'"
+                                           decoration-danger="state == 'finished'
+                       "/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <page string="Detailing History">
+                            <field name="detailing_appointment_ids" readonly="1">
+                                <tree>
+                                    <field name="detailing_type_id"/>
+                                    <field name="scheduled_time"/>
+                                    <field name="employee_id"/>
+                                    <!--                                    <field name="state"/>-->
+                                    <field name="state" widget="badge"
+                                           decoration-success="state == 'new'"
+                                           decoration-info="state == 'started'"
+                                           decoration-muted="state == 'pending'"
+                                           decoration-danger="state == 'finished'
+                       "/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_vehicle_details" model="ir.actions.act_window">
+        <field name="name">Vehicles</field>
+        <field name="res_model">vehicle.details</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Menu -->
+<!--    <menuitem id="menu_vehicle_main" name="Vehicles"-->
+<!--              parent="menu_car_wash_root" sequence="3"/>-->
+
+    <menuitem id="menu_vehicle_details"
+              name="Vehicle Details"
+              parent="menu_vehicle_main"
+              action="action_vehicle_details"
+              sequence="4"/>
+
+</odoo>

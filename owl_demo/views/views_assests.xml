@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- Tree View (Optional) -->
+    <record id="view_tree_Assests" model="ir.ui.view">
+        <field name="name">assets.request.tree</field>
+        <field name="model">assets.request</field>
+        <field name="arch" type="xml">
+            <tree string="Assests">
+                <field name="name"/>
+                <field name="description"/>
+                <!-- Add additional fields here -->
+            </tree>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_Assests" model="ir.actions.act_window">
+        <field name="name">assets.request.action</field>
+        <field name="res_model">assets.request</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_assets_request"
+              name="Assets Request"
+              parent="menu_jsclass_root"
+              action="action_Assests"
+              sequence="30"/>
+
+</odoo>

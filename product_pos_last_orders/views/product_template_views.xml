@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_product_form_inherit_pos_last_orders" model="ir.ui.view">
+        <field name="name">product.template.form.pos.last.orders</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='sales']" position="after">
+
+                <page string="Last 5 POS Orders">
+                    <field name="last_5_pos_order_lines">
+                        <tree readonly="1">
+                            <field name="order_id"/>
+                            <field name="qty"/>
+                            <field name="price_unit"/>
+                            <field name="price_subtotal"/>
+                            <field name="date_order"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

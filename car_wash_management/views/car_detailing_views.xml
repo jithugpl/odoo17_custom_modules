@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Action -->
+    <record id="action_car_detailing_type" model="ir.actions.act_window">
+        <field name="name">Detailing Types</field>
+        <field name="res_model">car.detailing.type</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Menu -->
+<!--    <menuitem id="menu_car_detailing_main" name="Detailing"-->
+<!--          parent="menu_car_wash_root" sequence="2"/>-->
+
+<menuitem id="menu_car_detailing_types" name="Detailing Types"
+          parent="menu_car_detailing_main" action="action_car_detailing_type" sequence="10"/>
+
+
+
+    <!-- Tree View -->
+    <record id="view_car_detailing_type_tree" model="ir.ui.view">
+        <field name="name">car.detailing.type.tree</field>
+        <field name="model">car.detailing.type</field>
+        <field name="arch" type="xml">
+            <tree string="Car Detailing Types">
+                <field name="name"/>
+                <field name="price"/>
+                <field name="duration"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_car_detailing_type_form" model="ir.ui.view">
+        <field name="name">car.detailing.type.form</field>
+        <field name="model">car.detailing.type</field>
+        <field name="arch" type="xml">
+            <form string="Car Detailing Type">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="price"/>
+                        <field name="duration"/>
+                        <field name="description"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+</odoo>

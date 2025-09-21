@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Action for tree & form view -->
+    <record id="action_home_page" model="ir.actions.act_window">
+        <field name="name">Home Page</field>
+        <field name="res_model">home.page</field>
+        <field name="view_mode">form</field>
+    </record>
+
+    <!-- Menu -->
+<!--    <menuitem id="menu_car_wash_root" name="Car Wash Management" sequence="10"/>-->
+
+
+    <menuitem id="menu_home_page" name="Home Page"
+              parent="menu_car_wash_root" action="action_home_page" sequence="0"/>
+
+
+    <!-- Form View -->
+    <record id="view_home_page" model="ir.ui.view">
+        <field name="name">home.page.form</field>
+        <field name="model">home.page</field>
+        <field name="arch" type="xml">
+
+            <form string="Home Page" class="home-page-bg" edit="false" create="false">
+
+
+            </form>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,11 @@
+<odoo>
+
+    <record id="action_asset_request" model="ir.actions.act_window">
+        <field name="name">Asset Requests</field>
+        <field name="res_model">office.asset.request</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_office_assets_root" name="Office Asset Request"/>
+    <menuitem id="menu_asset_requests" name="Asset Requests" parent="menu_office_assets_root" action="action_asset_request"/>
+</odoo>

@@ -1,0 +1,9 @@
+.home-page-bg.o_form_view {
+    background-image: url('/car_wash_management/static/src/img/bg.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.o_form_view.home-page-bg .o_control_panel .o_cp_buttons .btn-primary {
+    display: none !important;
+}

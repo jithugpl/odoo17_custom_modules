@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Form View -->
+    <record id="view_form_jsclass" model="ir.ui.view">
+        <field name="name">js.class.form</field>
+        <field name="model">js.class</field>
+        <field name="arch" type="xml">
+            <form string="JS Class">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="number_of_video"/>
+                        <field name="assestsName"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree View -->
+    <record id="view_tree_jsclass" model="ir.ui.view">
+        <field name="name">js.class.tree</field>
+        <field name="model">js.class</field>
+        <field name="arch" type="xml">
+            <tree string="JS Class">
+                <field name="name"/>
+                <field name="number_of_video"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_js_class" model="ir.actions.act_window">
+        <field name="name">JS Classes</field>
+        <field name="res_model">js.class</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Menu -->
+    <menuitem id="menu_jsclass_root" name="JS Classes" sequence="10"/>
+    <menuitem id="menu_jsclass" name="Manage Classes" parent="menu_jsclass_root" action="action_js_class" sequence="20"/>
+
+
+</odoo>
